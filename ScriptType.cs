@@ -131,11 +131,12 @@ namespace AIEdit
                 offset = sa.offset;
             }
 
+			// annoying special case buildingtype offsets.
             private int CheckOffset(int n)
             {
                 if (n >= 196608) offset = 3;
                 else if (n >= 131072) offset = 2;
-                else if (n >= 65534) offset = 1;
+                else if (n >= 65535) offset = 1;
                 else offset = 0;
                 return n - offsets[offset];
             }

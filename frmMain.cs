@@ -2859,7 +2859,7 @@ namespace AIEdit
         /// <param name="e"></param>
         private void mnuInfo_Click(object sender, EventArgs e)
         {
-            string text = "AIEdit v1.0\nProgrammed by Askeladd"; //Application.ProductVersion
+            string text = "AIEdit v" + Application.ProductVersion + "\nProgrammed by Askeladd";
             string title = "About";
             MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -2979,7 +2979,7 @@ namespace AIEdit
                 e.Cancel = true;
             }*/
 
-            DialogResult res = MessageBox.Show("Are you sure?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show("Are you sure? Changes will not be saved.", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             
             e.Cancel = (res == DialogResult.No);
         }
