@@ -1,0 +1,3090 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1257">
+<meta name=Generator content="Microsoft Word 11 (filtered)">
+<title>Red Alert 2 AI</title>
+
+<style>
+<!--
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	punctuation-wrap:simple;
+	text-autospace:none;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+ /* Page Definitions */
+ @page Section1
+	{size:612.0pt 792.0pt;
+	margin:3.0cm 1.0cm 2.0cm 3.0cm;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<div class=Section1>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>Red Alert 2 AI.INI Guide</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>Sections Covered</span></b></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>[TaskForces]</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>[ScriptTypes]</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>A Note On
+Structure Numbers</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>[TeamTypes]</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>[AITriggerTypes]</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>A Note On AI
+Pool Teams</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:"Courier New"'>Some Tips On
+Making A Better AI</span></p>
+
+<p class=MsoNormal><span lang=EN-GB>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This file
+controls the <span style='color:red'>A</span>rtificial <span style='color:red'>I</span>ntelligence
+employed by the game engine when it assumes the role of a computer controlled
+player. Red Alert 2 utilizes 'scripted' AI (that is, a system based on
+pre-determined actions and scripts rather than a 'heuristic' system, i.e. one
+which intelligently responds to player actions and attempts to forecast future
+player actions by recording a log of previous ones in a bid to nullify them
+thus giving itself a tactical advantage).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>An attempt has
+been made to give the impression of heuristics in Red Alert 2 by implementing a
+success/failure delta system, where the computer keeps a record of instances
+where previous scripts were or were not successfully executed to completion,
+thus influencing the likelihood of them being used again. See the <b>AI Trigger
+Weighting Parameters</b> section in the <b>RULES.INI Guide</b> for details of
+these deltas.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>TIP</span></b><span
+lang=EN-GB style='font-family:Arial'>: to get more out of the AI and to make
+more effective use of the changes you make to this file, I recommend referring
+to the </span><span lang=EN-GB style='font-family:"Courier New"'>[AIGenerals]</span><span
+lang=EN-GB style='font-family:Arial'> section (see the <b>RULES.INI Guide</b>).
+That section provides an ideal way to define specific overall playing styles
+and strategies for the AI - use of that technique will ensure that the AI
+relies less on simply playing the game in the same continual scripted manner
+regardless of the state of the battle and how its doing.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>AI.INI is perhaps
+the least modified file but one which provides immense scope for mod writers as
+it allows customization through the game engine 'scripting' language in a
+similar manner to map files. The file contains the scripts which make the
+computer controlled armies function, and these are in addition to any
+supplementary scripts that may be contained within specific map files.
+Production and replacement of units, their generic behavioural characteristics
+as well as the specific missions that those units will go on are all controlled
+through this file.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>In simple terms,
+the scripted system works like this;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>The computer uses
+objects, or groups of objects, known as </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForces</span><span lang=EN-GB
+style='font-family:Arial'>...</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>...whose generic
+behaviour and unique properties are controlled by allocating them to </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'>...</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>...to carry out an
+action, or series of actions, controlled by </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptTypes</span><span lang=EN-GB
+style='font-family:Arial'>...</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>...which may or may
+not be triggered by predefined game events known as </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerTypes</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>It should be
+noted that the AI.INI file provides great scope for modification in Red Alert
+2. This is for several reasons - if you take a look through the file, it
+becomes clear that the computer is instructed to prioritize only certain types
+of attacks, only to use certain units (some are not used), and heavily favors
+ground based attacks (naval units are seldom used). Primarily however, the
+computer initially relied upon heavy ground assaults to overwhelm enemies
+because of the fact that its only enemies were humans, thus would not attack
+other computer controlled armies before the 1.004 patch. Despite that change
+however, the AI.INI file remained unmodified, and is less than half the size of
+than the Tiberian Sun one. <b><span style='color:red'>NOTE</span></b>: There is
+so much of the game engine unused within this file, that time spent on it will
+be well worthwhile - the Red Alert 2 engine is very powerful and versatile. A
+lot of this logic is residual from Red Alert and also from the enhancements
+made by Tiberian Sun - this is one reason why some features do not <i>entirely</i>
+work correctly in the Red Alert 2 engine.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>To say that the
+AI in Red Alert 2 is poor is <i>very</i> wrong - as you will see, it is merely
+incredibly <i>under utilized</i>. You will be amazed at what is possible with a
+little time and effort. Note that to unleash the full potential of the AI, it
+is well worth studying the AI specific statements in RULES.INI too which offer
+a high degree of control of the generic AI behaviours - see the <b>RULES.INI
+Guide</b>. Editing the AI.INI file is not for the faint hearted, and I would
+suggest that you need a good command of the other INI files (particularly
+RULES.INI and map files) before embarking upon this!</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>NOTE</span></b><span
+lang=EN-GB style='font-family:Arial'>: the use of '</span><span lang=EN-GB
+style='font-family:"Courier New"'>-G'</span><span lang=EN-GB style='font-family:
+Arial'>as a suffix to the numbers throughout this file indicates that this is a
+'global' value, meaning it will be used <i>throughout the game</i> regardless
+of any other conditions placed upon its use. In this case, duplicate use of the
+same number for the same purpose (for example on two different </span><span
+lang=EN-GB style='font-family:"Courier New"'>ScriptTypes</span><span
+lang=EN-GB style='font-family:Arial'> or </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForces</span><span lang=EN-GB
+style='font-family:Arial'>) either in this file or within a map file will lead
+to an Internal Error. This means that you can call any of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'>, </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForces</span><span
+lang=EN-GB style='font-family:Arial'> or </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptTypes</span><span lang=EN-GB
+style='font-family:Arial'> defined in the AI.INI file from a map file without
+having to define it again in that map file. This is handy if you want to use
+something that has already been defined in the AI.INI file, thus reducing the
+size of your map file.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>[TaskForces]</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This section
+takes the form of a list of all </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForces</span><span lang=EN-GB style='font-family:Arial'> to
+be used by the computer generically across all games. The list is numbered
+starting at 0, new ones should be simply added to the end of the list. If you want
+the computer to make use of new units, or to use more units, then this section
+is the one to modify. Each entry in the list takes the form of a hexadecimal
+numbered string which is the unique identifier for each of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForces</span><span lang=EN-GB
+style='font-family:Arial'> - like other lists in the INI files, the game code
+requires that each entry in this list is defined with its own section in this
+file. For convention, it is wise to stick to this hex numbering system,
+although any string appears to be parsed.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>An example is
+detailed below;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[TASKFORCE]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>a=x,UNIT</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>b=x,UNIT</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>c=x,UNIT</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>...</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Group=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[TASKFORCE]</span><span
+lang=EN-GB style='font-family:Arial'> - this is the unique identifier name used
+to define the section for this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> and should also be contained in the above
+mentioned list.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=</span><span
+lang=EN-GB style='font-family:Arial'> - this is simply a string name used for identification
+purposes only, it is not required by the game, although it is useful to leave
+this in for debugging and troubleshooting your AI.INI file - as a point of
+interest, this statement does not even get parsed.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>n=x,UNIT</span><span
+lang=EN-GB style='font-family:Arial'> - this is used to define which units are
+in this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'>. This is in the form of a list, and for
+each different unit you want in your </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'>, you
+must have a separate line in the list. Each line consists of a number (how many
+of the unit) followed by a comma and then the name of that unit from the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'>,</span><span lang=EN-GB style='font-family:
+"Courier New"'>[InfantryTypes]</span><span lang=EN-GB style='font-family:Arial'>,</span><span
+lang=EN-GB style='font-family:"Courier New"'>[VehicleTypes]</span><span
+lang=EN-GB style='font-family:Arial'> or </span><span lang=EN-GB
+style='font-family:"Courier New"'>[AircraftTypes]</span><span lang=EN-GB
+style='font-family:Arial'>lists from RULES.INI. Note that the numbering <i>must</i>
+start at 0. For example, to define a </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> with
+5 GI's and 2 Grizzly Tanks, you could use;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[TASKFORCE]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=5
+GI's and 2 Grizzly Tanks</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>0=5,E1</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>1=2,MTNK</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Group=-1</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Group=</span><span
+lang=EN-GB style='font-family:Arial'> - defines the <i>default</i> grouping for
+the units in this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> which is therefore used when it has
+executed (or does not have) a </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'>. This is over-ridden by the </span><span
+lang=EN-GB style='font-family:"Courier New"'>Group=</span><span lang=EN-GB
+style='font-family:Arial'> setting in the associated </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>. The following values can be used;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>-1                     Lose
+Transports - any transports are dissolved</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Lose
+Units, Lose Transports - all units dissolved</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units, Keep Transports - all units retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Lose
+Units, Keep Transports - only transports retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units Farthest - only units furthest away are retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units Nearest - only nearest units are retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Greatest
+Threat - group together at object posing greatest threat</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>-40094              Least
+Threat - group together at object posing least threat</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>[ScriptTypes]</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This section
+takes the form of a list of all </span><span lang=EN-GB style='font-family:
+"Courier New"'>ScriptTypes</span><span lang=EN-GB style='font-family:Arial'>
+which can be used by </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForces.</span><span
+lang=EN-GB style='font-family:Arial'> The list is numbered starting at 0, new
+ones should be simply added to the end of the list. Each entry in the list
+takes the form of a hexadecimal numbered string which is the unique identifier
+for each of the </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptTypes</span><span
+lang=EN-GB style='font-family:Arial'> - like other lists in the INI files, the
+game code requires that each entry in this list is defined with its own section
+in this file. For convention, it is wise to stick to this hex numbering system
+although again this is not strictly necessary. The section entries describe
+what the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> is going to do and consists of a list of
+action codes.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>An example is
+detailed below;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[SCRIPT]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>a=x,y</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>b=x,y</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>c=x,y</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>...</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[SCRIPT]</span><span
+lang=EN-GB style='font-family:Arial'> - this is the unique identifier name used
+to define the section for this </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'> and should also be contained in the above
+list.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=</span><span
+lang=EN-GB style='font-family:Arial'> - this is simply a string name used for
+identification purposes only, it is not required by the game, although it is useful
+to leave this in for debugging and troubleshooting your AI.INI file - as a
+point of interest, this statement does not even get parsed.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>n=x,y</span><span
+lang=EN-GB style='font-family:Arial'> - this defines the action to be performed
+by the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to which this </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> is allocated. This takes the form of a list, and for
+each action you want the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to perform, you should have a new line in
+your script. Think of this like writing a computer program - for everything you
+want the computer to do, you add a new line to your program - its the same idea
+here. Again, by convention, the numbering <i>must</i> begin at 0. These scripts
+can become very complex and powerful tools, and provide one of the ultimate
+levels of editing potential in the game.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The first value, </span><span
+lang=EN-GB style='font-family:"Courier New"'>x</span><span lang=EN-GB
+style='font-family:Arial'>, contains the action to perform. Some actions
+require a parameter, </span><span lang=EN-GB style='font-family:"Courier New"'>y</span><span
+lang=EN-GB style='font-family:Arial'>, which provides information for the
+action - they mean different things for different actions. Here's an example of
+a script, the first line tells the computer to attack any enemy vehicles, and
+the second line tells the computer to attack anything when its finished the
+first line (i.e. after it has destroyed one vehicle);-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[SCRIPT]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=Attack
+any vehicle then attack anything</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>0=0,5</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>1=0,1</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Here's a list of
+the script actions and their respective parameters (where appropriate);-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>0,n
+= Attack Target Type, n = target type to attack</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to use the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to approach and attack the target specified by the
+second parameter. The following are the target types which can be used;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 0         N/A                   cancel
+attack mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 1         Anything           anything
+(usually the first enemy object they encounter) - utilizes threat rating logic</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 2         Structures         any
+enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 3         Ore
+Miners        any enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[VehicleTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Harvester=yes</span><span lang=EN-GB
+style='font-family:Arial'> set</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 4         Infantry              any
+enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[InfantryTypes]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 5         Vehicles            any
+enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[VehicleTypes]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 6         Factories           any
+enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with a </span><span lang=EN-GB
+style='font-family:"Courier New"'>Factory=</span><span lang=EN-GB
+style='font-family:Arial'> setting</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 7         Base
+Defenses  any enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>IsBaseDefense=yes</span><span lang=EN-GB
+style='font-family:Arial'> set</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 8         Base
+Threats     any enemy objects approaching (or already in) its base and which
+are in an attack mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 9         Power
+Plants     any enemy </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with positive </span><span lang=EN-GB
+style='font-family:"Courier New"'>Power=</span><span lang=EN-GB
+style='font-family:Arial'> values set</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>10         Occupiable        any
+</span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>CanBeOccupied=yes</span><span lang=EN-GB
+style='font-family:Arial'> set (usually neutral structures)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>11         Tech
+Buildings   any </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>NeedsEngineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set (usually </span><span lang=EN-GB
+style='font-family:"Courier New"'>NeutralTechBuildings=</span><span lang=EN-GB
+style='font-family:Arial'>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>NOTE</span></b><span
+lang=EN-GB style='font-family:Arial'>: in Yuri's Revenge, Occupiable structures
+are defined by having </span><span lang=EN-GB style='font-family:"Courier New"'>CanOccupyFire=yes</span><span
+lang=EN-GB style='font-family:Arial'> set instead of </span><span lang=EN-GB
+style='font-family:"Courier New"'>CanBeOccupied=yes</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>1,n
+= Attack Waypoint, n = waypoint number to attack</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to use the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to attack the waypoint number specified by the
+second parameter. If any members have </span><span lang=EN-GB style='font-family:
+"Courier New"'>Infiltrate=yes</span><span lang=EN-GB style='font-family:Arial'>
+set they will enter the structure at the waypoint. Members with </span><span
+lang=EN-GB style='font-family:"Courier New"'>Engineer=yes</span><span
+lang=EN-GB style='font-family:Arial'> set will capture the structure provided
+it does not have </span><span lang=EN-GB style='font-family:"Courier New"'>Capturable=no</span><span
+lang=EN-GB style='font-family:Arial'> set or if it has </span><span lang=EN-GB
+style='font-family:"Courier New"'>NeedsEngineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set. Members with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Agent=yes</span><span lang=EN-GB
+style='font-family:Arial'> set will spy on the structure if it has </span><span
+lang=EN-GB style='font-family:"Courier New"'>Spyable=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. Members that <i>do not</i> have </span><span
+lang=EN-GB style='font-family:"Courier New"'>Assaulter=no</span><span
+lang=EN-GB style='font-family:Arial'> set will garrison the structure if it has
+</span><span lang=EN-GB style='font-family:"Courier New"'>CanBeOccupied=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. Members with </span><span
+lang=EN-GB style='font-family:"Courier New"'>C4=yes</span><span lang=EN-GB
+style='font-family:Arial'> set will blow up the structure if does not have </span><span
+lang=EN-GB style='font-family:"Courier New"'>CanC4=no</span><span lang=EN-GB
+style='font-family:Arial'> set. If there is no building at the specified
+waypoint, the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> will move to the waypoint and will just
+remain in their last mission. Waypoints are used to define specific places
+(cells) on the map - see the <b>Map Editing Guide</b> for a detailed
+explanation of waypoints. At this point however, its worth noting that Red
+Alert 2 usually assigns waypoint number 98 to define the place where the player
+starts in single player games (also known as the 'home cell'), waypoint number
+99 for the center of the map, and waypoint numbers 0 - 7 to define the starting
+places for the 8 players.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>2,0
+= Go Berzerk</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Forces infantry
+units with </span><span lang=EN-GB style='font-family:"Courier New"'>Cyborg=yes
+</span><span lang=EN-GB style='font-family:Arial'>set to go berserk (they
+consider all objects, including friendly units, equally in their threat scan).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>3,n
+= Move To Waypoint, n = waypoint number to move to</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to use the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to move to the waypoint number specified by the
+second parameter. Waypoints are used to define specific places (cells) on the
+map - see the <b>Map Editing Guide</b> for a detailed explanation of waypoints.
+At this point however, its worth noting that Red Alert 2 usually assigns
+waypoint number 98 to define the place where the player starts in single player
+games (also known as the 'home cell'), waypoint number 99 for the center of the
+map, and waypoint numbers 0 - 7 to define the starting places for the 8
+players. <b><span style='color:red'>TIP</span></b>: you could use this script
+action to get a </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to move to </span><span lang=EN-GB
+style='font-family:"Courier New"'>Waypoint=</span><span lang=EN-GB
+style='font-family:Arial'> number 99 (just about every map has this defined as
+the center point) - that will mean it will always strive to get to the center
+of the map, providing a good vantage point from which to perform further script
+actions and giving the impression that the computer is scouting for enemies.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>4,n
+= Move Into Specific Celltag, n = celltag to move into</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to use the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to move into the </span><span lang=EN-GB
+style='font-family:"Courier New"'>CellTag</span><span lang=EN-GB
+style='font-family:Arial'> specified by the second parameter. This is used when
+you want the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to trigger a specific </span><span
+lang=EN-GB style='font-family:"Courier New"'>Action</span><span lang=EN-GB
+style='font-family:Arial'> (when the game tests for the </span><span
+lang=EN-GB style='font-family:"Courier New"'>CellTag</span><span lang=EN-GB
+style='font-family:Arial'> being entered). </span><span lang=EN-GB
+style='font-family:"Courier New"'>CellTags</span><span lang=EN-GB
+style='font-family:Arial'> are attached to cells and are used to trigger </span><span
+lang=EN-GB style='font-family:"Courier New"'>Events</span><span lang=EN-GB
+style='font-family:Arial'> and thus fire </span><span lang=EN-GB
+style='font-family:"Courier New"'>Actions</span><span lang=EN-GB
+style='font-family:Arial'> when that cell is entered by a unit (or any unit
+from the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'>). The </span><span lang=EN-GB
+style='font-family:"Courier New"'>CellTag</span><span lang=EN-GB
+style='font-family:Arial'> parameter should be the waypoint parameter for that </span><span
+lang=EN-GB style='font-family:"Courier New"'>CellTag</span><span lang=EN-GB
+style='font-family:Arial'> from the </span><span lang=EN-GB style='font-family:
+"Courier New"'>[CellTags]</span><span lang=EN-GB style='font-family:Arial'>listing
+in the map file, hence this script action is only of use on specific map files.
+See the <b>Map Editing Guide</b> for a detailed explanation of </span><span
+lang=EN-GB style='font-family:"Courier New"'>CellTags</span><span lang=EN-GB
+style='font-family:Arial'> and their use.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>5,n
+= Guard Area, n = time to guard area in tenths of a minute (multiples of 6
+seconds)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to put the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> into Guard Mode (same effect as selecting a group of
+units and pressing the Guard Mode key as defined in KEYBOARD.INI or clicking
+the relevant button on the Advanced Command Bar). Units will move to attack
+enemy units that fall within their </span><span lang=EN-GB style='font-family:
+"Courier New"'>Sight=</span><span lang=EN-GB style='font-family:Arial'> range.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>6,n
+= Jump To Script Action, n = number of script action to jump to</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is used to
+repeat actions within the </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'>. The second parameter is the action
+number of the </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'> that you want to jump to. Remember that
+the first action of a </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'> is numbered 0 so if you jump to this (by
+using </span><span lang=EN-GB style='font-family:"Courier New"'>n=6,0</span><span
+lang=EN-GB style='font-family:Arial'> for example) you get the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to repeat all the commands it has, looping forever.
+This is used by the waypoint system in the game for setting up patrols. You
+don't have to repeat all the actions as you could jump to say action 3, which
+would ignore the first three action commands (remember, the numbering starts at
+0) and just go to the fourth.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>7,0
+= Force Player Win</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Forces a game win
+condition for the owner of the </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>TeamType</span><span lang=EN-GB style='font-family:Arial'> (they
+win the game).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>8,n
+= Unload, n = type of unloading</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that have a valid </span><span
+lang=EN-GB style='font-family:"Courier New"'>Passengers=</span><span
+lang=EN-GB style='font-family:Arial'> value set, and those units contain
+passengers, this command will make the units inside the transport(s) disembark.
+Note that once the passengers have disembarked, the transport itself is
+suspended until given a new mission and is therefore no longer considered a
+part of this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> - this means that you cannot, for
+example, get units to disembark, do something, then get back into the transport
+in the same script. The second parameter can be used to control what happens to
+the transport after it 'deploys' its cargo;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>0          Keep
+transports and units - all remain in the team and execute the remainder of the
+script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>1          Keep
+transport and lose the units - only the transport will execute the remainder of
+the script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>2          Lose
+transport and keep units - only the units will execute the remainder of the
+script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>3          Lose
+transports and lose units - nothing executes the remainder of the script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>9,0
+= Deploy</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that are able to deploy
+(for example a unit which </span><span lang=EN-GB style='font-family:"Courier New"'>DeploysInto=</span><span
+lang=EN-GB style='font-family:Arial'> a </span><span lang=EN-GB
+style='font-family:"Courier New"'>[BuildingType] </span><span lang=EN-GB
+style='font-family:Arial'>or has any of </span><span lang=EN-GB
+style='font-family:"Courier New"'>Deployer=yes</span><span lang=EN-GB
+style='font-family:Arial'>, </span><span lang=EN-GB style='font-family:"Courier New"'>DeployFire=yes</span><span
+lang=EN-GB style='font-family:Arial'>, </span><span lang=EN-GB
+style='font-family:"Courier New"'>DeployToFire=yes</span><span lang=EN-GB
+style='font-family:Arial'> set) then this action causes them to deploy at the
+current cell they are occupying (same effect as selecting a unit and pressing
+the Deploy key as defined in KEYBOARD.INI or clicking the relevant button on
+the Advanced Command Bar).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>10,0
+= Follow friendlies</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This command
+causes the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to follow the nearest friendly unit when
+it moves although it will not function as if it is 'guarding' the unit. The
+following is not permanent, when the </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> is
+assigned another mission it abandons the following. <b><span style='color:red'>TIP</span></b>:
+If the support </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> has this as the first line in its </span><span
+lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'>, then it will <i>escort</i> the first </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>11,n
+= Assign New Mission, n = new mission type</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The objects in
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> are all assigned the new mission defined
+by the second parameter. Not all of them work, some are made obsolete by other
+action commands, some do not work because an object in the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> may not support that action. Because these are the
+same 'behaviours' to which objects can be assigned when initially placed on the
+map some apply only to structures. The following are valid settings for the
+second parameter, you should refer to the <b>Mission Control</b> section of the
+<b>RULES.INI Guide</b> for a more detailed explanation of the missions and how
+they work;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 0         Sleep                   
+object sits around and plays dead, will not acquire targets</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 1         Attack                  
+special attack mission used by AI team types (utilizes threat rating logic)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 2         Move                    
+simply moving to destination</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 3         QMove                 
+special move to destination after other queued moves occur</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 4         Retreat                 
+object runs away (may even leave the map)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 5         Guard                  
+object sits around and will engage an enemy that falls within its weapon range</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 6         Sticky                  
+just like guard mode, except the object will engage enemies but not pursue them</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 7         Enter                   
+enter building or transport</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 8         Capture                
+engineer entry logic used by </span><span lang=EN-GB style='font-family:"Courier New"'>MultiEngineer</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'> 9         Eaten                   
+when object is being repaired (applies only to structures)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>10         Harvest                
+the loop controlling harvesting of Ore and dumping at a Refinery</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>11         Area
+Guard            guard the general area where the object starts at</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>12         Return                  
+return to co-ordinating object (e.g. spawned object returns to the spawner)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>13         Stop                    
+stop moving or firing at the first available opportunity</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>14         Ambush               
+force fire (units with </span><span lang=EN-GB style='font-family:"Courier New"'>Infiltrate=yes</span><span
+lang=EN-GB style='font-family:Arial'> will enter target if possible)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>15         Hunt                    
+scan for and attack enemies wherever they may be on the map</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>16         Unload                 
+while dropping off cargo (e.g. Landing Craft unloading passengers)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>17         Sabotage             
+unit runs to place C4 on a building or Ivan goes to place bomb on object</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>18         Construction         
+structures use this when building up after initial placement</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>19         Selling                 
+structures use this for deconstruction after being sold</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>20         Repair                  
+used when repairing an object (e.g. Service Depot)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>21         Rescue                
+special team over-ride mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>22         Missile                 
+Nuke Silo special launch missile mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>23         Harmless             
+object doesn't fire and is not considered in any threat scan</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>24         Open                   
+while opening or closing a gate to allow passage</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>25         Patrol                   
+patrol a series of waypoints</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>26         Paradrop
+Approachobject is approaching the paradrop site</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>27         Paradrop
+Overfly                object is flying over the paradrop site (i.e. dropping
+the paratroopers)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>28         Wait                    
+paused and awaiting next mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>29         Move                    
+(special duplicate) used when Chrono units are moving to destination</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>30         Attack                  
+(special duplicate) used when units are deployed to fire (e.g. weapons with an
+area fire effect)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>31         Spyplane
+Approachobject is flying towards target </span><span lang=EN-GB
+style='font-family:"Courier New"'>(<span style='color:red'>YR</span>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>32         Spyplane
+Overfly    object is flying over the target </span><span lang=EN-GB
+style='font-family:"Courier New"'>(<span style='color:red'>YR</span>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>NOTE</span></b><span
+lang=EN-GB style='font-family:Arial'>: there is a difference when using Area
+Guard as opposed to Guard. Units with an Area Guard mission are more aggressive
+and will pursue enemy units that fall within their </span><span lang=EN-GB
+style='font-family:"Courier New"'>Sight=</span><span lang=EN-GB
+style='font-family:Arial'> range and continue that pursuit until they can
+attack the target. Then the units will return to their original position unless
+they catch the target within their initial guard zone (in which case they will
+attempt to destroy it). Units in an Area Guard mission are not recruited 'from
+the field' when a create team </span><span lang=EN-GB style='font-family:"Courier New"'>Action</span><span
+lang=EN-GB style='font-family:Arial'> is executed, although units in a standard
+Guard mission will be gathered to create the new team if they are required.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>12,n
+= Set Global, n = global number to be set</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The global number
+specified in the second parameter is defined as being 'set' (it is allocated a
+value of '1' or 'true'). This should be employed in specific map files only.
+This is part of the boolean logic employed by the global variables system in
+the game engine - refer to the <b>Map Editing Guide</b> for a more detailed
+explanation of global and local variables. The Global Variables are defined in
+RULES.INI - see the <b>RULES.INI Guide</b>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>13,n
+= Play Idle Anim Sequence, n = sequence number</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that are SHPs (i.e.
+infantry) then the relevant idle SHP sequence is displayed as defined by the
+frame numbering system in ART.INI.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>14,0
+= Load Onto Transport</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that have a valid </span><span
+lang=EN-GB style='font-family:"Courier New"'>Passengers=</span><span
+lang=EN-GB style='font-family:Arial'> value set, <i>and</i> units whose </span><span
+lang=EN-GB style='font-family:"Courier New"'>Size=</span><span lang=EN-GB
+style='font-family:Arial'> and </span><span lang=EN-GB style='font-family:"Courier New"'>PhysicalSize=</span><span
+lang=EN-GB style='font-family:Arial'> settings allow them to be carried by that
+transport, this command will make the units enter the transport.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>15,n
+= Spy On Structure At Waypoint, n = waypoint number</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Should be used
+only for units with </span><span lang=EN-GB style='font-family:"Courier New"'>Infiltrate=yes</span><span
+lang=EN-GB style='font-family:Arial'> and </span><span lang=EN-GB
+style='font-family:"Courier New"'>Agent=yes</span><span lang=EN-GB
+style='font-family:Arial'> set. This instructs the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to enter the structure at the waypoint number
+specified by the second parameter and spy on the structure if it has </span><span
+lang=EN-GB style='font-family:"Courier New"'>Spyable=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. If there is no building at the
+specified waypoint, the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> may not activate correctly and will just
+remain in their last mission. Waypoints are used to define specific places
+(cells) on the map - see the <b>Map Editing Guide</b> for a detailed
+explanation of waypoints. At this point however, its worth noting that Red
+Alert 2 usually assigns waypoint number 98 to define the place where the player
+starts in single player games (also known as the 'home cell'), waypoint number
+99 for the center of the map, and waypoint numbers 0 - 7 to define the starting
+places for the 8 players.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>16,n
+= Patrol to waypoint, n = waypoint number</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is similar
+to Move to waypoint. This instructs the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> to use the </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> to
+move to the waypoint number specified by the second parameter. The difference
+is that the units in the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> will move out of their patrol route to
+actively go and engage <i>any</i> enemy objects that are within their </span><span
+lang=EN-GB style='font-family:"Courier New"'>Sight=</span><span lang=EN-GB
+style='font-family:Arial'> as they move to the waypoint. <b><span
+style='color:red'>NOTE</span></b>: this action eats up processor time, because
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> will scan for enemy objects with each
+movement. If you have a lot of </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForces</span><span
+lang=EN-GB style='font-family:Arial'> (or lots of units in them) engaged in
+this action, you will experience slowdown in the game - this is one reason why
+the single player missions are comparatively slow, they use this action a lot.
+The rate at which the scanning for targets whilst in this mission is controlled
+by the </span><span lang=EN-GB style='font-family:"Courier New"'>PatrolScan=</span><span
+lang=EN-GB style='font-family:Arial'> statement in the </span><span lang=EN-GB
+style='font-family:"Courier New"'>[AI]</span><span lang=EN-GB style='font-family:
+Arial'>section of RULES.INI (see the <b>RULES.INI Guide</b>). Waypoints are
+used to define specific places (cells) on the map - see the <b>Map Editing
+Guide</b> for a detailed explanation of waypoints. At this point however, its
+worth noting that Red Alert 2 usually assigns waypoint number 98 to define the
+place where the player starts in single player games (also known as the 'home
+cell'), waypoint number 99 for the center of the map, and waypoint numbers 0 -
+7 to define the starting places for the 8 players.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>17,n
+= Change Script, n = script number to execute</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>Very
+handy and under utilized - this instructs the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial;color:black'> to execute another </span><span
+lang=EN-GB style='font-family:"Courier New";color:black'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial;color:black'>. The second parameter
+specifies the number of the </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>ScriptType</span><span lang=EN-GB style='font-family:Arial;
+color:black'> to execute as listed in the </span><span lang=EN-GB
+style='font-family:"Courier New";color:black'>[ScriptTypes]</span><span
+lang=EN-GB style='font-family:Arial;color:black'>table (consider the table as
+being numbered starting at 0 for this purpose). </span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>18,n
+= Change Team, n = team number to join</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to join another </span><span
+lang=EN-GB style='font-family:"Courier New";color:black'>TeamType</span><span
+lang=EN-GB style='font-family:Arial;color:black'>. The second parameter
+specifies the number of the </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>TeamType</span><span lang=EN-GB style='font-family:Arial;
+color:black'> to join as listed in the </span><span lang=EN-GB
+style='font-family:"Courier New";color:black'>[TeamTypes]</span><span
+lang=EN-GB style='font-family:Arial;color:black'>table (consider the table as
+being numbered starting at 0 for this purpose). </span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>19,0
+= Panic</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that have </span><span
+lang=EN-GB style='font-family:"Courier New"'>Fraidycat=yes</span><span
+lang=EN-GB style='font-family:Arial'> set then they will run around aimlessly,
+using the </span><span lang=EN-GB style='font-family:"Courier New"'>Panic=</span><span
+lang=EN-GB style='font-family:Arial'> animation from their sequence as defined
+in ART.INI. Normally used for the civilian units. Units that do not fulfil this
+criteria lie down and act as if prone.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>20,n
+= Change House Ownership, n = house number of new owner</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used in single
+player missions on specific map files only, this changes ownership of the
+entire </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> to the </span><span lang=EN-GB
+style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'> number specified by the second parameter. See the <b>Map
+Editing Guide</b> for details of </span><span lang=EN-GB style='font-family:
+"Courier New"'>[Houses]</span><span lang=EN-GB style='font-family:Arial'> and
+their numbering.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>21,0
+= Scatter</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to scatter (same effect as selecting a
+group of units and pressing the Scatter key as defined in KEYBOARD.INI).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>22,0
+= Afraid &amp; Run To Shroud </span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to behave in a scared manner and it will
+run to the nearest shrouded cell. The </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> will
+not actively engage in combat, will not acquire targets and will not retaliate
+(it will scatter instead if attacked).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>23,0
+= Force Player Loss</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Forces a game
+loss condition for the owner of the </span><span lang=EN-GB style='font-family:
+"Courier New";color:black'>TeamType</span><span lang=EN-GB style='font-family:
+Arial'> (they lose the game).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>24,n
+= Play Speech From EVA.INI, n = number of speech to play</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to play one of the Sofia or
+EVA voices (depending upon the </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>ParentCountry=</span><span lang=EN-GB style='font-family:Arial;
+color:black'> or the owner of this </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial;
+color:black'>). The second parameter is the number of the sound to be played
+from the </span><span lang=EN-GB style='font-family:"Courier New"'>[DialogList]</span><span
+lang=EN-GB style='font-family:Arial;color:black'> in the EVA.INI file (note
+that you should consider this list as being numbered from 0 instead of 1 to get
+the correct numbering convention).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>25,n
+= Play Sound From SOUND.INI, n = number of sound to play</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to play one of the generic in
+game sounds from the </span><span lang=EN-GB style='font-family:"Courier New"'>[SoundList]</span><span
+lang=EN-GB style='font-family:Arial;color:black'> in the SOUND.INI file (note
+that for all in game </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>Action</span><span lang=EN-GB style='font-family:Arial;color:black'>
+and </span><span lang=EN-GB style='font-family:"Courier New";color:black'>Trigger</span><span
+lang=EN-GB style='font-family:Arial;color:black'> purposes this number is from
+an internal table - see the <b>Map Editing Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>26,n
+= Play Movie</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to play one of the movies
+from the </span><span lang=EN-GB style='font-family:"Courier New"'>[Movies]</span><span
+lang=EN-GB style='font-family:Arial;color:black'> list in the ART.INI file
+(note that for all in game </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>Action</span><span lang=EN-GB style='font-family:Arial;color:black'>
+and </span><span lang=EN-GB style='font-family:"Courier New";color:black'>Trigger</span><span
+lang=EN-GB style='font-family:Arial;color:black'> purposes this number is from
+an internal table - see the <b>Map Editing Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>27,n
+= Play Theme From THEME.INI, n = number of theme to play</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to play one of the game
+soundtracks from the </span><span lang=EN-GB style='font-family:"Courier New"'>[Themes]</span><span
+lang=EN-GB style='font-family:Arial;color:black'> list in the THEME.INI file
+(note that for all in game </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>Action</span><span lang=EN-GB style='font-family:Arial;color:black'>
+and </span><span lang=EN-GB style='font-family:"Courier New";color:black'>Trigger</span><span
+lang=EN-GB style='font-family:Arial;color:black'> purposes this number is from
+an internal table - see the <b>Map Editing Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>28,0
+= Reduce Ore</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>Reduces
+the amount of Ore in the cell that the </span><span lang=EN-GB
+style='font-family:"Courier New";color:black'>TeamType</span><span lang=EN-GB
+style='font-family:Arial;color:black'> is occupying. Used by the special
+'weapon' that is inherent with Ore Miners.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>29,0
+= Begin Production</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>Forces
+the owner of the </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>TeamType</span><span lang=EN-GB style='font-family:Arial;
+color:black'> to begin the auto-production process (the AI's behaviour in
+skirmish games). Should only be used on AI controlled houses.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>30,0
+= Force Sale</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>Forces
+the 'fire sale' of all remaining structures owned by the </span><span
+lang=EN-GB style='font-family:"Courier New";color:black'>House= </span><span
+lang=EN-GB style='font-family:Arial;color:black'>to which the </span><span
+lang=EN-GB style='font-family:"Courier New";color:black'>TeamType</span><span
+lang=EN-GB style='font-family:Arial;color:black'> belongs.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>31,0
+= Suicide</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to destroy itself. In effect
+it commits suicide, usually accompanied by an explosion.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>32,n
+= Start Weather Storm In...</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+initiates the Weather Storm intro effect </span><span lang=EN-GB
+style='font-family:Arial'>(when the screen goes dark prior to the clouds
+appearing) and is set to be delayed by the number of seconds specified by
+parameter 2.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>33,0
+= End Weather Storm</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This forces an
+end to the Weather Storm intro effect (when the screen goes dark prior to the
+clouds appearing).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>34,n
+= Center Map On Team</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This will center
+the screen on the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'>. The same effect as hitting the Home key
+as defined in KEYBOARD.INI when the screen centers on your MCV (or the unit
+defined by the </span><span lang=EN-GB style='font-family:"Courier New"'>BaseUnit=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI). The second
+parameter determines the speed at which the 'camera' switches view to the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> with 0 being instant.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>35,n
+= Shroud Map For Time Interval, n = time to remain shrouded</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This action will
+shroud the entire map except for the area around the players MCV's (if they
+have one). The second parameter determines the number of frames for which the
+map should remain shrouded (1 second = approximately 15 frames) after which the
+explored areas are revealed again.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>36,n
+= Reveal Map For Time Interval, n = time to remain revealed</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This action will
+reveal the entire map. The second parameter determines the number of frames for
+which the map should remain revealed (1 second = approximately 15 frames) after
+which the map is shrouded again.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>37,0
+= Delete Team Members</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This forces
+dissolved members of the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to leave the map after which they are
+deleted (for example aerial transports after their passengers have
+disembarked).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>38,n
+= Clear Global, n = Global number to be cleared</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The global number
+specified in the second parameter is defined as being 'clear' (it is allocated
+a value of '0' or 'false'). This should be employed in specific map files only
+in which the global variable has been defined. This is part of the boolean
+logic employed by the global variables system in the game engine - refer to the
+<b>Map Editing Guide</b> for a more detailed explanation of global and local
+variables. The Global Variables are defined in RULES.INI - see the <b>RULES.INI
+Guide</b>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>39,n
+= Set Local, n = Local number to be set</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The local variable
+number specified in the second parameter is defined as being 'set' (it is
+allocated a value of '1' or 'true'). This should be employed in specific map
+files only in which the local variable has been defined. This is part of the
+boolean logic employed by the local variables system in the game engine - refer
+to the <b>Map Editing Guide</b> for a more detailed explanation of local and
+global variables.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>40,n
+= Clear Local, n = Local number to be cleared</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The local
+variable number specified in the second parameter is defined as being 'cleared'
+(it is allocated a value of '0' or 'false'). This should be employed in
+specific map files only in which the local variable has been defined. This is
+part of the boolean logic employed by the local variables system in the game
+engine - refer to the <b>Map Editing Guide</b> for a more detailed explanation
+of local and global variables.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>41,n
+= Unpanic</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a unit or units that have </span><span
+lang=EN-GB style='font-family:"Courier New"'>Fraidycat=yes</span><span
+lang=EN-GB style='font-family:Arial'> set which are currently assigned the </span><span
+lang=EN-GB style='font-family:"Courier New"'>Panic= </span><span lang=EN-GB
+style='font-family:Arial'>mission then this action nullifies that effect and
+the unit(s) adopt their default behaviour.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>42,n
+= Change Facing, n = new direction to face</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This instructs
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to turn and face the new direction
+specified by the second parameter. The facings are as follows;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>0          North</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>1          North
+East</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>2          East</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>3          South
+East</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>4          South</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>5          South
+West</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>6          West</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>7          North West</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>43,0
+= Wait Until Fully Loaded</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is always
+used after members of the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> have entered a transport in the <i>same</i>
+</span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> and serves two purposes. The effect of
+this is that the transport will be used to carry out any subsequent movement or
+deploy actions but after that it is no longer considered a part of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> and as such is available to be recruited into new </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'>. It is this action which enables use of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TransportsReturnOnUnload=yes</span><span
+lang=EN-GB style='font-family:Arial'> statement in the corresponding </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> entry. The second purpose is to flag the transport
+as being 'loaded' with passengers and thus is considered in the AI's targeting
+logic as a potential threat (see the </span><span lang=EN-GB style='font-family:
+"Courier New"'>ContentScan=</span><span lang=EN-GB style='font-family:Arial'>
+entry in the <b>RULES.INI Guide</b>). This action also orders the transport to
+wait until it is fully loaded before executing any subsequent script actions.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>44,0
+= Unload TRUCKB &gt; TRUCKA</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used purely for a
+graphical effect and applicable uniquely to the </span><span lang=EN-GB
+style='font-family:"Courier New"'>[TRUCKB]</span><span lang=EN-GB
+style='font-family:Arial'> unit, this has the effect of converting </span><span
+lang=EN-GB style='font-family:"Courier New"'>[TRUCKB]</span><span lang=EN-GB
+style='font-family:Arial'> into </span><span lang=EN-GB style='font-family:
+"Courier New"'>[TRUCKA]</span><span lang=EN-GB style='font-family:Arial'> to
+give the impression that the unit has unloaded its cargo. <b><span
+style='color:red'>NOTE</span></b>: this is residual from Tiberian Sun and as
+such may not work correctly since </span><span lang=EN-GB style='font-family:
+"Courier New"'>[TRUCKA]</span><span lang=EN-GB style='font-family:Arial'>
+refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image.
+Changing the image for the Demo Truck and assigning new units to </span><span
+lang=EN-GB style='font-family:"Courier New"'>[TRUCKA]</span><span lang=EN-GB
+style='font-family:Arial'> and </span><span lang=EN-GB style='font-family:"Courier New"'>[TRUCKB]</span><span
+lang=EN-GB style='font-family:Arial'> enables use of this logic.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>45,0
+= Load TRUCKA &gt; TRUCKB</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used purely for a
+graphical effect and applicable uniquely to the </span><span lang=EN-GB
+style='font-family:"Courier New"'>[TRUCKA]</span><span lang=EN-GB
+style='font-family:Arial'> unit, this has the effect of converting </span><span
+lang=EN-GB style='font-family:"Courier New"'>[TRUCKA]</span><span lang=EN-GB
+style='font-family:Arial'> into  </span><span lang=EN-GB style='font-family:
+"Courier New"'>[TRUCKB]</span><span lang=EN-GB style='font-family:Arial'>to
+give the impression that the unit has been loaded with cargo. <b><span
+style='color:red'>NOTE</span></b>: this is residual from Tiberian Sun and as
+such may not work correctly since </span><span lang=EN-GB style='font-family:
+"Courier New"'>[TRUCKA]</span><span lang=EN-GB style='font-family:Arial'>
+refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image.
+Changing the image for the Demo Truck and assigning new units to </span><span
+lang=EN-GB style='font-family:"Courier New"'>[TRUCKA]</span><span lang=EN-GB
+style='font-family:Arial'> and </span><span lang=EN-GB style='font-family:"Courier New"'>[TRUCKB]</span><span
+lang=EN-GB style='font-family:Arial'> enables use of this logic.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>46,n
+= Attack Enemy Structure, n = structure number (see note below)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> attack the enemy structure specified by the second
+parameter. This action depends upon the type of units in the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> and if certain members have </span><span lang=EN-GB
+style='font-family:"Courier New"'>Infiltrate=yes</span><span lang=EN-GB
+style='font-family:Arial'> set. Members with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Engineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set will capture the structure provided it does not
+have </span><span lang=EN-GB style='font-family:"Courier New"'>Capturable=no</span><span
+lang=EN-GB style='font-family:Arial'> set or if it has </span><span lang=EN-GB
+style='font-family:"Courier New"'>NeedsEngineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set. Members with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Agent=yes</span><span lang=EN-GB
+style='font-family:Arial'> set will spy on the structure if it has </span><span
+lang=EN-GB style='font-family:"Courier New"'>Spyable=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. Members that <i>do not</i> have </span><span
+lang=EN-GB style='font-family:"Courier New"'>Assaulter=no</span><span
+lang=EN-GB style='font-family:Arial'> set will garrison the structure if it has
+</span><span lang=EN-GB style='font-family:"Courier New"'>CanBeOccupied=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. Members with </span><span
+lang=EN-GB style='font-family:"Courier New"'>C4=yes</span><span lang=EN-GB
+style='font-family:Arial'> set will blow up the structure if does not have </span><span
+lang=EN-GB style='font-family:"Courier New"'>CanC4=no</span><span lang=EN-GB
+style='font-family:Arial'> set.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>47,n
+= Move To Enemy Structure, n = structure number (see note below)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> move and stay adjacent to the enemy structure
+specified by the second parameter.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>48,0
+= Scout</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Causes members of
+this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to move to a pre-determined point on the
+map in an attempt to scout an area. The effect is that the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will move in one randomly chosen direction until it
+is no longer able to do so which can make it very useful or a waste of time
+depending on the direction chosen. If you want to continually scout the map,
+you should loop this script action.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>49,0
+= Repeat Until Success</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is typically
+used after an Attack Target instruction. This forces the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to carry out its previous action in the script
+continually until all of the target types specified by that previous
+instruction no longer exist, at which point the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> moves on to the next instruction after this one. The
+action is continually executed until any condition on its use can no longer be
+met (for example if the previous action was Attack Vehicles and all vehicles
+have been destroyed, the script moves on to the next action). In other words,
+this can be used to set a 'success' condition on the script.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>50,n
+= Flash (visual effect), n = number of flashes</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This causes the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to 'flash', the visual effect you get on an object
+when you order something to attack it. The second parameter is the number of
+times to flash the unit 'white'.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>51,n=
+Play Animation, n = animation number</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial;color:black'>This
+instructs the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial;color:black'> to play one of the animations
+from the </span><span lang=EN-GB style='font-family:"Courier New"'>[Animations]</span><span
+lang=EN-GB style='font-family:Arial;color:black'> in the RULES.INI.INI file
+(note that for all in game </span><span lang=EN-GB style='font-family:"Courier New";
+color:black'>Action</span><span lang=EN-GB style='font-family:Arial;color:black'>
+and </span><span lang=EN-GB style='font-family:"Courier New";color:black'>Trigger</span><span
+lang=EN-GB style='font-family:Arial;color:black'> purposes this number is from
+an internal table - see the <b>Map Editing Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>52,n
+= Display Talk Bubble, n = talk bubble number</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Should be used
+for single-unit </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForces</span><span
+lang=EN-GB style='font-family:Arial'> only, this causes a 'talk bubble' to
+appear above the unit. The second parameter determines which type of talk
+bubble to display;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>1          *           general
+speech</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>2          ?          question</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>3          !           shouting
+or statement</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Note that the
+length of time for which the talk bubble is displayed is controlled through the
+</span><span lang=EN-GB style='font-family:"Courier New"'>TalkBubbleTime=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI - refer to the <b>RULES.INI
+Guide</b> for details of this and the steps to take to enable its inclusion in
+Red Alert 2 as this remains residual from Tiberian Sun:Firestorm.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>53,0
+= Gather (at enemy base)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This causes the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to gather together (sometimes used when members of
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> move at different speeds and you want the
+faster ones to stop while the slower ones catch up) after the previous action
+has been executed. If the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> is in an attack mission and moving
+towards an enemy base, this command is usually executed when the first member
+of the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> reaches the distance from that base
+defined by the </span><span lang=EN-GB style='font-family:"Courier New"'>AISafeDistance=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI - see the <b>RULES.INI
+Guide</b>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>54,0
+= Regroup (at friendly base)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This causes the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> to regroup, if for example any of its members have
+become engaged in a base defense mission or strayed away whilst in guard mode,
+or even the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> itself has been suspended for whatever
+reason. The members regroup directly next to each other leaving no 'gaps' at
+the nearest available point with sufficient space, and is used, for example,
+prior to activating the Iron Curtain so that all applicable members are
+affected (i.e. they fall within its range of effect).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>55,0
+= Activate Iron Curtain on TaskForce</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the owner of
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to which this </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> is attached also has the Iron Curtain fully charged
+then it will be fired at this </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'>. Note that the use of the Iron Curtain in
+this manner depends on the percentage chance of the AI incorporating them into
+its actions as defined by the </span><span lang=EN-GB style='font-family:"Courier New"'>AIMinorSuperReadyPercent=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI - see the <b>RULES.INI
+Guide</b> for more details.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>56,n
+= ChronoSphere TaskForce, n = structure number to be Chronoshifted to (see note
+below)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the owner of
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to which this </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> is attached also has the Chronosphere fully charged
+then it will be used on the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> before moving on to the next action. Note
+that the use of the Chronosphere in this manner depends on the percentage
+chance of the AI incorporating them into its actions as defined by the </span><span
+lang=EN-GB style='font-family:"Courier New"'>AIMinorSuperReadyPercent=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI - see the <b>RULES.INI
+Guide</b> for more details.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>57,n
+= ChronoWarp TaskForce, n = target number to be Chronoshifted to (see note
+below)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If the owner of
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to which this </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> is attached has been Chronosphered then it will be
+used on the same </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to shift them to the enemy structure
+number specified in the second parameter before moving on to the next action.
+Note that the use of the Chronosphere in this manner depends on the percentage
+chance of the AI incorporating them into its actions as defined by the </span><span
+lang=EN-GB style='font-family:"Courier New"'>AIMinorSuperReadyPercent=</span><span
+lang=EN-GB style='font-family:Arial'> statement in RULES.INI - see the <b>RULES.INI
+Guide</b> for more details.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>58,n
+= Move To Friendly Structure, n = structure number (see note below)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> move and stay adjacent to the friendly structure
+specified by the second parameter. The structure can be one owned by the owner
+of the </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> or any of its allies.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>59,n
+= Attack Structure At Waypoint (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> attack the structure at the </span><span lang=EN-GB
+style='font-family:"Courier New"'>Waypoint=</span><span lang=EN-GB
+style='font-family:Arial'> specified by the second parameter. This action is
+very similar to action number 43 although this action <i>does not test for
+ownership</i> of the structure itself - thus the inclusion of this action
+allows, for example, </span><span lang=EN-GB style='font-family:"Courier New"'>InfantryTypes</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Engineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set to enter structures owned by the same side for
+the purposes of repair. This would be the most appropriate action to use to get
+the AI to repair bridges. Use of this also means that the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will attack the structure with one of its weapons
+meaning, for example, that units with </span><span lang=EN-GB style='font-family:
+"Courier New"'>C4=yes</span><span lang=EN-GB style='font-family:Arial'> set
+will not C4 the building but shoot at it instead. This is useful if you want to
+get a </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> to destroy a nearby occupiable structure
+instead of entering it in a bid to prevent the enemy getting old of it - a
+tactic used in the Yuri's Revenge AI.</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>60,0
+= Enter Grinder (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will enter the nearest structure with </span><span
+lang=EN-GB style='font-family:"Courier New"'>Grinding=yes</span><span
+lang=EN-GB style='font-family:Arial'> set if it is owned by the owner of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> or any of its allies.</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>61,0
+= Occupy Tank Bunker (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Any </span><span
+lang=EN-GB style='font-family:"Courier New"'>VehicleType</span><span
+lang=EN-GB style='font-family:Arial'> members of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> which do not have </span><span lang=EN-GB
+style='font-family:"Courier New"'>Bunkerable=no</span><span lang=EN-GB
+style='font-family:Arial'> set will enter the nearest vacant structure with </span><span
+lang=EN-GB style='font-family:"Courier New"'>Bunker=yes</span><span lang=EN-GB
+style='font-family:Arial'> set if it is owned by the owner of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> or any of its allies.</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>62,0
+= Enter Bio Reactor (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Any </span><span
+lang=EN-GB style='font-family:"Courier New"'>InfantryType</span><span
+lang=EN-GB style='font-family:Arial'> members of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will enter the nearest structure with </span><span
+lang=EN-GB style='font-family:"Courier New"'>InfantryAbsorb=yes</span><span
+lang=EN-GB style='font-family:Arial'> set if it is owned by the owner of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> or any of its allies and has space available.</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>63,0
+= Occupy Battle Bunker (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Any </span><span
+lang=EN-GB style='font-family:"Courier New"'>InfantryType</span><span
+lang=EN-GB style='font-family:Arial'> members of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> with </span><span lang=EN-GB style='font-family:
+"Courier New"'>Occupier=yes</span><span lang=EN-GB style='font-family:Arial'>
+set will enter the nearest structure (which they own) with </span><span
+lang=EN-GB style='font-family:"Courier New"'>CanOccupyFire=yes</span><span
+lang=EN-GB style='font-family:Arial'> set.</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>&nbsp;</span></b></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>64,0
+= Garrison Structure (Yuri's Revenge only)</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Any </span><span
+lang=EN-GB style='font-family:"Courier New"'>InfantryType</span><span
+lang=EN-GB style='font-family:Arial'> members of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> with </span><span lang=EN-GB style='font-family:
+"Courier New"'>Occupier=yes</span><span lang=EN-GB style='font-family:Arial'>
+set will enter the nearest (neutral) structure with </span><span lang=EN-GB
+style='font-family:"Courier New"'>CanOccupyFire=yes</span><span lang=EN-GB
+style='font-family:Arial'> set. This action is used specifically for this
+purpose due to action #59 (see above) since the logic in Yuri's Revenge has
+changed so that the units weapon is transferred to the structure. Use of this
+action also allows the computer to repair those structures by sending an </span><span
+lang=EN-GB style='font-family:"Courier New"'>InfantryType</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Engineer=yes</span><span lang=EN-GB
+style='font-family:Arial'> set into them and also allows the AI to
+differentiate between <i>attacking</i> such a structure and <i>entering</i> it,
+which is useful if you want the AI to use infantry to destroy an occupiable
+structure thus preventing its enemy from using it.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN-GB style='font-size:12.0pt;font-family:Arial'>A
+Note On Structure Numbers</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>When used in </span><span
+lang=EN-US style='font-family:"Courier New"'>ScriptTypes</span><span
+lang=EN-GB style='font-family:Arial'>, the structure number takes any of
+several formats and is derived by finding the structure in the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'> list of RULES.INI and subtracting ONE
+from this structures' number in that list (equivalent to renumbering the list
+from 0) - this is the explicit number of that structure and is the number to
+use as the second parameter of the action. Any one of several amendments can be
+made to this number;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>add 131072 to the
+number, so GAPOWR (number 1 in RULES.INI thus number 0 for this purpose)
+becomes 131072</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>add 196608 to the
+number, so GAPOWR (number 1 in RULES.INI thus number 0 for this purpose)
+becomes 196608</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>add 65534 to the
+number, so GAPOWR (number 1 in RULES.INI thus number 0 for this purpose)
+becomes 65534</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>It has not been
+determined what significance or effect the different numbering systems have (if
+any). Changing them at random appears to have no effect although it is thought
+that there is additional logic attached to them.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>[TeamTypes]</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This section
+defines the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'>, which c</span><span lang=EN-US
+style='font-family:Arial'>onnect a </span><span lang=EN-US style='font-family:
+"Courier New"'>ScriptType</span><span lang=EN-US style='font-family:Arial'>
+with a </span><span lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-US style='font-family:Arial'> while adding some generic behaviour
+parameters (ie behaviours which apply to every member of the </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-US
+style='font-family:Arial'>) </span><span lang=EN-GB style='font-family:Arial'>whether
+they are <i>how</i> the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is created, or how it behaves <i>after</i>
+it has been created.</span><span lang=EN-US style='font-family:Arial'> These
+behavioural modifiers make it difficult to entirely predict or determine the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-US
+style='font-family:Arial'> behaviour. The maximum number of </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-US
+style='font-family:Arial'> which can be in existance at any one time is
+controlled with the </span><span lang=EN-GB style='font-family:"Courier New"'>TotalAITeamCap=</span><span
+lang=EN-US style='font-family:Arial'> statement in RULES.INI - refer to the <b>RULES.INI
+Guide </b>for a more detailed explanation of this and many other statements
+relating to the AI. These can be created in any of several ways;-</span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-US style='font-family:Arial'>within individual map
+files by an </span><span lang=EN-US style='font-family:"Courier New"'>Action</span><span
+lang=EN-US style='font-family:Arial'> when some pre-determined condition is met
+by the game code (known as an </span><span lang=EN-US style='font-family:"Courier New"'>Event</span><span
+lang=EN-US style='font-family:Arial'>) - see the <b>Map Editing Guide</b></span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-US style='font-family:Arial'>when a generic game
+event occurs that may not be specific to a particular map, scenario or </span><span
+lang=EN-US style='font-family:"Courier New"'>House</span><span lang=EN-US
+style='font-family:Arial'> (known as an </span><span lang=EN-US
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-US
+style='font-family:Arial'>, again these can be employed and even defined in
+individual map files)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-US style='font-family:Arial'>based on time rather
+than an </span><span lang=EN-US style='font-family:"Courier New"'>Event</span><span
+lang=EN-US style='font-family:Arial'> or a </span><span lang=EN-US
+style='font-family:"Courier New"'>Trigger</span><span lang=EN-US
+style='font-family:Arial'>, the </span><span lang=EN-GB style='font-family:
+"Courier New"'>TeamType</span><span lang=EN-US style='font-family:Arial'> is
+automatically created and used, known as </span><span lang=EN-US
+style='font-family:"Courier New"'>Autocreate</span><span lang=EN-US
+style='font-family:Arial'> - this process is inherent in the game code in
+skirmish games with the frequency of this process being controlled by the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamDelays=</span><span
+lang=EN-US style='font-family:Arial'> statement in RULES.INI (see the <b>RULES.INI
+Guide</b>). In map files, you must trigger this process yourself through the
+relevant </span><span lang=EN-US style='font-family:"Courier New"'>Action</span><span
+lang=EN-US style='font-family:Arial'> (see the <b>Map Editing Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> </span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The section takes
+the form of a list of all </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes.</span><span
+lang=EN-GB style='font-family:Arial'> The list is numbered starting at 0, new
+ones should be simply added to the end of the list. Each entry in the list
+takes the form of a hexadecimal numbered string which is the unique identifier
+for each of the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> - like other lists in the INI files, the
+game code requires that each entry in this list is defined with its own section
+in this file. For convention, it is wise to stick to this hex numbering system
+although again this is not strictly necessary. The following statements can be
+used;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Name=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is simply a
+string name used for identification purposes only, it is not required by the
+game, although it is useful to leave this in for debugging and troubleshooting
+your AI.INI file - as a point of interest, this statement does not even get
+parsed.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>VeteranLevel=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Is used to
+determine the level of 'veterancy' that each member of the </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> used by this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> has. Use 1 for 'Little Experience' (default), 2 for
+'Veteran' and 3 for 'Elite'. Higher numbers can be used if you edit RULES.INI -
+see the <b>Veteran Factors </b>section of the <b>RULES.INI Guide</b> for more
+details.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>(<span
+style='color:red'>YR</span>) MindControlDecision=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines what a
+member of the associated </span><span lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> will do if it 'mind controls' its target.
+This only works if that has been placed in an 'attack' type mission, as it gets
+over-ridden by other specific script actions. The decisions are;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>0 = nothing
+(default behaviour) used to indicate that the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should not use this logic</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>1 = add to AI's
+side as </span><span lang=EN-GB style='font-family:"Courier New"'>Recruitable=yes</span><span
+lang=EN-GB style='font-family:Arial'> for further teams</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>2 = send it to a
+structure with </span><span lang=EN-GB style='font-family:"Courier New"'>Grinding=yes</span><span
+lang=EN-GB style='font-family:Arial'> set for sale (e.g. Grinder) if owned</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>3 = send it to a
+structure with </span><span lang=EN-GB style='font-family:"Courier New"'>InfantryAbsorb=yes</span><span
+lang=EN-GB style='font-family:Arial'> and/or </span><span lang=EN-GB
+style='font-family:"Courier New"'>UnitAbsorb=yes</span><span lang=EN-GB
+style='font-family:Arial'> set (e.g. Bio Reactor) if owned</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>4 = set object in
+'Hunt' mission</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>5 = do nothing</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The percentage
+chances of each of those actions as well as the parameters used to assist the
+decision can be customized through the </span><span lang=EN-GB
+style='font-family:"Courier New"'>AICaptureNormal=</span><span lang=EN-GB
+style='font-family:Arial'>, </span><span lang=EN-GB style='font-family:"Courier New"'>AICaptureWounded=</span><span
+lang=EN-GB style='font-family:Arial'>, </span><span lang=EN-GB
+style='font-family:"Courier New"'>AICaptureLowPower=</span><span lang=EN-GB
+style='font-family:Arial'>, </span><span lang=EN-GB style='font-family:"Courier New"'>AICaptureLowMoney=</span><span
+lang=EN-GB style='font-family:Arial'>, </span><span lang=EN-GB
+style='font-family:"Courier New"'>AICaptureLowMoneyMark=</span><span
+lang=EN-GB style='font-family:Arial'>, and </span><span lang=EN-GB
+style='font-family:"Courier New"'>AICaptureWoundedMark=</span><span lang=EN-GB
+style='font-family:Arial'> statements in RULESMD.INI (see the <b>RULES.INI Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Loadable=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and is used to determine if the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> should reload when any of its members run out of </span><span
+lang=EN-GB style='font-family:"Courier New"'>Ammo=</span><span lang=EN-GB
+style='font-family:Arial'> . This is required in case a particular unit has to
+dock with a co-ordinating structure to reload, a process which is a mission in
+itself and thus could interrupt (and possibly cause havoc with) the actions for
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> as defined by the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> as 'nesting' missions in this manner could cause
+Internal Errors - objects can only be in one mission at a time. This logic is
+residual from Red Alert (where it was used primarily for the Mine Layer code)
+and may be obsolete in Red Alert 2.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Full=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Should be used
+only in map files, this can be set to 'yes' or 'no' and determines if any units
+within the associated </span><span lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> should be initially 'full' as determined
+by the </span><span lang=EN-GB style='font-family:"Courier New"'>PipScale=</span><span
+lang=EN-GB style='font-family:Arial'> statement in their RULES.INI entry - this
+applies only to Ore Miners and transport type units in Red Alert 2. If the </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> contains a Transport <i>and</i> other units, the units
+are automatically placed in the Transport for reinforcement purposes.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Annoyance=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and is used to determine if destroyed members of the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'>  are automatically replaced by the AI and allocated
+the same </span><span lang=EN-US style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'>, the supposed effect being that this </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> annoys the player with its persistence.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>GuardSlower=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and has the effect of increasing the default value of  </span><span
+lang=EN-GB style='font-family:"Courier New"'>BaseDefenseDelay=</span><span
+lang=EN-GB style='font-family:Arial'> as defined in RULES.INI <i>specific to
+this </i></span><i><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span></i><span
+lang=EN-GB style='font-family:Arial'> so that members of the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'>  in a base defense mission take longer to respond to
+any threats to themselves or any objects they are guarding. The factor by which
+that value is increased has not been determined.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>House=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Should be used
+within map files and simply defines the </span><span lang=EN-GB
+style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'> to which ownership of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> is automatically passed upon creation. For general
+AI.INI </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> this should be set to </span><span
+lang=EN-GB style='font-family:"Courier New"'>&lt;none&gt;</span><span
+lang=EN-GB style='font-family:Arial'>. <b><span style='color:red'>TIP</span></b>:
+In Yuri's Revenge, this can be used to refer to <i>multiplayer</i> (including
+human) houses by specifying individual player houses at any of the 8 starting </span><span
+lang=EN-GB style='font-family:"Courier New"'>Waypoints=</span><span lang=EN-GB
+style='font-family:Arial'> on the map. For example, to specify the player at
+the first starting waypoint, you can use </span><span lang=EN-GB
+style='font-family:"Courier New"'>House=&lt;Player @ A&gt;</span><span
+lang=EN-GB style='font-family:Arial'>. The letters A to H can be used to
+represent </span><span lang=EN-GB style='font-family:"Courier New"'>Waypoint=</span><span
+lang=EN-GB style='font-family:Arial'> numbers 0 - 7 inclusive, thus it is
+possible to provide reinforcements to human players in multiplayer games. For
+map file </span><span lang=EN-GB style='font-family:"Courier New"'>Trigger</span><span
+lang=EN-GB style='font-family:Arial'>, </span><span lang=EN-GB
+style='font-family:"Courier New"'>Event</span><span lang=EN-GB
+style='font-family:Arial'> and </span><span lang=EN-GB style='font-family:"Courier New"'>Action</span><span
+lang=EN-GB style='font-family:Arial'> purposes, the multiplayer houses are
+numbered 4475 - 4482, again representing the </span><span lang=EN-GB
+style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'> at each of the Waypoints numbered 0 - 7 inclusive.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Recruiter=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines if this </span><span lang=EN-GB style='font-family:
+"Courier New"'>TeamType</span><span lang=EN-GB style='font-family:Arial'> can
+be created by using any objects required to assemble the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> that already exist on the map (provided they are not
+already part of an existing </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Autocreate=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and specifies whether or not this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should be created based on time rather than <i>any</i>
+form of trigger. The AI.INI file usually defaults to 'no'  - this is because a </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>  with </span><span lang=EN-GB style='font-family:
+"Courier New"'>Autocreate=yes</span><span lang=EN-GB style='font-family:Arial'>
+set is, obviously, subject to being automatically created. Each </span><span
+lang=EN-GB style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'> can, independently, have this function activated
+through the relevant </span><span lang=EN-GB style='font-family:"Courier New"'>Action</span><span
+lang=EN-GB style='font-family:Arial'> within a map file. As mentioned above,</span><span
+lang=EN-US style='font-family:Arial'> the frequency of this process is
+controlled by the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamDelays=</span><span
+lang=EN-US style='font-family:Arial'> statement in RULES.INI (see the <b>RULES.INI
+Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Prebuild=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines if an inactive duplicate of the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> should be created before it may be needed. This is
+used in case the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> has a high </span><span lang=EN-GB
+style='font-family:"Courier New"'>Priority=</span><span lang=EN-GB
+style='font-family:Arial'> setting so that the AI has a backup should the
+original be destroyed (useful if the </span><span lang=EN-US style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'>
+contains an object which is expensive or takes a long time to produce). This is
+how the AI can sometimes appear to produce expensive units very quickly in some
+single player missions.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Reinforce=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used in map files
+only for single player missions, this can be set to 'yes' or 'no' and
+determines if this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> forms reinforcements, in other words if
+set to 'yes' then the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is expected to be created from off the
+map rather than on it.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Droppod=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines if the </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'>
+should be delivered by the </span><span lang=EN-GB style='font-family:"Courier New"'>AircraftType</span><span
+lang=EN-GB style='font-family:Arial'> defined by the name </span><span
+lang=EN-GB style='font-family:"Courier New"'>[DPOD]</span><span lang=EN-GB
+style='font-family:Arial'> in RULES.INI. This is entirely residual from
+Tiberian Sun (where that unit was simply a placeholder for this purpose which
+used the Drop Pod </span><span lang=EN-GB style='font-family:"Courier New"'>Locomotor=</span><span
+lang=EN-GB style='font-family:Arial'>) and may be linked to and used by the
+Paradrop logic in some way by Red Alert 2. The </span><span lang=EN-GB
+style='font-family:"Courier New"'>DPOD</span><span lang=EN-GB style='font-family:
+Arial'> unit must have </span><span lang=EN-GB style='font-family:"Courier New"'>Passengers=</span><span
+lang=EN-GB style='font-family:Arial'> and </span><span lang=EN-GB
+style='font-family:"Courier New"'>SizeLimit=</span><span lang=EN-GB
+style='font-family:Arial'> values set accordingly (to allow it to carry the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'>) and for this purpose should also have </span><span
+lang=EN-GB style='font-family:"Courier New"'>Spawned=yes</span><span
+lang=EN-GB style='font-family:Arial'> set. See the relevant entries in the <b>RULES.INI
+Guide</b> for more details of customizing the Drop Pod effect.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>UseTransportOrigin=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should be created at the point of origin of its
+transport, if the transport itself already exists and has been recruited into
+this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'>. This is used in map files to create
+reinforcement teams from off the map that will arrive on a transport.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Whiner=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and is used <i>only</i> by 'pool' </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'> (see </span><span lang=EN-GB style='font-family:
+"Courier New"'>AITriggerTypes</span><span lang=EN-GB style='font-family:Arial'>)
+to determine if destroyed members of the associated </span><span lang=EN-US
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> are automatically replaced by the AI. This is
+because 'pool'  </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> are normally assigned to base defense
+missions or generic missions such as guarding, hunting or scouting and their
+members are always made available for recruitment into further teams (a
+mechanism which ensures that the AI doesn’t always have to produce every team
+from scratch since it will have a pool of units from which to assemble future
+teams).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>LooseRecruit=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should be dissolved after completion of its assigned
+</span><span lang=EN-US style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'> if that mission was successful (in other
+words the members of its associated </span><span lang=EN-US style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> are
+then free to be recruited into another </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Aggressive=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> will execute orders regardless of enemy action and
+will not stop to engage in combat with enemy objects, although it may retaliate
+and return fire on the way. The supposed effect is that the associated </span><span
+lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will doggedly aspire to complete its assigned </span><span
+lang=EN-US style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Suicide=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> will execute orders regardless of enemy action and
+will not stop to engage in combat with enemy objects and will not retaliate or
+return fire. It will ignore </span><span lang=EN-GB style='font-family:"Courier New"'>Sight=</span><span
+lang=EN-GB style='font-family:Arial'> ranges and the </span><span lang=EN-GB
+style='font-family:"Courier New"'>GuardRange=</span><span lang=EN-GB
+style='font-family:Arial'> of any enemy objects and will not be recruited into
+any subsequently created </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> on the presumption that its associated </span><span
+lang=EN-US style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> will invariably lead to the destruction of the
+associated </span><span lang=EN-US style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Priority=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is used to
+determine the priority of this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> being chosen for creation when the AI is
+deciding what to do next. The lower the number, the greater the likelihood of
+the AI using this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> above others. For simplicity, Red Alert 2
+uses multiples of 5 for this setting (Tiberian Sun used multiples of 4) so it
+is best to stick with this convention although other values between 1 and 50
+can be used. Note that the setting of the </span><span lang=EN-GB
+style='font-family:"Courier New"'>SuspendPriority=</span><span lang=EN-GB
+style='font-family:Arial'> statement in RULES.INI uses this value to determine
+whether or not this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> will be suspended during base defense
+missions (see the <b>RULES.INI Guide</b> for more details).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Max=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This serves two
+purposes. Firstly, it serves as a trigger to create the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> - when set to '1', it will automatically be created
+by the AI regardless of whether or not it is already triggered for creation
+through an </span><span lang=EN-GB style='font-family:"Courier New"'>AITriggerType</span><span
+lang=EN-GB style='font-family:Arial'> or otherwise <i>only</i> if </span><span
+lang=EN-GB style='font-family:"Courier New"'>IsBaseDefense=no</span><span
+lang=EN-GB style='font-family:Arial'> is set for this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> (see below). Secondly, it serves to indicate the
+maximum number of instances of this </span><span lang=EN-GB style='font-family:
+"Courier New"'>TeamType</span><span lang=EN-GB style='font-family:Arial'> that
+can exist at the same time <i>only</i> if </span><span lang=EN-GB
+style='font-family:"Courier New"'>Autocreate=yes</span><span lang=EN-GB
+style='font-family:Arial'> has been set for this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> (see above).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is obsolete
+in Red Alert 2 and is unused. In previous C&amp;C games, this was used as a
+method of restricting AI auto production by determining the lowest </span><span
+lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span><span lang=EN-GB
+style='font-family:Arial'> at which this team could be employed by the AI,
+however the </span><span lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span><span
+lang=EN-GB style='font-family:Arial'> setting in Red Alert 2 has become all but
+obsolete as this can no longer be determined by players. Leave this set to its
+default of 0 (see the </span><span lang=EN-GB style='font-family:"Courier New"'>AITriggerTypes</span><span
+lang=EN-GB style='font-family:Arial'> section for a further explanation of how
+the </span><span lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span><span
+lang=EN-GB style='font-family:Arial'> setting is used by the AI as a result of
+a change in the game engine code for Red Alert 2) .</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Group=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This defines a
+specific grouping for the units in this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> which is used when executing its </span><span
+lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'>. This over-rides the </span><span lang=EN-GB
+style='font-family:"Courier New"'>Group=</span><span lang=EN-GB
+style='font-family:Arial'> setting in the associated </span><span lang=EN-GB
+style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'>. The following values can be used;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>-1                     Lose
+Transports - any transports are dissolved and do not execute the script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Lose
+Units, Lose Transports - all units dissolved, nothing executes the script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units, Keep Transports - all units retained and all execute the script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Lose
+Units, Keep Transports - only transports retained to execute script</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units Farthest - only units furthest away are retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Keep
+Units Nearest - only nearest units are retained</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>??                     Greatest
+Threat - group together at object posing greatest threat</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>-40094              Least
+Threat - group together at object posing least threat</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Tag=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used in map files
+only, this is used to determine which of the </span><span lang=EN-GB
+style='font-family:"Courier New"'>[Tags]</span><span lang=EN-GB
+style='font-family:Arial'> is attached to this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> if there is a map-specific </span><span lang=EN-GB
+style='font-family:"Courier New"'>Event</span><span lang=EN-GB
+style='font-family:Arial'> and </span><span lang=EN-GB style='font-family:"Courier New"'>Action</span><span
+lang=EN-GB style='font-family:Arial'> attached to it (e.g. it gets destroyed or
+should be created). See the <b>Map Editing Guide</b> for further details on</span><span
+lang=EN-GB style='font-family:"Courier New"'> [Tags]</span><span lang=EN-GB
+style='font-family:Arial'> and their use. This is not ordinarily used in
+AI.INI.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Waypoint=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used in map files
+only, this is used to determine the waypoint at which the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> is to appear. You should ensure that the waypoint
+you specify here is included in the </span><span lang=EN-GB style='font-family:
+"Courier New"'>[Waypoints]</span><span lang=EN-GB style='font-family:Arial'>section
+of the map file. See the <b>Map Editing Guide</b> for a detailed explanation of
+waypoints. This is not ordinarily used in AI.INI although its worth noting that
+Red Alert 2 assigns waypoint number 99 for the center of the map and waypoint
+numbers 0 - 7 to define the starting places for the 8 players in multiplayer
+maps.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>OnTransOnly=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should only execute its associated </span><span
+lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'> if that </span><span lang=EN-GB style='font-family:
+"Courier New"'>ScriptType</span><span lang=EN-GB style='font-family:Arial'>
+contains a 'load on transports' action. If that action is not successfully
+completed, the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is dissolved and the members of the
+associated </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'>  are made available for recruitment into
+further </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> . This is used to ensure that the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> only carries out its mission if it has a transport
+or can be transported (as it may depend upon it).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>TransportWaypoint=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used in map files
+only. Can be set to 'yes' or 'no' and specifies the waypoint at which the
+transport for this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is created if its at a separate place to
+the rest of the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>AvoidThreats=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> should take evasive action, meaning it will avoid,
+where possible, </span><span lang=EN-GB style='font-family:"Courier New"'>Sight=</span><span
+lang=EN-GB style='font-family:Arial'> ranges and the </span><span lang=EN-GB
+style='font-family:"Courier New"'>GuardRange=</span><span lang=EN-GB
+style='font-family:Arial'> of any enemy objects. If set to 'no', the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> will engage and return fire on any enemy objects it
+encounters during execution of its </span><span lang=EN-GB style='font-family:
+"Courier New"'>ScriptType</span><span lang=EN-GB style='font-family:Arial'>
+(if, of course, it is able to do so).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>IonImmune=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not members of the associated </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> are immune to the effects of Weather Storms. This is
+probably obsolete in Red Alert 2 as it is residual from Tiberian Sun, where the
+occurrence of an Ion Storm would instantly destroy any airborne objects - this
+tag would nullify that effect for this </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>TransportsReturnOnUnload=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not any transports within the
+associated </span><span lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span
+lang=EN-GB style='font-family:Arial'> should return to their point of origin
+upon deployment of their contents provided they have been released from that </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> by use of the 'dissolve transport' action or using
+an appropriate second parameter on the 'unload transports' action (see above).
+The purpose of this is primarily due to the fact that most transports are
+unarmed and thus unable to carry out any other mission, so by returning to
+their point of origin they are made immediately available for recruitment into
+further </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>AreTeamMembersRecruitable=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not members of the associated </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> are available to be recruited into further </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'> when they have completed the actions detailed in the
+associated </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'>. This is used because you can't actually
+recruit units that are already in a </span><span lang=EN-GB style='font-family:
+"Courier New"'>TeamType</span><span lang=EN-GB style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>IsBaseDefense=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Used mainly for
+'pool' teams (see </span><span lang=EN-GB style='font-family:"Courier New"'>AITriggerTypes</span><span
+lang=EN-GB style='font-family:Arial'>). Can be set to 'yes' or 'no' and determines
+whether or not this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> should assume a base defense mission
+based on the actions detailed in its associated </span><span lang=EN-GB
+style='font-family:"Courier New"'>ScriptType</span><span lang=EN-GB
+style='font-family:Arial'>. The number of </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'> which can be assigned to this at any one time is
+controlled by the </span><span lang=EN-GB style='font-family:"Courier New"'>MinimumAIDefensiveTeams=</span><span
+lang=EN-GB style='font-family:Arial'> and </span><span lang=EN-GB
+style='font-family:"Courier New"'>MaximumAIDefensiveTeams=</span><span
+lang=EN-GB style='font-family:Arial'> statements in RULES.INI (see the <b>RULES.INI
+Guide</b>). <b><span style='color:red'>TIP</span></b>: A </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> which has </span><span lang=EN-GB style='font-family:
+"Courier New"'>IsBaseDefense=</span><span lang=EN-GB style='font-family:Arial'>
+set to 'yes' will also rush to the aid of any units owned by the same </span><span
+lang=EN-GB style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'> which have </span><span lang=EN-GB style='font-family:
+"Courier New"'>ToProtect=yes</span><span lang=EN-GB style='font-family:Arial'>
+set (the only examples of this in Red Alert 2 are the Ore Miners).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>OnlyTargetHouseEnemy=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Can be set to
+'yes' or 'no' and determines whether or not members of the associated </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce</span><span lang=EN-GB
+style='font-family:Arial'> will also attack 'neutral' units (e.g. civilians or
+other objects belonging to a </span><span lang=EN-GB style='font-family:"Courier New"'>House=</span><span
+lang=EN-GB style='font-family:Arial'> with </span><span lang=EN-GB
+style='font-family:"Courier New"'>Side=Neutral</span><span lang=EN-GB
+style='font-family:Arial'> set) and consider such objects in its threat scan.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Script=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The unique
+identifier name used to determine the </span><span lang=EN-GB style='font-family:
+"Courier New"'>ScriptType</span><span lang=EN-GB style='font-family:Arial'> to
+use for this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> and should also be contained in the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[ScriptTypes]</span><span
+lang=EN-GB style='font-family:Arial'>list and have its own section defined.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>TaskForce=</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The unique
+identifier name used to determine the </span><span lang=EN-GB style='font-family:
+"Courier New"'>TaskForce</span><span lang=EN-GB style='font-family:Arial'> to
+use for this </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> and should also be contained in the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[TaskForces]</span><span
+lang=EN-GB style='font-family:Arial'>list and have its own section defined.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-size:12.0pt;font-family:
+Arial'>[AITriggerTypes]</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This section
+defines which of the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> should automatically be created in response
+to specific game events or other triggers in the game. Most of these are
+created by the AI in an attempt to ensure that it always deals with certain
+things, for example 'its a good idea to destroy an enemy Nuke Silo' or 'it
+would be good to capture or destroy the enemy Construction Yard'. In effect,
+this section is the very essence of the scripted AI.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This section also
+constitutes the full list of 'global' AI triggers used by the computer in
+single and multiplayer games. Individual map files can indicate whether or not
+this list should be used with use of the </span><span lang=EN-GB
+style='font-family:"Courier New"'>IgnoreGlobalAITriggers=</span><span
+lang=EN-GB style='font-family:Arial'> statement in their </span><span
+lang=EN-GB style='font-family:"Courier New"'>[Basic]</span><span lang=EN-GB
+style='font-family:Arial'> section (setting that to 'yes' means this list will
+not be used in games played on that map) and can also define their own AI
+triggers to be used <i>only</i> in games played on that map by including their
+own </span><span lang=EN-GB style='font-family:"Courier New"'>[AITriggerTypes] </span><span
+lang=EN-GB style='font-family:Arial'>section which simply appends the new ones
+to the end of this list. Additionally, map files can also specify which of
+these triggers should be used in games played on that map on an <i>individual </i>basis
+with use of the </span><span lang=EN-GB style='font-family:"Courier New"'>[AITriggerTypesEnable]</span><span
+lang=EN-GB style='font-family:Arial'> section which effectively allows each
+individual trigger to be enabled or disabled - this is used in Red Alert 2, for
+example, to ensure the AI makes use of Naval type attack forces on maps which
+have a high water content and does not try to attack with ground based units.
+See the <b>Map Editing Guide </b>for more details.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The section
+simply forms a list of each </span><span lang=EN-GB style='font-family:"Courier New"'>AITriggerType</span><span
+lang=EN-GB style='font-family:Arial'> and in a break with convention it is <i>not</i>
+numbered and each entry contains its own data. Note that this may partly be due
+to the fact that individual </span><span lang=EN-GB style='font-family:"Courier New"'>AITriggerTypes</span><span
+lang=EN-GB style='font-family:Arial'> listed here can each be enabled or
+disabled through map files (see the <b>Map Editing Guide</b>) so for example,
+the computer will not waste time and resources building a </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> specifically to capture your Construction Yard if
+you can't even acquire one in the mission.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Each entry takes
+the following format;-</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[ID]=
+A,B,C,D,E,F,G,XX.000000,YY.000000,ZZ.000000,X1,Y,X2,Z,H,D1,D2,D3</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>[ID]</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Takes the form of
+a hexadecimal numbered string which is the unique identifier for this </span><span
+lang=EN-GB style='font-family:"Courier New"'>AITriggerType.</span><span
+lang=EN-GB style='font-family:Arial'> DO NOT change this as the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[AITriggerTypesEnable] </span><span
+lang=EN-GB style='font-family:Arial'>section in most map files depends upon
+these values in order to enable/disable this particular </span><span
+lang=EN-GB style='font-family:"Courier New"'>AITriggerType</span><span
+lang=EN-GB style='font-family:Arial'> as required. If you want to add or modify
+one, copy an existing one and add it to the end of the list with a new ID.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>A = Name</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is simply a
+string name used for identification purposes only. In this section, you should
+leave this in.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>B =
+TeamType</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines which
+of the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span
+lang=EN-GB style='font-family:Arial'> should be used for the actions associated
+with this trigger. If a </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is not required then this should be set
+to </span><span lang=EN-GB style='font-family:"Courier New"'>&lt;none&gt;</span><span
+lang=EN-GB style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>C = Owner</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines which </span><span
+lang=EN-GB style='font-family:"Courier New"'>House</span><span lang=EN-GB
+style='font-family:Arial'> or </span><span lang=EN-GB style='font-family:"Courier New"'>Country</span><span
+lang=EN-GB style='font-family:Arial'> is associated with using this trigger.
+This is to ensure, for example, that Soviet armies do not use </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamTypes</span><span lang=EN-GB
+style='font-family:Arial'> containing Allied units and vice versa as this
+serves as an override to the </span><span lang=EN-GB style='font-family:"Courier New"'>Owner=
+</span><span lang=EN-GB style='font-family:Arial'>statement for each object in
+RULES.INI. You should set this to </span><span lang=EN-GB style='font-family:
+"Courier New"'>&lt;all&gt;</span><span lang=EN-GB style='font-family:Arial'> if
+it pertains to no particular or specific </span><span lang=EN-GB
+style='font-family:"Courier New"'>House=</span><span lang=EN-GB
+style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>D =
+TechLevel</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines the </span><span
+lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span><span lang=EN-GB
+style='font-family:Arial'> setting which is required in order for this trigger
+to be used. Although the </span><span lang=EN-GB style='font-family:"Courier New"'>TechLevel=
+</span><span lang=EN-GB style='font-family:Arial'>setting is partly useless to
+human players in Red Alert 2, this is used by the AI when it assembles </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForces</span><span lang=EN-GB
+style='font-family:Arial'>. The trigger will <i>only</i> be used when the AI
+has reached this </span><span lang=EN-GB style='font-family:"Courier New"'>TechLevel=</span><span
+lang=EN-GB style='font-family:Arial'> setting through construction of the
+required structures in its tech tree - setting this value below that required
+for a particular unit can often lead to the AI using units for which it has not
+met the </span><span lang=EN-GB style='font-family:"Courier New"'>Prerequisite=</span><span
+lang=EN-GB style='font-family:Arial'> requirements. It is best to set this to <i>at
+least</i> the setting required to build any units in the associated </span><span
+lang=EN-GB style='font-family:"Courier New"'>TaskForce(s)</span><span
+lang=EN-GB style='font-family:Arial'>.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>E =
+AITriggerType</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Holds the <i>type</i>
+of AI trigger. This holds values between 0 - 7 with '-1' representing a special
+case for 'pool' teams.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>-1         AI
+pool team trigger (autocreated thus not attached to the </span><span
+lang=EN-GB style='font-family:"Courier New"'>AIGenerals</span><span lang=EN-GB
+style='font-family:Arial'>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 0         trigger
+when <b>enemy</b> owns the </span><span lang=EN-GB style='font-family:"Courier New"'>Unit
+Type</span><span lang=EN-GB style='font-family:Arial'> or </span><span
+lang=EN-GB style='font-family:"Courier New"'>Tech Type</span><span lang=EN-GB
+style='font-family:Arial'> (min quantity specified by parameter <b>AABBCCDD</b>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 1         trigger
+when <b>computer</b> owns the </span><span lang=EN-GB style='font-family:"Courier New"'>Unit
+Type</span><span lang=EN-GB style='font-family:Arial'> or </span><span
+lang=EN-GB style='font-family:"Courier New"'>Tech Type</span><span lang=EN-GB
+style='font-family:Arial'> (min quantity specified by parameter <b>AABBCCDD</b>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 2         trigger
+when <b>enemy</b> has low power (power is in Yellow)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 3         trigger
+when <b>enemy</b> has low power (power is in Red)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 4         trigger
+based on number of Credits held by <b>enemy</b> (min quantity specified by
+parameter <b>AABBCCDD</b>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 5         trigger
+when Iron Curtain is charged to amount specified by </span><span lang=EN-GB
+style='font-family:"Courier New"'>AIMinorSuperReadyPercent=</span><span
+lang=EN-GB style='font-family:Arial'> in RULES.INI</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 6         trigger
+when Chronosphere is charged to amount specified by </span><span lang=EN-GB
+style='font-family:"Courier New"'>AIMinorSuperReadyPercent=</span><span
+lang=EN-GB style='font-family:Arial'> in RULES.INI</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'> 7         trigger
+when <b>neutral </b>owns the </span><span lang=EN-GB style='font-family:"Courier New"'>Unit
+Type</span><span lang=EN-GB style='font-family:Arial'> or </span><span
+lang=EN-GB style='font-family:"Courier New"'>Tech Type</span><span lang=EN-GB
+style='font-family:Arial'> (min quantity specified by parameter <b>AABBCCDD</b>)</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>TIP</span></b><span
+lang=EN-GB style='font-family:Arial'>: Use </span><span lang=EN-GB
+style='font-family:"Courier New"'>AI Trigger Type</span><span lang=EN-GB
+style='font-family:Arial'> number 4 to fire triggers based on the number of
+credits held by the player - this will add to the 'unpredictability' of the AI
+as it wont be creating a </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> based on the existence of something else.
+This will also allow you to target the player with most money (usually a sign
+of 'turtling') in which case destroying/capturing their refineries and hunting
+their Ore Miners as well as capturing Oil Derricks make good strategies for the
+AI. In Yuri's Revenge, this also makes a useful trigger for launching AI
+attacks with Floating Disks against Refineries.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>F = Tech
+Type</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines which
+object in the game will cause the AI to use this trigger. Should be any object
+from the </span><span lang=EN-GB style='font-family:"Courier New"'>[BuildingTypes]</span><span
+lang=EN-GB style='font-family:Arial'>,</span><span lang=EN-GB style='font-family:
+"Courier New"'>[InfantryTypes]</span><span lang=EN-GB style='font-family:Arial'>,</span><span
+lang=EN-GB style='font-family:"Courier New"'>[VehicleTypes]</span><span
+lang=EN-GB style='font-family:Arial'> or </span><span lang=EN-GB
+style='font-family:"Courier New"'>[AircraftTypes]</span><span lang=EN-GB
+style='font-family:Arial'>lists from RULES.INI. If the trigger is not fired
+based on a unit or tech type, </span><span lang=EN-GB style='font-family:"Courier New"'>&lt;none&gt;</span><span
+lang=EN-GB style='font-family:Arial'> should be used instead (one example is
+for the creation of 'pool' teams). <b><span style='color:red'>TIP</span></b>:
+If you want the AI to defend against a tank rush, make the trigger fire upon the
+existence of the enemy Weapons Factory rather than the tanks themselves - this
+means the AI will have its defense ready by the time the tanks hit it.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>G</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Determines what
+to do in response to the unit or tech type defined in parameter 'F' (above).
+Takes the following format;-</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:"Courier New"'>AABBCCDD-EEFFGGHH-</span></b><span
+lang=EN-GB style='font-family:"Courier New"'>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN-GB style='font-family:Arial'>AABBCCDD</span></b><span
+lang=EN-GB style='font-family:Arial'> holds a number (represented by 4 hex
+bytes, in reverse) for each subsequently specified condition that must be
+satisfied for the trigger to be fired.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN-GB style='font-family:Arial'>EEFFGGHH</span></b><span
+lang=EN-GB style='font-family:Arial'> holds a value between 0 and 5 and fires
+the trigger in response to one of the following condition types;-</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            5 = fire
+the trigger if not equal to </span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            4 = fire
+the trigger if greater than</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            3 = fire
+the trigger if greater than or equal to</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            2 = fire
+the trigger if equal to</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            1 = fire
+the trigger if less than or equal to</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang=EN-GB style='font-family:Arial'>            0 = fire
+the trigger if less than</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>If both numbers
+are set to '00000000', this signifies the creation of a 'pool' type team (see
+below).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>The long string
+of numbers represented by X's are usually all set to '0' - no exceptions to
+this have been observed and their use or significance has not been established.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>XX.000000
+= Weighted Probability</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This determines
+the percentage probability that this </span><span lang=EN-GB style='font-family:
+"Courier New"'>AITriggerType</span><span lang=EN-GB style='font-family:Arial'>
+will be used so that a weighted distribution of triggers is employed rather
+than all of them being executed one at a time as if in a list. High values such
+as 5000.000000 are used to ensure absolute certainty. The 'predictability' of
+the Red Alert 2 AI is due partly to the fact that the same values (10, 20, 40,
+50, 70, 500, 5000) are usually employed throughout the triggers.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>YY.000000
+= Minimum Weighted Probability</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This determines
+the <i>minimum</i> percentage probability that this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> will be used when amended by the <b>AI Trigger
+Weighting Parameters </b>in RULES.INI so that a weighted distribution of
+triggers is employed rather than all of them being executed one at a time as if
+in a list. High values such as 5000.000000 are used to ensure absolute
+certainty. The 'predictability' of the Red Alert 2 AI is due partly to the fact
+that the same values (10, 20, 40, 50, 70, 500, 5000) are usually employed
+throughout the triggers.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>ZZ.000000
+= Maximum Weighted Probability</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This determines
+the <i>maximum</i> percentage probability that this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> will be used when amended by the <b>AI Trigger
+Weighting Parameters </b>in RULES.INI so that a weighted distribution of
+triggers is employed rather than all of them being executed one at a time as if
+in a list. High values such as 5000.000000 are used to ensure absolute
+certainty. The 'predictability' of the Red Alert 2 AI is due partly to the fact
+that the same values (10, 20, 40, 50, 70, 500, 5000) are usually employed
+throughout the triggers.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>X1 =
+Skirmish Availability Flag</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This should be
+set to '1' if the trigger is to be made available to the computer in skirmish
+mode and '0' if not.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Y = Not
+Known</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Unknown but is
+always set to '0'. Possibly used to associate this trigger with a specific AI
+General although this is difficult to substantiate (see the </span><span
+lang=EN-GB style='font-family:"Courier New"'>[AIGenerals]</span><span
+lang=EN-GB style='font-family:Arial'> section of the <b>RULES.INI Guide</b> for
+more details).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>X2 = Side
+Ownership</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This value is
+what gives ownership of the trigger itself to a particular </span><span
+lang=EN-GB style='font-family:"Courier New"'>Side=</span><span lang=EN-GB
+style='font-family:Arial'>, since several </span><span lang=EN-GB
+style='font-family:"Courier New"'>Houses=</span><span lang=EN-GB
+style='font-family:Arial'> could belong to the same </span><span lang=EN-GB
+style='font-family:"Courier New"'>Side=</span><span lang=EN-GB
+style='font-family:Arial'>. This is what enables generic scripts to be used, for
+example any Soviet army to create Dogs to guard against Spies rather than, say,
+just Russia. This value should be set to 1 if this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> applies to an Allied army, '2' if it applies to a
+Soviet army and '3' if it applies to a Yuri army (in Yuri's Revenge only). <b><span
+style='color:red'>TIP</span></b>: Setting this parameter to '0' allows <i>any</i>
+AI controlled </span><span lang=EN-GB style='font-family:"Courier New"'>House=</span><span
+lang=EN-GB style='font-family:Arial'> or </span><span lang=EN-GB
+style='font-family:"Courier New"'>Side=</span><span lang=EN-GB
+style='font-family:Arial'> to use this trigger, regardless of the </span><span
+lang=EN-GB style='font-family:"Courier New"'>Owner=</span><span lang=EN-GB
+style='font-family:Arial'> setting on the units in the </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'>, meaning that <i>any</i> AI player could use the
+same trigger in the game.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>Z = Base
+Defense Flag</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This should be
+set to '1' if the trigger is used for AI base defense and '0' if not. Helps the
+AI to decide what to do when it adopts a specific behaviour dictated by the </span><span
+lang=EN-GB style='font-family:"Courier New"'>AIGenerals</span><span lang=EN-GB
+style='font-family:Arial'> (see the <b>RULES.INI Guide</b>) and also means the
+AI will create the associated </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> even if it has not yet chosen an enemy.
+This is also attached to the </span><span lang=EN-GB style='font-family:"Courier New"'>UseMinDefenseRule=</span><span
+lang=EN-GB style='font-family:Arial'> tag (see the <b>RULES.INI Guide</b>).</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>H =
+Support TeamType</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>This is what
+gives the AI some degree of 'smartness' - if the AI simply used the </span><span
+lang=EN-GB style='font-family:"Courier New"'>AITriggerTypes</span><span
+lang=EN-GB style='font-family:Arial'> without this, it would appear to be
+boring and predictable as all it would effectively be doing is sending a series
+of attacks at the players 'list fashion'. This second </span><span lang=EN-GB
+style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> is used if, for whatever reason, the first </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> comes under attack or is otherwise deemed as being
+likely to fail its associated </span><span lang=EN-GB style='font-family:"Courier New"'>ScriptType</span><span
+lang=EN-GB style='font-family:Arial'>. In that instance, this second </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> is despatched to support the first, either by
+eliminating the threat to it or by attacking something else in a bid to create
+a distraction. This second </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> is sometimes despatched prior to the
+first - for example the second </span><span lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span
+lang=EN-GB style='font-family:Arial'> could be instructed to destroy any AA
+defenses prior to the first being an air-ground assault. This is a much
+under-utilized feature which allows for the possibility of combined assaults on
+players. <b><span style='color:red'>TIP</span></b>: If you have a </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> which is performing a 'rush', give it a support </span><span
+lang=EN-GB style='font-family:"Courier New"'>TeamType</span><span lang=EN-GB
+style='font-family:Arial'> which can deal with any Aircraft or Base Defenses
+which may pose a threat to it thus rendering it useless.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>D1 =
+Difficulty #1</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Flag which should
+be set to 1 or 0 and indicates if this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> can be used on the easiest (or Easy) skill level
+setting in the game.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>D2 =
+Difficulty #2</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Flag which should
+be set to 1 or 0 and indicates if this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> can be used on the medium (or Normal) skill level
+setting in the game.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:"Courier New"'>D2 -
+Difficulty #3</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Flag which should
+be set to 1 or 0 and represents of this </span><span lang=EN-GB
+style='font-family:"Courier New"'>AITriggerType</span><span lang=EN-GB
+style='font-family:Arial'> can be used on the hardest (or Brutal) skill level
+setting in the game.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-36.0pt'><span
+lang=EN-GB style='font-family:Symbol'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><b><span lang=EN-GB style='font-size:12.0pt;font-family:Arial'>A
+Note On AI Pool Teams</span></b></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Its worth noting
+that the AI is frequently triggered to create 'pool' teams. These are teams
+which tend to be created based on time rather than any specific event (although
+some pool teams are still triggered for creation by events) - this is done
+automatically in skirmish mode by the 'autocreate' process </span><span
+lang=EN-US style='font-family:Arial'>with the frequency of this being
+controlled by the </span><span lang=EN-GB style='font-family:"Courier New"'>TeamDelays=</span><span
+lang=EN-US style='font-family:Arial'> statement in RULES.INI (see the <b>RULES.INI
+Guide</b>).</span><span lang=EN-GB style='font-family:Arial'> The members of
+these teams usually assume some default behaviour such as guarding the AI's
+base, and the main reason for their creation is simply to make units available
+for the AI so that it doesn't play the game in a scripted, linear fashion. Use
+of pool teams also ensures that, for example, the AI always has <i>something</i>
+with which to defend its base or guard its Ore Miners.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>Members of teams
+created as pool teams are also used to fill other teams (in other words they
+are 'recruitable') so that the AI does not always have to build every team from
+scratch. Whilst awaiting recruitment, the pool teams assume a default behaviour
+(usually defense) until any or all of their members individually or
+collectively are recruited to join another AI team that has a specific script
+to perform, although some members may never be recruited into another team.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>For those
+reasons, it is always well worth ensuring that you have the AI create quite a
+few pool teams, otherwise you will find its actions slow and infrequent as it
+will have to build almost every team from scratch.</span></p>
+
+<p class=MsoNormal><span lang=EN-GB style='font-family:Arial'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span lang=EN-GB style='font-family:Arial;color:red'>TIP</span></b><span
+lang=EN-GB style='font-family:Arial'>: its well worth putting pool teams into a
+default mission of 'Guard' rather than 'Guard Area', as teams in a 'Guard Area'
+mission are <i>not</i> recruited 'from the field'  when making new teams (see
+the note above under the relevant script action). This will also speed the game
+up a little as 'Guard' requires less processor time than 'Guard Area'. Exploit
+the autocreation of 'pool' teams - you don't <i>have</i> to put these teams
+into a generic mission such as base defense - you could, for example, make an
+autocreated pool team that simply attacks the enemies Construction Yard or
+hunts enemy Ore Miners. The autocreate process for pool teams means that the AI
+will always conduct such attacks at regular intervals with the pool team you
+have defined.</span></p>
+
+</div>
+
+</body>
+
+</html>

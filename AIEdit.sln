@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIEdit", "AIEdit.csproj", "{D2B468E1-CE12-47CC-9935-07548E0ABE8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2B468E1-CE12-47CC-9935-07548E0ABE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B468E1-CE12-47CC-9935-07548E0ABE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B468E1-CE12-47CC-9935-07548E0ABE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B468E1-CE12-47CC-9935-07548E0ABE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
