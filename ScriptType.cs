@@ -115,7 +115,7 @@ namespace AIEdit
         /// </summary>
         public class ScriptAction
         {
-            private static int[] offsets = { 0, 65534, 131072, 196608 };
+			private static int[] offsets = { 0, 65536, 131072, 196608 };
             private int action, param, offset;
 
             public ScriptAction(int action, int param)
@@ -134,11 +134,17 @@ namespace AIEdit
 			// annoying special case buildingtype offsets.
             private int CheckOffset(int n)
             {
-                if (n >= 196608) offset = 3;
-                else if (n >= 131072) offset = 2;
-                else if (n >= 65535) offset = 1;
-                else offset = 0;
-                return n - offsets[offset];
+				for (int i = offsets.Length - 1; i >= 0 ; i--)
+				{
+					int of = offsets[i];
+					if (n >= of)
+					{
+						this.offset = i;
+						return n - of;
+					}
+				}
+				this.offset = 0;
+				return n;
             }
 
             public void Write(StreamWriter stream, int index)

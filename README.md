@@ -17,6 +17,9 @@ Known issues
 Changelog
 =========
 
+v1.02
+- Offset fixed for real now (supposed to be 65536).
+
 v1.01
 - Fixed offset 65535.
 - License changed to GPLv3 which previously was LGPL by mistake.
