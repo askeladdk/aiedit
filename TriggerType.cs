@@ -82,9 +82,11 @@ namespace AIEdit
             techlevel = int.Parse(split[3]);
             condition = int.Parse(split[4]);
             techtype = split[5];
-
-            amount = HexToInt(split[6], 0);
-            oper = HexToInt(split[6], 8);
+			
+			string s_amount = split[6].Substring(0, 8);
+			this.amount = (int)SwapEndianness( Convert.ToUInt32(s_amount, 16) );
+			string s_oper = split[6].Substring(8, 8);
+			this.oper = (int)SwapEndianness( Convert.ToUInt32(s_oper, 16) );
 
             prob = DecToInt(split[7]);
             probmin = DecToInt(split[8]);
@@ -106,8 +108,11 @@ namespace AIEdit
             stream.Write(techlevel.ToString() + ',' + condition.ToString() + ',');
             stream.Write(techtype + ',');
 
-            stream.Write(ToBigEndianStr((uint)amount));
-            stream.Write(ToBigEndianStr((uint)oper));
+			byte[] b_amount = BitConverter.GetBytes((uint)amount);
+			byte[] b_oper = BitConverter.GetBytes((uint)oper);
+			stream.Write( BitConverter.ToString(b_amount).Replace("-", "").ToLower() );
+			stream.Write( BitConverter.ToString(b_oper).Replace("-", "").ToLower() );
+
             stream.Write("000000000000000000000000000000000000000000000000,"); //000000,");
 
             stream.Write(prob.ToString() + ".000000,");
@@ -123,22 +128,13 @@ namespace AIEdit
             stream.WriteLine(options[2] ? '1' : '0');
         }
 
-        private string ByteToHex(uint b)
-        {
-            if (b < 16) return "0" + (char)('0' + b);
-            else return b.ToString("X");
-        }
-
-        private string ToBigEndianStr(uint hex)
-        {
-            string s = "";
-
-            s += ByteToHex(hex & 0x000000ff);
-            s += ByteToHex((hex & 0x0000ff00) >> 8);
-            s += ByteToHex((hex & 0x00ff0000) >> 16);
-            s += ByteToHex((hex & 0xff000000) >> 24);
-            return s;
-        }
+		private uint SwapEndianness(uint x)
+		{
+			return ((x & 0x000000ff) << 24) +
+			       ((x & 0x0000ff00) << 8) +
+			       ((x & 0x00ff0000) >> 8) +
+			       ((x & 0xff000000) >> 24);
+		}
 
         private int DecToInt(string s)
         {
@@ -146,28 +142,7 @@ namespace AIEdit
             string s2 = s.Substring(0, dot);
             return int.Parse(s2);
         }
-
-        private int HexToInt(char c)
-        {
-            if (c >= '0' && c <= '9') return (int)c - '0';
-            else if (c >= 'A' && c <= 'F') return (int)c - 'A';
-            else if (c >= 'a' && c <= 'f') return (int)c - 'a';
-            else return 0;
-        }
-
-        private int HexToInt(string s, int start)
-        {
-            int total = 0, shift = 0;
-            int max = start + 8;
-
-            for (int i = start; i < max; i += 2)
-            {
-                total += ((HexToInt(s[i]) << 4) + HexToInt(s[i + 1])) << shift;
-                shift += 8;
-            }
-            return total;
-        }
-
+		
         public string Owner { get { return owner; } set { owner = value; } }
         public string TeamType { get { return teamtype; } set { teamtype = value; } }
         public string TeamType2 { get { return teamtype2; } set { teamtype2 = value; } }

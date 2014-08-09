@@ -115,7 +115,7 @@ namespace AIEdit
         /// </summary>
         public class ScriptAction
         {
-			private static int[] offsets = { 0, 65536, 131072, 196608 };
+			private static int[] offsets = { 0, 65536, 131072, 196608, 262144 };
             private int action, param, offset;
 
             public ScriptAction(int action, int param)

@@ -74,12 +74,14 @@ namespace AIEdit
             if (tt.Name == null) tt.Name = tt.ID;
             tt.ScriptType = (string)ip.Table["Script"];
             tt.TaskForce = (string)ip.Table["TaskForce"];
+			tt.House = (string)ip.Table["House"];
 
             // Integer settings.
             tt.Max = ToInt((string)ip.Table["Max"]);
             tt.MCDecision = ToInt((string)ip.Table["MindControlDecision"]);
             tt.Priority = ToInt((string)ip.Table["Priority"]);
             tt.VeteranLevel = ToInt((string)ip.Table["VeteranLevel"]);
+			tt.Group = ToInt( (string)ip.Table["Group"] );
 
             // Boolean settings.
             tt[TTSetting.Aggressive] = ToBool((string)ip.Table["Aggressive"]);

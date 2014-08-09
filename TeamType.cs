@@ -33,7 +33,7 @@ namespace AIEdit
     class TeamType : IAIObject
     {
         private bool[] settings;
-        private string name, id, scriptid, taskid;
+        private string name, id, scriptid, taskid, house;
         private int priority, max, group, mcdecision, vetlvl, techlevel;
         private int index;
 
@@ -47,6 +47,7 @@ namespace AIEdit
             id = "";
             scriptid = "<none>";
             taskid = "<none>";
+			house = "<none>";
             priority = 0;
             max = 0;
             group = -1;
@@ -66,6 +67,7 @@ namespace AIEdit
             name = (string)tt.name.Clone();//tt.name + " " + id;
             scriptid = (string)tt.scriptid.Clone();
             taskid = (string)tt.taskid.Clone();
+			house = (string)tt.house.Clone();
             priority = tt.priority;
             max = tt.max;
             group = tt.group;
@@ -81,32 +83,32 @@ namespace AIEdit
             stream.WriteLine("Name=" + name);
             stream.WriteLine("VeteranLevel=" + vetlvl.ToString());
             stream.WriteLine("MindControlDecision=" + mcdecision.ToString());
-            stream.WriteLine("Loadable=" + ToStr(this[10]));
-            stream.WriteLine("Full=" + ToStr(this[6]));
-            stream.WriteLine("Annoyance=" + ToStr(this[1]));
-            stream.WriteLine("GuardSlower=" + ToStr(this[7]));
-            stream.WriteLine("House=<none>");
-            stream.WriteLine("Recruiter=" + ToStr(this[15]));
-            stream.WriteLine("Autocreate=" + ToStr(this[3]));
-            stream.WriteLine("Prebuild=" + ToStr(this[14]));
-            stream.WriteLine("Reinforce=" + ToStr(this[16]));
-            stream.WriteLine("Droppod=" + ToStr(this[5]));
-            stream.WriteLine("UseTransportOrigin=" + ToStr(this[19]));
-            stream.WriteLine("Whiner=" + ToStr(this[20]));
-            stream.WriteLine("LooseRecruit=" + ToStr(this[11]));
-            stream.WriteLine("Aggressive=" + ToStr(this[0]));
-            stream.WriteLine("Suicide=" + ToStr(this[17]));
+            stream.WriteLine("Loadable=" + ToStr(this[TTSetting.Loadable]));
+            stream.WriteLine("Full=" + ToStr(this[TTSetting.Full]));
+            stream.WriteLine("Annoyance=" + ToStr(this[TTSetting.Annoyance]));
+            stream.WriteLine("GuardSlower=" + ToStr(this[TTSetting.GuardSlower]));
+            stream.WriteLine("House=" + this.house);
+            stream.WriteLine("Recruiter=" + ToStr(this[TTSetting.Recruiter]));
+            stream.WriteLine("Autocreate=" + ToStr(this[TTSetting.Autocreate]));
+            stream.WriteLine("Prebuild=" + ToStr(this[TTSetting.Prebuild]));
+            stream.WriteLine("Reinforce=" + ToStr(this[TTSetting.Reinforce]));
+            stream.WriteLine("Droppod=" + ToStr(this[TTSetting.Droppod]));
+            stream.WriteLine("UseTransportOrigin=" + ToStr(this[TTSetting.UseTransportOrigin]));
+            stream.WriteLine("Whiner=" + ToStr(this[TTSetting.Whiner]));
+            stream.WriteLine("LooseRecruit=" + ToStr(this[TTSetting.LooseRecruit]));
+            stream.WriteLine("Aggressive=" + ToStr(this[TTSetting.Aggressive]));
+            stream.WriteLine("Suicide=" + ToStr(this[TTSetting.Suicide]));
             stream.WriteLine("Priority=" + priority.ToString());
             stream.WriteLine("Max=" + max.ToString());
             stream.WriteLine("TechLevel=" + techlevel.ToString());
             stream.WriteLine("Group=" + group.ToString());
-            stream.WriteLine("OnTransOnly=" + ToStr(this[13]));
-            stream.WriteLine("AvoidThreats=" + ToStr(this[4]));
-            stream.WriteLine("IonImmune=" + ToStr(this[8]));
-            stream.WriteLine("TransportsReturnOnUnload=" + ToStr(this[18]));
-            stream.WriteLine("AreTeamMembersRecruitable=" + ToStr(this[2]));
-            stream.WriteLine("IsBaseDefense=" + ToStr(this[9]));
-            stream.WriteLine("OnlyTargetHouseEnemy=" + ToStr(this[12]));
+            stream.WriteLine("OnTransOnly=" + ToStr(this[TTSetting.OnTransOnly]));
+            stream.WriteLine("AvoidThreats=" + ToStr(this[TTSetting.AvoidThreats]));
+            stream.WriteLine("IonImmune=" + ToStr(this[TTSetting.IonImmune]));
+            stream.WriteLine("TransportsReturnOnUnload=" + ToStr(this[TTSetting.TransportsReturnOnUnload]));
+            stream.WriteLine("AreTeamMembersRecruitable=" + ToStr(this[TTSetting.AreTeamMembersRecruitable]));
+            stream.WriteLine("IsBaseDefense=" + ToStr(this[TTSetting.IsBaseDefense]));
+            stream.WriteLine("OnlyTargetHouseEnemy=" + ToStr(this[TTSetting.OnlyTargetHouseEnemy]));
             stream.WriteLine("Script=" + scriptid);
             stream.WriteLine("TaskForce=" + taskid);
 
@@ -115,12 +117,12 @@ namespace AIEdit
 
         private string ToStr(bool b)
         {
-            if (b) return "yes";
-            return "no";
+			return b ? "yes" : "no";
         }
 
         public string ScriptType { get { return scriptid; } set { scriptid = value; } }
         public string TaskForce { get { return taskid; } set { taskid = value; } }
+        public string House { get { return house; } set { house = value; } }
         public int Priority { get { return priority; } set { priority = value; } }
         public int Max { get { return max; } set { max = value; } }
         public int Group { get { return group; } set { group = value; } }

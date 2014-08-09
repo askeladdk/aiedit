@@ -13,7 +13,7 @@ namespace AIEdit
         public HouseList()
         {
             houses = new ArrayList();
-            houses.Add("<all>");
+            //houses.Add("<all>");
         }
 
         public void Read(string file)
@@ -23,10 +23,12 @@ namespace AIEdit
 
             while(ip.Next())
             {
-                if (ip.Section.CompareTo("Countries") == 0)
+                if( (ip.Section.CompareTo("Countries") == 0) ||
+					(ip.Section.CompareTo("Houses") == 0) )
                 {
                     ip.Parse();
                     foreach (string s in ip.Table.Values) houses.Add(s);
+					break;
                 }
                 else ip.Skip();
             }
