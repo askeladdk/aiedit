@@ -5,7 +5,7 @@ Editor for Red Alert 2 and Tiberium Sun AI.ini files.
 
 Deezire's AI guide is included in case you need help figuring out what's what. The program usage itself should be self explanatory.
 
-The files strings_ra2.ini and strings_ts.ini contain the correct settings for vanilla RA2 and TS respectively, but they can be edited to support your own mod.
+The config directory contains two ini files with the correct configuration for vanilla RA2 and TS. These files can be edited to support your own mod.
 
 Known issues
 ============
@@ -23,6 +23,7 @@ v1.03
 - Can now load AI in TS or RA2 mode.
 - TeamTypes House= tags are now editable since it is used in TS.
 - Enlarged the editor window.
+- Separated config in two files for RA2 and TS.
 - Lowered platform requirements to .NET 2.0.
 - Bugfix: Building offset 262144 added.
 - Bugfix: Group= tags on TaskForces and TeamTypes are now correctly loaded and saved.

@@ -693,19 +693,19 @@ namespace AIEdit
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(131, 314);
+			this.label1.Location = new System.Drawing.Point(16, 316);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(159, 13);
+			this.label1.Size = new System.Drawing.Size(180, 13);
 			this.label1.TabIndex = 23;
-			this.label1.Text = "Offset (only used for BuildTypes)";
+			this.label1.Text = "Offset (only used with BuildingTypes)";
 			// 
 			// cmbSTAOffset
 			// 
 			this.cmbSTAOffset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbSTAOffset.FormattingEnabled = true;
-			this.cmbSTAOffset.Location = new System.Drawing.Point(304, 312);
+			this.cmbSTAOffset.Location = new System.Drawing.Point(208, 312);
 			this.cmbSTAOffset.Name = "cmbSTAOffset";
-			this.cmbSTAOffset.Size = new System.Drawing.Size(121, 21);
+			this.cmbSTAOffset.Size = new System.Drawing.Size(217, 21);
 			this.cmbSTAOffset.TabIndex = 22;
 			this.cmbSTAOffset.SelectedIndexChanged += new System.EventHandler(this.cmbSTAOffset_SelectedIndexChanged);
 			// 
@@ -1555,7 +1555,7 @@ namespace AIEdit
 			// 
 			this.mnuLoadAI.Enabled = false;
 			this.mnuLoadAI.Index = 1;
-			this.mnuLoadAI.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
+			this.mnuLoadAI.Shortcut = System.Windows.Forms.Shortcut.CtrlA;
 			this.mnuLoadAI.Text = "Load &AI";
 			this.mnuLoadAI.Click += new System.EventHandler(this.mnuLoadAI_Click);
 			// 
@@ -1736,7 +1736,8 @@ namespace AIEdit
 
             if (!settings.Load(string_file))
             {
-                MessageBox.Show("Failed to open strings.ini, this file must be placed in the same directory as AIEdit.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to open configuration file!", "Error",
+					MessageBoxButtons.OK, MessageBoxIcon.Error);
                 mnuLoadRules.Enabled = false;
                 mnuSaveAI.Enabled = false;
                 Application.Exit();
@@ -2925,7 +2926,8 @@ namespace AIEdit
         /// <param name="e"></param>
         private void mnuClear_Click(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("Are you sure?", "Clear all data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			DialogResult res = MessageBox.Show("Are you sure? Changes will not be saved.",
+				"Clear all data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             
             if (res == DialogResult.Yes) ResetAll();
         }
@@ -3076,12 +3078,12 @@ namespace AIEdit
 
 		private void mnuLoadRulesRA2_Click(object sender, EventArgs e)
 		{
-			LoadRulesStrings("strings.ini");
+			LoadRulesStrings("config/ra2.ini");
 		}
 
 		private void mnuLoadRulesTS_Click(object sender, EventArgs e)
 		{
-			LoadRulesStrings("strings_ts.ini");
+			LoadRulesStrings("config/ts.ini");
 		}
 	}
 }
