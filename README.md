@@ -1,7 +1,7 @@
 AIEdit
 ======
 
-Editor for Red Alert 2 and Tiberium Sun AI.ini files.
+Editor for Red Alert 2 and Tiberian Sun AI.ini files.
 
 Deezire's AI guide is included in case you need help figuring out what's what. The program usage itself should be self explanatory.
 
@@ -14,10 +14,13 @@ Known issues
 
 - The editor also crashes if any AI Type contains references to units or buildings that do not exist in the rules.ini.
 
-- All technotypes must have a unique name (Name= tag) or the editor will not be able to correctly differentiate them.
-
 Changelog
 =========
+
+v1.04
+- TechnoType names now also display ID to differentiate ones with the same name.
+- Editor warns if TaskForce contains reference to unit not in rules.
+- Minor edit to TS config Conditions.
 
 v1.03
 - Can now load AI in TS or RA2 mode.

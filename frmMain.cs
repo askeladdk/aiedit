@@ -323,6 +323,8 @@ namespace AIEdit
 			this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
 			this.mnuFile = new System.Windows.Forms.MenuItem();
 			this.mnuLoadRules = new System.Windows.Forms.MenuItem();
+			this.mnuLoadRulesRA2 = new System.Windows.Forms.MenuItem();
+			this.mnuLoadRulesTS = new System.Windows.Forms.MenuItem();
 			this.mnuLoadAI = new System.Windows.Forms.MenuItem();
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.mnuSaveAI = new System.Windows.Forms.MenuItem();
@@ -337,8 +339,6 @@ namespace AIEdit
 			this.panelStatus = new System.Windows.Forms.StatusBarPanel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.mnuLoadRulesRA2 = new System.Windows.Forms.MenuItem();
-			this.mnuLoadRulesTS = new System.Windows.Forms.MenuItem();
 			this.tabControl1.SuspendLayout();
 			this.tabTaskForces.SuspendLayout();
 			this.grpTF.SuspendLayout();
@@ -662,7 +662,7 @@ namespace AIEdit
 			// 
 			// btnSTAUp
 			// 
-			this.btnSTAUp.Location = new System.Drawing.Point(14, 339);
+			this.btnSTAUp.Location = new System.Drawing.Point(11, 339);
 			this.btnSTAUp.Name = "btnSTAUp";
 			this.btnSTAUp.Size = new System.Drawing.Size(64, 23);
 			this.btnSTAUp.TabIndex = 26;
@@ -672,7 +672,7 @@ namespace AIEdit
 			// 
 			// btnSTADown
 			// 
-			this.btnSTADown.Location = new System.Drawing.Point(84, 339);
+			this.btnSTADown.Location = new System.Drawing.Point(81, 339);
 			this.btnSTADown.Name = "btnSTADown";
 			this.btnSTADown.Size = new System.Drawing.Size(64, 23);
 			this.btnSTADown.TabIndex = 25;
@@ -682,7 +682,7 @@ namespace AIEdit
 			// 
 			// btnSTAInsert
 			// 
-			this.btnSTAInsert.Location = new System.Drawing.Point(154, 339);
+			this.btnSTAInsert.Location = new System.Drawing.Point(151, 339);
 			this.btnSTAInsert.Name = "btnSTAInsert";
 			this.btnSTAInsert.Size = new System.Drawing.Size(64, 23);
 			this.btnSTAInsert.TabIndex = 24;
@@ -711,7 +711,7 @@ namespace AIEdit
 			// 
 			// btnSTAAdd
 			// 
-			this.btnSTAAdd.Location = new System.Drawing.Point(224, 339);
+			this.btnSTAAdd.Location = new System.Drawing.Point(221, 339);
 			this.btnSTAAdd.Name = "btnSTAAdd";
 			this.btnSTAAdd.Size = new System.Drawing.Size(64, 23);
 			this.btnSTAAdd.TabIndex = 21;
@@ -721,7 +721,7 @@ namespace AIEdit
 			// 
 			// btnSTAModify
 			// 
-			this.btnSTAModify.Location = new System.Drawing.Point(363, 339);
+			this.btnSTAModify.Location = new System.Drawing.Point(360, 339);
 			this.btnSTAModify.Name = "btnSTAModify";
 			this.btnSTAModify.Size = new System.Drawing.Size(64, 23);
 			this.btnSTAModify.TabIndex = 20;
@@ -731,7 +731,7 @@ namespace AIEdit
 			// 
 			// btnSTARemove
 			// 
-			this.btnSTARemove.Location = new System.Drawing.Point(294, 339);
+			this.btnSTARemove.Location = new System.Drawing.Point(291, 339);
 			this.btnSTARemove.Name = "btnSTARemove";
 			this.btnSTARemove.Size = new System.Drawing.Size(64, 23);
 			this.btnSTARemove.TabIndex = 19;
@@ -1342,27 +1342,27 @@ namespace AIEdit
 			this.label17.AutoSize = true;
 			this.label17.Location = new System.Drawing.Point(12, 288);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(102, 13);
+			this.label17.Size = new System.Drawing.Size(88, 13);
 			this.label17.TabIndex = 17;
-			this.label17.Text = "Maximum Probability";
+			this.label17.Text = "Maximum Weight";
 			// 
 			// label16
 			// 
 			this.label16.AutoSize = true;
 			this.label16.Location = new System.Drawing.Point(12, 262);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(99, 13);
+			this.label16.Size = new System.Drawing.Size(85, 13);
 			this.label16.TabIndex = 16;
-			this.label16.Text = "Minimum Probability";
+			this.label16.Text = "Minimum Weight";
 			// 
 			// label15
 			// 
 			this.label15.AutoSize = true;
 			this.label15.Location = new System.Drawing.Point(12, 236);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(104, 13);
+			this.label15.Size = new System.Drawing.Size(80, 13);
 			this.label15.TabIndex = 15;
-			this.label15.Text = "Weighted Probability";
+			this.label15.Text = "Starting Weight";
 			// 
 			// numTrProbMax
 			// 
@@ -1440,9 +1440,9 @@ namespace AIEdit
 			this.label12.AutoSize = true;
 			this.label12.Location = new System.Drawing.Point(12, 156);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(78, 13);
+			this.label12.Size = new System.Drawing.Size(81, 13);
 			this.label12.TabIndex = 7;
-			this.label12.Text = "Trigger when...";
+			this.label12.Text = "Trigger when ...";
 			// 
 			// cmbTrCondition
 			// 
@@ -1551,6 +1551,20 @@ namespace AIEdit
             this.mnuLoadRulesTS});
 			this.mnuLoadRules.Text = "Load &Rules";
 			// 
+			// mnuLoadRulesRA2
+			// 
+			this.mnuLoadRulesRA2.Index = 0;
+			this.mnuLoadRulesRA2.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
+			this.mnuLoadRulesRA2.Text = "Red Alert 2";
+			this.mnuLoadRulesRA2.Click += new System.EventHandler(this.mnuLoadRulesRA2_Click);
+			// 
+			// mnuLoadRulesTS
+			// 
+			this.mnuLoadRulesTS.Index = 1;
+			this.mnuLoadRulesTS.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
+			this.mnuLoadRulesTS.Text = "Tiberian Sun";
+			this.mnuLoadRulesTS.Click += new System.EventHandler(this.mnuLoadRulesTS_Click);
+			// 
 			// mnuLoadAI
 			// 
 			this.mnuLoadAI.Enabled = false;
@@ -1628,20 +1642,6 @@ namespace AIEdit
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
-			// 
-			// mnuLoadRulesRA2
-			// 
-			this.mnuLoadRulesRA2.Index = 0;
-			this.mnuLoadRulesRA2.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
-			this.mnuLoadRulesRA2.Text = "Red Alert 2";
-			this.mnuLoadRulesRA2.Click += new System.EventHandler(this.mnuLoadRulesRA2_Click);
-			// 
-			// mnuLoadRulesTS
-			// 
-			this.mnuLoadRulesTS.Index = 1;
-			this.mnuLoadRulesTS.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
-			this.mnuLoadRulesTS.Text = "Tiberium Sun";
-			this.mnuLoadRulesTS.Click += new System.EventHandler(this.mnuLoadRulesTS_Click);
 			// 
 			// frmMain
 			// 
@@ -1805,7 +1805,7 @@ namespace AIEdit
 		private void AddTechnoInfo(ListBox lst, TechnoType tt)
 		{
 			lst.Items.Clear();
-            lstTFInfo.Items.Add("ID: " + tt.ID);
+            //lstTFInfo.Items.Add("ID: " + tt.ID);
 			lstTFInfo.Items.Add("Owner: " + tt.Owner);
 			lstTFInfo.Items.Add("Cost: " + tt.Cost);
 		}
@@ -1837,6 +1837,20 @@ namespace AIEdit
             foreach (TaskForce.TFUnit unit in selectedtf.Units)
             {
                 TechnoType tt = rules.GetByID(unit.ID);
+
+				if(tt == null)
+				{
+					MessageBox.Show("Unit " + unit.ID + " does not exist in the rules!",
+						"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					TechnoType newtt = new TechnoType();
+					newtt.ID = unit.ID;
+					newtt.Name = "[" + unit.ID + "]";
+					newtt.Owner = "?";
+					newtt.Cost = 0;
+					rules.InsertType(Rules.Types.Units, newtt);
+					tt = newtt;
+				}
+				
                 string[] a = { tt.Name, unit.Count.ToString() };
                 lstTFUnits.Items.Add(new ListViewItem(a));
             }

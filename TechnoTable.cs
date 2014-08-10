@@ -39,7 +39,14 @@ namespace AIEdit
             ip.Parse();
             name = (string)ip.Table["Name"];
 
-            if (name == null || name.Length == 0) name = id;
+            if (name == null || name.Length == 0)
+			{
+				name = "[" + id + "]";
+			}
+			else
+			{
+				name = name + " [" + id + "]";
+			}
 
             // Save properties.
             tt.ID = id;

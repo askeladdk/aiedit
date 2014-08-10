@@ -90,5 +90,10 @@ namespace AIEdit
 			r = (string[])al.ToArray(typeof(string));
 			return r;
 		}
+
+		public void InsertType(Types typetype, TechnoType type)
+		{
+			types[0].Add(type.ID, type);
+		}
 	}
 }
