@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("AIEdit")]
-[assembly: AssemblyDescription("AI Editor for RA2/YR and TS")]
+[assembly: AssemblyDescription("AI Editor for RA2 and TS")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Askeladd")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Askeladd")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -56,4 +56,4 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersionAttribute("1.0.4")]
+[assembly: AssemblyFileVersionAttribute("1.0.5")]

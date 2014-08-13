@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
+using System.Reflection;
 
 /*
  * *************************
@@ -165,6 +166,10 @@ namespace AIEdit
 		private Label label21;
 		private MenuItem mnuLoadRulesRA2;
 		private MenuItem mnuLoadRulesTS;
+		private Button btnTTScript;
+		private Button btnTTTaskForce;
+		private Button btnTrTeam1;
+		private Button btnTrTeam2;
         private IContainer components;
 
 		public frmMain()
@@ -184,6 +189,9 @@ namespace AIEdit
             openFileDialog1.FileName = "";
             saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
             openFileDialog1.FileName = "";
+
+			// set the window icon to the app's icon.
+			this.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
 		}
 
 		/// <summary>
@@ -259,6 +267,8 @@ namespace AIEdit
 			this.txtTTName = new System.Windows.Forms.TextBox();
 			this.btnTTCopy = new System.Windows.Forms.Button();
 			this.grpTT = new System.Windows.Forms.GroupBox();
+			this.btnTTTaskForce = new System.Windows.Forms.Button();
+			this.btnTTScript = new System.Windows.Forms.Button();
 			this.cmbTTHouse = new System.Windows.Forms.ComboBox();
 			this.label21 = new System.Windows.Forms.Label();
 			this.numTTTechLevel = new System.Windows.Forms.NumericUpDown();
@@ -293,6 +303,8 @@ namespace AIEdit
 			this.btnTrRemove = new System.Windows.Forms.Button();
 			this.btnTrNew = new System.Windows.Forms.Button();
 			this.grpTr = new System.Windows.Forms.GroupBox();
+			this.btnTrTeam2 = new System.Windows.Forms.Button();
+			this.btnTrTeam1 = new System.Windows.Forms.Button();
 			this.lblTrTeam2 = new System.Windows.Forms.Label();
 			this.lblTrTeam = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
@@ -371,7 +383,7 @@ namespace AIEdit
 			this.tabControl1.Location = new System.Drawing.Point(0, 0);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(788, 501);
+			this.tabControl1.Size = new System.Drawing.Size(788, 495);
 			this.tabControl1.TabIndex = 0;
 			// 
 			// tabTaskForces
@@ -386,7 +398,7 @@ namespace AIEdit
 			this.tabTaskForces.Controls.Add(this.grpTF);
 			this.tabTaskForces.Location = new System.Drawing.Point(4, 22);
 			this.tabTaskForces.Name = "tabTaskForces";
-			this.tabTaskForces.Size = new System.Drawing.Size(780, 475);
+			this.tabTaskForces.Size = new System.Drawing.Size(780, 469);
 			this.tabTaskForces.TabIndex = 0;
 			this.tabTaskForces.Text = "TaskForces";
 			// 
@@ -575,7 +587,7 @@ namespace AIEdit
 			this.tabScriptTypes.Controls.Add(this.lstST);
 			this.tabScriptTypes.Location = new System.Drawing.Point(4, 22);
 			this.tabScriptTypes.Name = "tabScriptTypes";
-			this.tabScriptTypes.Size = new System.Drawing.Size(780, 475);
+			this.tabScriptTypes.Size = new System.Drawing.Size(780, 454);
 			this.tabScriptTypes.TabIndex = 2;
 			this.tabScriptTypes.Text = "ScriptTypes";
 			// 
@@ -832,7 +844,7 @@ namespace AIEdit
 			this.tabTeamTypes.Controls.Add(this.btnTTNew);
 			this.tabTeamTypes.Location = new System.Drawing.Point(4, 22);
 			this.tabTeamTypes.Name = "tabTeamTypes";
-			this.tabTeamTypes.Size = new System.Drawing.Size(780, 475);
+			this.tabTeamTypes.Size = new System.Drawing.Size(780, 454);
 			this.tabTeamTypes.TabIndex = 1;
 			this.tabTeamTypes.Text = "TeamTypes";
 			// 
@@ -856,6 +868,8 @@ namespace AIEdit
 			// 
 			// grpTT
 			// 
+			this.grpTT.Controls.Add(this.btnTTTaskForce);
+			this.grpTT.Controls.Add(this.btnTTScript);
 			this.grpTT.Controls.Add(this.cmbTTHouse);
 			this.grpTT.Controls.Add(this.label21);
 			this.grpTT.Controls.Add(this.numTTTechLevel);
@@ -884,6 +898,26 @@ namespace AIEdit
 			this.grpTT.TabIndex = 1;
 			this.grpTT.TabStop = false;
 			this.grpTT.Text = "Settings";
+			// 
+			// btnTTTaskForce
+			// 
+			this.btnTTTaskForce.Location = new System.Drawing.Point(128, 45);
+			this.btnTTTaskForce.Name = "btnTTTaskForce";
+			this.btnTTTaskForce.Size = new System.Drawing.Size(40, 23);
+			this.btnTTTaskForce.TabIndex = 39;
+			this.btnTTTaskForce.Text = "View";
+			this.btnTTTaskForce.UseVisualStyleBackColor = true;
+			this.btnTTTaskForce.Click += new System.EventHandler(this.btnTTTaskForce_Click);
+			// 
+			// btnTTScript
+			// 
+			this.btnTTScript.Location = new System.Drawing.Point(128, 18);
+			this.btnTTScript.Name = "btnTTScript";
+			this.btnTTScript.Size = new System.Drawing.Size(40, 23);
+			this.btnTTScript.TabIndex = 38;
+			this.btnTTScript.Text = "View";
+			this.btnTTScript.UseVisualStyleBackColor = true;
+			this.btnTTScript.Click += new System.EventHandler(this.btnTTScript_Click);
 			// 
 			// cmbTTHouse
 			// 
@@ -935,6 +969,7 @@ namespace AIEdit
 			this.lblTTTaskForce.Size = new System.Drawing.Size(49, 15);
 			this.lblTTTaskForce.TabIndex = 33;
 			this.lblTTTaskForce.Text = "<none>";
+			this.lblTTTaskForce.Visible = false;
 			// 
 			// lblTTScript
 			// 
@@ -945,6 +980,7 @@ namespace AIEdit
 			this.lblTTScript.Size = new System.Drawing.Size(49, 15);
 			this.lblTTScript.TabIndex = 32;
 			this.lblTTScript.Text = "<none>";
+			this.lblTTScript.Visible = false;
 			// 
 			// label10
 			// 
@@ -1054,9 +1090,9 @@ namespace AIEdit
 			// 
 			this.cmbTTTaskForce.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTTTaskForce.FormattingEnabled = true;
-			this.cmbTTTaskForce.Location = new System.Drawing.Point(207, 46);
+			this.cmbTTTaskForce.Location = new System.Drawing.Point(176, 46);
 			this.cmbTTTaskForce.Name = "cmbTTTaskForce";
-			this.cmbTTTaskForce.Size = new System.Drawing.Size(216, 21);
+			this.cmbTTTaskForce.Size = new System.Drawing.Size(247, 21);
 			this.cmbTTTaskForce.TabIndex = 5;
 			this.cmbTTTaskForce.SelectedIndexChanged += new System.EventHandler(this.cmbTTTaskForce_SelectedIndexChanged);
 			// 
@@ -1073,9 +1109,9 @@ namespace AIEdit
 			// 
 			this.cmbTTScript.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTTScript.FormattingEnabled = true;
-			this.cmbTTScript.Location = new System.Drawing.Point(207, 19);
+			this.cmbTTScript.Location = new System.Drawing.Point(176, 19);
 			this.cmbTTScript.Name = "cmbTTScript";
-			this.cmbTTScript.Size = new System.Drawing.Size(216, 21);
+			this.cmbTTScript.Size = new System.Drawing.Size(247, 21);
 			this.cmbTTScript.TabIndex = 3;
 			this.cmbTTScript.SelectedIndexChanged += new System.EventHandler(this.cmbTTScript_SelectedIndexChanged);
 			// 
@@ -1151,7 +1187,7 @@ namespace AIEdit
 			this.tabTriggerTypes.Controls.Add(this.lstTr);
 			this.tabTriggerTypes.Location = new System.Drawing.Point(4, 22);
 			this.tabTriggerTypes.Name = "tabTriggerTypes";
-			this.tabTriggerTypes.Size = new System.Drawing.Size(780, 475);
+			this.tabTriggerTypes.Size = new System.Drawing.Size(780, 454);
 			this.tabTriggerTypes.TabIndex = 3;
 			this.tabTriggerTypes.Text = "TriggerTypes";
 			// 
@@ -1216,6 +1252,8 @@ namespace AIEdit
 			// 
 			// grpTr
 			// 
+			this.grpTr.Controls.Add(this.btnTrTeam2);
+			this.grpTr.Controls.Add(this.btnTrTeam1);
 			this.grpTr.Controls.Add(this.lblTrTeam2);
 			this.grpTr.Controls.Add(this.lblTrTeam);
 			this.grpTr.Controls.Add(this.label13);
@@ -1250,6 +1288,26 @@ namespace AIEdit
 			this.grpTr.TabStop = false;
 			this.grpTr.Text = "Settings";
 			// 
+			// btnTrTeam2
+			// 
+			this.btnTrTeam2.Location = new System.Drawing.Point(128, 45);
+			this.btnTrTeam2.Name = "btnTrTeam2";
+			this.btnTrTeam2.Size = new System.Drawing.Size(40, 23);
+			this.btnTrTeam2.TabIndex = 28;
+			this.btnTrTeam2.Text = "View";
+			this.btnTrTeam2.UseVisualStyleBackColor = true;
+			this.btnTrTeam2.Click += new System.EventHandler(this.btnTrTeam2_Click);
+			// 
+			// btnTrTeam1
+			// 
+			this.btnTrTeam1.Location = new System.Drawing.Point(128, 18);
+			this.btnTrTeam1.Name = "btnTrTeam1";
+			this.btnTrTeam1.Size = new System.Drawing.Size(40, 23);
+			this.btnTrTeam1.TabIndex = 27;
+			this.btnTrTeam1.Text = "View";
+			this.btnTrTeam1.UseVisualStyleBackColor = true;
+			this.btnTrTeam1.Click += new System.EventHandler(this.btnTrTeam1_Click);
+			// 
 			// lblTrTeam2
 			// 
 			this.lblTrTeam2.AutoSize = true;
@@ -1259,6 +1317,7 @@ namespace AIEdit
 			this.lblTrTeam2.Size = new System.Drawing.Size(49, 15);
 			this.lblTrTeam2.TabIndex = 26;
 			this.lblTrTeam2.Text = "<none>";
+			this.lblTrTeam2.Visible = false;
 			// 
 			// lblTrTeam
 			// 
@@ -1269,6 +1328,7 @@ namespace AIEdit
 			this.lblTrTeam.Size = new System.Drawing.Size(49, 15);
 			this.lblTrTeam.TabIndex = 25;
 			this.lblTrTeam.Text = "<none>";
+			this.lblTrTeam.Visible = false;
 			// 
 			// label13
 			// 
@@ -1312,9 +1372,9 @@ namespace AIEdit
 			// 
 			this.cmbTrTeamType2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTrTeamType2.FormattingEnabled = true;
-			this.cmbTrTeamType2.Location = new System.Drawing.Point(207, 46);
+			this.cmbTrTeamType2.Location = new System.Drawing.Point(176, 46);
 			this.cmbTrTeamType2.Name = "cmbTrTeamType2";
-			this.cmbTrTeamType2.Size = new System.Drawing.Size(216, 21);
+			this.cmbTrTeamType2.Size = new System.Drawing.Size(247, 21);
 			this.cmbTrTeamType2.TabIndex = 20;
 			this.cmbTrTeamType2.SelectedIndexChanged += new System.EventHandler(this.cmbTrTeamType2_SelectedIndexChanged);
 			// 
@@ -1508,9 +1568,9 @@ namespace AIEdit
 			// 
 			this.cmbTrTeamType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTrTeamType.FormattingEnabled = true;
-			this.cmbTrTeamType.Location = new System.Drawing.Point(207, 19);
+			this.cmbTrTeamType.Location = new System.Drawing.Point(176, 19);
 			this.cmbTrTeamType.Name = "cmbTrTeamType";
-			this.cmbTrTeamType.Size = new System.Drawing.Size(216, 21);
+			this.cmbTrTeamType.Size = new System.Drawing.Size(247, 21);
 			this.cmbTrTeamType.TabIndex = 0;
 			this.cmbTrTeamType.SelectedIndexChanged += new System.EventHandler(this.cmbTrTeamType_SelectedIndexChanged);
 			// 
@@ -1646,7 +1706,7 @@ namespace AIEdit
 			// frmMain
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(788, 501);
+			this.ClientSize = new System.Drawing.Size(788, 495);
 			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.MaximizeBox = false;
@@ -3098,6 +3158,36 @@ namespace AIEdit
 		private void mnuLoadRulesTS_Click(object sender, EventArgs e)
 		{
 			LoadRulesStrings("config/ts.ini");
+		}
+
+		private void UIGotoType(ComboBox cmb, ListBox lst, TabPage tabpage)
+		{
+			int idx = cmb.SelectedIndex;
+			if(idx > 0)
+			{
+				lst.SelectedIndex = idx - 1;
+				tabControl1.SelectedTab = tabpage;
+			}
+		}
+
+		private void btnTTScript_Click(object sender, EventArgs e)
+		{
+			UIGotoType(cmbTTScript, lstST, tabScriptTypes);
+		}
+
+		private void btnTTTaskForce_Click(object sender, EventArgs e)
+		{
+			UIGotoType(cmbTTTaskForce, lstTF, tabTaskForces);
+		}
+
+		private void btnTrTeam1_Click(object sender, EventArgs e)
+		{
+			UIGotoType(cmbTrTeamType, lstTT, tabTeamTypes);
+		}
+
+		private void btnTrTeam2_Click(object sender, EventArgs e)
+		{
+			UIGotoType(cmbTrTeamType2, lstTT, tabTeamTypes);
 		}
 	}
 }

@@ -17,6 +17,11 @@ Known issues
 Changelog
 =========
 
+v1.05
+- Super-duper new icon!
+- Minor edits to config files.
+- Added buttons to jump to referenced AI types.
+
 v1.04
 - TechnoType names now also display ID to differentiate ones with the same name.
 - Editor warns if TaskForce contains reference to unit not in rules.
