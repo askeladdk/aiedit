@@ -1746,15 +1746,6 @@ namespace AIEdit
 		}
 		#endregion
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main() 
-		{
-			Application.Run(new frmMain());
-		}
-
         private uint GetLastID(string file)
         {
             StreamReader stream = new StreamReader(file);
