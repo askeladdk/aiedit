@@ -20,14 +20,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AIEdit</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>AIEdit.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -112,6 +111,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmMainNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMainNew.Designer.cs">
+      <DependentUpon>frmMainNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMainNewFunctions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HouseList.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
@@ -119,6 +127,7 @@
     <Compile Include="InputBox.Designer.cs">
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="StringTable.cs" />
     <Compile Include="AITable.cs">
       <SubType>Code</SubType>
@@ -156,9 +165,13 @@
     <Compile Include="TriggerType.cs" />
     <Compile Include="TrTable.cs" />
     <Compile Include="TTTable.cs" />
+    <Compile Include="Utils.cs" />
     <Content Include="App.ico" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMainNew.resx">
+      <DependentUpon>frmMainNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InputBox.resx">
       <SubType>Designer</SubType>

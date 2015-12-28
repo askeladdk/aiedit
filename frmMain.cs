@@ -25,7 +25,7 @@ namespace AIEdit
         private STTable scripttypes;
         private TTTable teamtypes;
         private TrTable triggertypes;
-        private TaskForce selectedtf;
+        private TaskForceOld selectedtf;
         private ScriptType selectedst;
         private TeamType selectedtt;
         private TriggerType selectedtr;
@@ -1877,7 +1877,7 @@ namespace AIEdit
                 return;
             }
 
-            selectedtf = (TaskForce)taskforces.Table[index];
+            selectedtf = (TaskForceOld)taskforces.Table[index];
 
             txtTFID.Text = selectedtf.ID;
             txtTFName.Text = selectedtf.Name;
@@ -1885,7 +1885,7 @@ namespace AIEdit
 
             // Load units.
             lstTFUnits.Items.Clear();
-            foreach (TaskForce.TFUnit unit in selectedtf.Units)
+            foreach (TaskForceOld.TFUnit unit in selectedtf.Units)
             {
                 TechnoType tt = rules.GetByID(unit.ID);
 
@@ -1952,7 +1952,7 @@ namespace AIEdit
         {
             int n = 0;
             ScriptType st;
-            TaskForce tf;
+            TaskForceOld tf;
             if (index < 0) return;
 
             selectedtt = (TeamType)teamtypes.Table[index];
@@ -2087,7 +2087,7 @@ namespace AIEdit
             // Load taskforce lists.
             cmbTTTaskForce.Items.Clear();
             cmbTTTaskForce.Items.Add("<none>");
-            foreach (TaskForce tf in taskforces.Table.Values)
+            foreach (TaskForceOld tf in taskforces.Table.Values)
             {
                 cmbTTTaskForce.Items.Add(tf.Name);
             }
@@ -2299,7 +2299,7 @@ namespace AIEdit
 
             TechnoType type = rules.GetByName(cmbTFUnits.Text);
             int count = (int)numTFCount.Value;
-            if( selectedtf.AddUnit(new TaskForce.TFUnit(type.ID, count)) )
+            if( selectedtf.AddUnit(new TaskForceOld.TFUnit(type.ID, count)) )
             {
                 ShowTF(lstTF.SelectedIndex, lstTFUnits.Items.Count);
             }
@@ -2327,7 +2327,7 @@ namespace AIEdit
             foreach (ListViewItem item in selected)
             {
                 TechnoType seltype = rules.GetByName(item.SubItems[0].Text);
-                TaskForce.TFUnit newunit = new TaskForce.TFUnit(newtype.ID, count);
+                TaskForceOld.TFUnit newunit = new TaskForceOld.TFUnit(newtype.ID, count);
 
                 if ( selectedtf.ModifyUnit(seltype.ID, newunit) )
                 {
@@ -2376,7 +2376,7 @@ namespace AIEdit
 
             if (taskforces.GetByName(res.Text) == null)
             {
-                TaskForce tf = taskforces.NewTF(NextId(), res.Text);
+                TaskForceOld tf = taskforces.NewTF(NextId(), res.Text);
                 lstTF.SelectedIndex = lstTF.Items.Add(tf.Name);
                 ReloadLists();
             }
@@ -2637,7 +2637,7 @@ namespace AIEdit
 
         private void btnTFRemove_Click_1(object sender, EventArgs e)
         {
-            RemoveAIObject<TaskForce>(lstTF, taskforces);
+            RemoveAIObject<TaskForceOld>(lstTF, taskforces);
             ReloadLists();
         }
 
@@ -2681,7 +2681,7 @@ namespace AIEdit
 
         private void cmbTTTaskForce_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TaskForce tf = taskforces.GetByName((string)cmbTTTaskForce.SelectedItem);
+            TaskForceOld tf = taskforces.GetByName((string)cmbTTTaskForce.SelectedItem);
             if (tf == null) selectedtt.TaskForce = "<none>";
             else selectedtt.TaskForce = tf.ID;
             lblTTTaskForce.Text = selectedtt.TaskForce;
@@ -2944,7 +2944,7 @@ namespace AIEdit
         /// <param name="e"></param>
         private void btnTFCopy_Click(object sender, EventArgs e)
         {
-            TaskForce a = taskforces.Copy(lstTF.SelectedIndex, NextId());
+            TaskForceOld a = taskforces.Copy(lstTF.SelectedIndex, NextId());
             lstTF.SelectedIndex = lstTF.Items.Add(a.Name);
             ReloadLists();
         }

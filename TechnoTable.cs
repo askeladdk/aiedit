@@ -8,11 +8,11 @@ namespace AIEdit
     /// <summary>
     /// 
     /// </summary>
-	public class TechnoTable : AITable<TechnoType>
+	public class TechnoTableOld : AITable<TechnoType>
 	{
         private string typelist;
 
-		public TechnoTable(string typelist)
+		public TechnoTableOld(string typelist)
 		{
             this.typelist = typelist;
 		}

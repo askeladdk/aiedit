@@ -17,7 +17,7 @@ namespace AIEdit
         {
             desc = "";
         }
-
+		
         public string Name { get { return name; } set { name = value; } }
         public string Description { get { return desc; } set { desc = value; } }
         public ComboBoxStyle Style { get { return style; } set { style = value; } }

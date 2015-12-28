@@ -9,7 +9,7 @@ namespace AIEdit
 	/// </summary>
 	public class Rules
 	{
-		private TechnoTable[] types;
+		private TechnoTableOld[] types;
         private HouseList houses;
 
 		public enum Types
@@ -21,11 +21,11 @@ namespace AIEdit
 
 		public Rules()
 		{
-			types = new TechnoTable[4];
-			types[0] = new TechnoTable("VehicleTypes");
-            types[1] = new TechnoTable("InfantryTypes");
-            types[2] = new TechnoTable("AircraftTypes");
-            types[3] = new TechnoTable("BuildingTypes");
+			types = new TechnoTableOld[4];
+			types[0] = new TechnoTableOld("VehicleTypes");
+            types[1] = new TechnoTableOld("InfantryTypes");
+            types[2] = new TechnoTableOld("AircraftTypes");
+            types[3] = new TechnoTableOld("BuildingTypes");
             houses = new HouseList();
 		}
 
@@ -48,7 +48,7 @@ namespace AIEdit
 
 		public TechnoType GetByID(string id)
 		{
-			foreach(TechnoTable t in types)
+			foreach(TechnoTableOld t in types)
 			{
 				TechnoType tt = t.GetByID(id);
 				if(tt != null) return tt;
@@ -58,7 +58,7 @@ namespace AIEdit
 
 		public TechnoType GetByName(string name)
 		{
-			foreach(TechnoTable t in types)
+			foreach(TechnoTableOld t in types)
 			{
 				TechnoType tt = t.GetByName(name);
 				if(tt != null) return tt;
@@ -82,7 +82,7 @@ namespace AIEdit
 					types[3].AddNames(al);
 					break;
 				case Types.All:
-					foreach(TechnoTable t in types) t.AddNames(al);
+					foreach(TechnoTableOld t in types) t.AddNames(al);
 					break;
 			};
 

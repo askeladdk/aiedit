@@ -102,6 +102,10 @@ namespace AIEdit
 				break;
 			}
 
+            stream.Close();
+            stream = new StreamReader(file);
+            ip = new IniParser(stream);
+
 			// Parse each section that is in the list.
             while (ip.Next()) ParseSection(ip);
 

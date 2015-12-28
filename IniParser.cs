@@ -1,12 +1,15 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace AIEdit
 {
+	using IniDictionary = Dictionary<string, OrderedDictionary>;
+
 	public class IniParser
 	{
-        private OrderedDictionary keys;
+		private OrderedDictionary keys;
 		private StreamReader stream;	// input stream.
 		private string section;			// name of the current section.
 
@@ -17,7 +20,7 @@ namespace AIEdit
 		public IniParser(StreamReader stream)
 		{
 			this.stream = stream;
-            keys = new OrderedDictionary();
+			keys = new OrderedDictionary();
 			section = null;
 		}
 
@@ -27,7 +30,7 @@ namespace AIEdit
 		/// </summary>
 		public string Section { get { return section; } }
 
-        public OrderedDictionary Table { get { return keys; } }
+		public OrderedDictionary Table { get { return keys; } }
 
 		/// <summary>
 		/// Find the next section.
@@ -132,6 +135,62 @@ namespace AIEdit
             // check if key already exists.
             if (keys[k] == null) keys.Add(k, v);
 			return true;
+		}
+
+
+		/**
+		 *  New parser reads .ini into dictionary.
+		 */
+		public static IniDictionary ParseToDictionary(StreamReader stream)
+		{
+			IniDictionary ini = new IniDictionary();
+			OrderedDictionary section = null;
+			string key, val, line;
+			int index;
+			int linenr = 0;
+
+			while( (line = stream.ReadLine()) != null )
+			{
+				linenr++;
+				// strip off whitespaces and comments
+				line = line.TrimStart();
+				if( (index = line.IndexOf(';')) != -1 )
+				{
+					line = line.Substring(0, index).TrimEnd();
+				}
+
+				// skip empty lines
+				if(line.Length == 0)
+				{
+					continue;
+				}
+				// start of section
+				else if(line[0] == '[')
+				{
+					if( (index = line.IndexOf(']')) == -1 ) continue;
+					key = line.Substring(1, index - 1);
+					section = new OrderedDictionary();
+					ini.Add(key, section);
+				}
+				// key=value pair
+				else if(section != null)
+				{
+					if ((index = line.IndexOf('=')) == -1) continue;
+					key = line.Substring(0, index);
+					val = line.Substring(index + 1);
+					section[key] = val;
+				}
+			}
+
+			return ini;
+		}
+
+		public static IniDictionary ParseToDictionary(string path)
+		{
+			StreamReader reader = new StreamReader(path);
+			IniDictionary d = ParseToDictionary(reader);
+			reader.Close();
+			return d;
 		}
 	}
 }

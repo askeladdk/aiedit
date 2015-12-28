@@ -7,7 +7,7 @@ namespace AIEdit
 	/// <summary>
 	/// Summary description for TFTable.
 	/// </summary>
-	public class TFTable : AITable<TaskForce>
+	public class TFTable : AITable<TaskForceOld>
 	{
 
 		public TFTable()
@@ -21,9 +21,9 @@ namespace AIEdit
 
         public override string TypeList { get { return "TaskForces"; } }
 
-        public TaskForce NewTF(uint id, string name)
+        public TaskForceOld NewTF(uint id, string name)
         {
-            TaskForce tf = new TaskForce();
+            TaskForceOld tf = new TaskForceOld();
             tf.ID = MakeId(id);
             tf.Name = name; // tf.ID;
             tf.Group = -1;
@@ -31,10 +31,10 @@ namespace AIEdit
             return tf;
         }
 
-        public TaskForce Copy(int index, uint id)
+        public TaskForceOld Copy(int index, uint id)
         {
-            TaskForce old = (TaskForce)Table[index];
-            TaskForce newtt = new TaskForce(old, MakeId(id));
+            TaskForceOld old = (TaskForceOld)Table[index];
+            TaskForceOld newtt = new TaskForceOld(old, MakeId(id));
             newtt.Name = newtt.Name + " COPY";
             Add(newtt.ID, newtt);
             return newtt;
@@ -42,8 +42,8 @@ namespace AIEdit
 
 		public override void ParseSection(IniParser ip)
 		{
-            TaskForce tf = GetByID(ip.Section);
-			TaskForce.TFUnit unit;
+            TaskForceOld tf = GetByID(ip.Section);
+			TaskForceOld.TFUnit unit;
             string id = ip.Section;
 			string[] split;
 			char[] delim = {','};
@@ -69,7 +69,7 @@ namespace AIEdit
 				if((string)e.Key == "Name" || (string)e.Key == "Group") continue;
 					
 				split = ((string)e.Value).Split(delim);
-				unit = new TaskForce.TFUnit( split[1], int.Parse(split[0]) );
+				unit = new TaskForceOld.TFUnit( split[1], int.Parse(split[0]) );
 				tf.Units.Add(unit);
 			}
 
@@ -90,7 +90,7 @@ namespace AIEdit
 
             stream.WriteLine();
 
-            foreach (TaskForce tf in Table.Values) tf.Write(stream);           
+            foreach (TaskForceOld tf in Table.Values) tf.Write(stream);           
         }
 	}
 }

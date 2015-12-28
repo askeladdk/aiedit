@@ -13,7 +13,8 @@ namespace AIEdit
 		[STAThread]
 		static void Main()
 		{
-			Application.Run(new frmMain());
+			Application.EnableVisualStyles();
+			Application.Run(new frmMainNew());
 		}
 	}
 }
