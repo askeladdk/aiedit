@@ -10,7 +10,7 @@ namespace AIEdit
     /// <summary>
     /// ScriptType.
     /// </summary>
-    class ScriptType : IAIObject
+    class ScriptType : IAIObjectOld
     {
         private string name, id;
         private ArrayList actions;

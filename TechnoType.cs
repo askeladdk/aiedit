@@ -2,10 +2,10 @@ using System;
 
 namespace AIEdit
 {
-	public class TechnoType : IAIObject, IComparable<TechnoType>
+	public class TechnoType : IAIObjectOld, IComparable<TechnoType>
 	{
         private string name, owner, id;
-        private int cost;
+        private uint cost;
 
 		public TechnoType()
 		{
@@ -15,7 +15,7 @@ namespace AIEdit
             cost = 0;
 		}
 
-		public TechnoType(string id, string name, int cost)
+		public TechnoType(string id, string name, uint cost)
 		{
 			this.id = id;
 			this.name = name;
@@ -26,7 +26,7 @@ namespace AIEdit
         public string Name { get { return name; } set { name = value; } }
         public string Owner { get { return owner; } set { owner = value; } }
         public string ID { get { return id; } set { id = value; } }
-        public int Cost { get { return cost; } set { cost = value; } }
+        public uint Cost { get { return cost; } set { cost = value; } }
 		
 		public int CompareTo(TechnoType other)
 		{

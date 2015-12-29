@@ -2113,7 +2113,7 @@ namespace AIEdit
         /// <param name="lst"></param>
         /// <param name="table"></param>
         /// <returns></returns>
-        private void RemoveAIObject<T>(ListBox lst, AITable<T> table) where T : IAIObject, new()
+        private void RemoveAIObject<T>(ListBox lst, AITableOld<T> table) where T : IAIObjectOld, new()
         {
             int index = lst.SelectedIndex;
             if (index == -1) return;

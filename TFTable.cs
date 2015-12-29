@@ -7,7 +7,7 @@ namespace AIEdit
 	/// <summary>
 	/// Summary description for TFTable.
 	/// </summary>
-	public class TFTable : AITable<TaskForceOld>
+	public class TFTable : AITableOld<TaskForceOld>
 	{
 
 		public TFTable()

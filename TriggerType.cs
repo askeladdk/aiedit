@@ -15,7 +15,7 @@ namespace AIEdit
         BaseDefense
     }
 
-    class TriggerType : IAIObject
+    class TriggerType : IAIObjectOld
     {
         private string name, id;
         private string teamtype, teamtype2, owner, techtype;

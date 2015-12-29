@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AIEdit
 {
-    class STTable : AITable<ScriptType>
+    class STTable : AITableOld<ScriptType>
     {
         public STTable()
         {

@@ -8,7 +8,7 @@ namespace AIEdit
     /// <summary>
     /// TeamType Table.
     /// </summary>
-    class TTTable : AITable<TeamType>
+    class TTTable : AITableOld<TeamType>
     {
         public TTTable()
         {

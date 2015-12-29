@@ -30,7 +30,7 @@ namespace AIEdit
         Whiner
     };
 
-    class TeamType : IAIObject
+    class TeamType : IAIObjectOld
     {
         private bool[] settings;
         private string name, id, scriptid, taskid, house;

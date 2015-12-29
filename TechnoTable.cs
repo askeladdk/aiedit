@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 
@@ -8,7 +9,7 @@ namespace AIEdit
     /// <summary>
     /// 
     /// </summary>
-	public class TechnoTableOld : AITable<TechnoType>
+	public class TechnoTableOld : AITableOld<TechnoType>
 	{
         private string typelist;
 
@@ -52,7 +53,7 @@ namespace AIEdit
             tt.ID = id;
             tt.Name = name;
             cost = (string)ip.Table["Cost"];
-            tt.Cost = cost == null ? 0 : int.Parse(cost);
+            tt.Cost = cost == null ? 0 : uint.Parse(cost);
             tt.Owner = (string)ip.Table["Owner"];
 
             MapName(name, id);
