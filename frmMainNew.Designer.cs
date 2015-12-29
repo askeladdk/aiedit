@@ -66,11 +66,24 @@
 			this.tabPageTr = new System.Windows.Forms.TabPage();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+			this.lstST = new System.Windows.Forms.ListView();
+			this.colSTName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colSTID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colSTUses = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.lstActions = new System.Windows.Forms.ListView();
+			this.colActionNr = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colActionDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colActionParam = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.cmbAction = new System.Windows.Forms.ComboBox();
+			this.cmbParam = new System.Windows.Forms.ComboBox();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.mnuCtxTF.SuspendLayout();
+			this.tabPageST.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -196,7 +209,7 @@
 			this.groupBox1.Controls.Add(this.lstTFUnits);
 			this.groupBox1.Location = new System.Drawing.Point(333, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(431, 494);
+			this.groupBox1.Size = new System.Drawing.Size(432, 494);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Units";
@@ -239,7 +252,6 @@
 			this.txtTFTotalCost.TabIndex = 2;
 			this.txtTFTotalCost.TabStop = false;
 			this.txtTFTotalCost.Text = "Total Cost: 0";
-			this.txtTFTotalCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// cmbTFGroup
 			// 
@@ -261,8 +273,9 @@
 			this.lstTFUnits.HideSelection = false;
 			this.lstTFUnits.LabelEdit = true;
 			this.lstTFUnits.Location = new System.Drawing.Point(6, 19);
+			this.lstTFUnits.MultiSelect = false;
 			this.lstTFUnits.Name = "lstTFUnits";
-			this.lstTFUnits.Size = new System.Drawing.Size(419, 442);
+			this.lstTFUnits.Size = new System.Drawing.Size(420, 442);
 			this.lstTFUnits.TabIndex = 0;
 			this.lstTFUnits.UseCompatibleStateImageBehavior = false;
 			this.lstTFUnits.View = System.Windows.Forms.View.Details;
@@ -277,7 +290,7 @@
 			// colTFUnit
 			// 
 			this.colTFUnit.Text = "Unit";
-			this.colTFUnit.Width = 200;
+			this.colTFUnit.Width = 280;
 			// 
 			// colTFUnitCost
 			// 
@@ -344,6 +357,8 @@
 			// 
 			// tabPageST
 			// 
+			this.tabPageST.Controls.Add(this.groupBox2);
+			this.tabPageST.Controls.Add(this.lstST);
 			this.tabPageST.Location = new System.Drawing.Point(4, 22);
 			this.tabPageST.Name = "tabPageST";
 			this.tabPageST.Padding = new System.Windows.Forms.Padding(3);
@@ -374,6 +389,98 @@
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
+			// lstST
+			// 
+			this.lstST.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSTName,
+            this.colSTID,
+            this.colSTUses});
+			this.lstST.FullRowSelect = true;
+			this.lstST.HideSelection = false;
+			this.lstST.LabelEdit = true;
+			this.lstST.Location = new System.Drawing.Point(6, 6);
+			this.lstST.MultiSelect = false;
+			this.lstST.Name = "lstST";
+			this.lstST.Size = new System.Drawing.Size(320, 494);
+			this.lstST.TabIndex = 0;
+			this.lstST.UseCompatibleStateImageBehavior = false;
+			this.lstST.View = System.Windows.Forms.View.Details;
+			// 
+			// colSTName
+			// 
+			this.colSTName.Text = "Name";
+			this.colSTName.Width = 250;
+			// 
+			// colSTID
+			// 
+			this.colSTID.Text = "ID";
+			this.colSTID.Width = 0;
+			// 
+			// colSTUses
+			// 
+			this.colSTUses.Text = "Uses";
+			this.colSTUses.Width = 45;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.cmbParam);
+			this.groupBox2.Controls.Add(this.cmbAction);
+			this.groupBox2.Controls.Add(this.lstActions);
+			this.groupBox2.Location = new System.Drawing.Point(333, 6);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(432, 494);
+			this.groupBox2.TabIndex = 1;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Actions";
+			// 
+			// lstActions
+			// 
+			this.lstActions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colActionNr,
+            this.colActionDesc,
+            this.colActionParam});
+			this.lstActions.FullRowSelect = true;
+			this.lstActions.HideSelection = false;
+			this.lstActions.Location = new System.Drawing.Point(6, 19);
+			this.lstActions.MultiSelect = false;
+			this.lstActions.Name = "lstActions";
+			this.lstActions.Size = new System.Drawing.Size(420, 258);
+			this.lstActions.TabIndex = 0;
+			this.lstActions.UseCompatibleStateImageBehavior = false;
+			this.lstActions.View = System.Windows.Forms.View.Details;
+			// 
+			// colActionNr
+			// 
+			this.colActionNr.Text = "#";
+			this.colActionNr.Width = 25;
+			// 
+			// colActionDesc
+			// 
+			this.colActionDesc.Text = "Action";
+			this.colActionDesc.Width = 200;
+			// 
+			// colActionParam
+			// 
+			this.colActionParam.Text = "Parameter";
+			this.colActionParam.Width = 180;
+			// 
+			// cmbAction
+			// 
+			this.cmbAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbAction.FormattingEnabled = true;
+			this.cmbAction.Location = new System.Drawing.Point(6, 283);
+			this.cmbAction.Name = "cmbAction";
+			this.cmbAction.Size = new System.Drawing.Size(420, 21);
+			this.cmbAction.TabIndex = 1;
+			// 
+			// cmbParam
+			// 
+			this.cmbParam.FormattingEnabled = true;
+			this.cmbParam.Location = new System.Drawing.Point(6, 310);
+			this.cmbParam.Name = "cmbParam";
+			this.cmbParam.Size = new System.Drawing.Size(420, 21);
+			this.cmbParam.TabIndex = 2;
+			// 
 			// frmMainNew
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -395,6 +502,8 @@
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.mnuCtxTF.ResumeLayout(false);
+			this.tabPageST.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -438,5 +547,16 @@
 		private System.Windows.Forms.ContextMenuStrip mnuCtxTF;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewTF;
 		private System.Windows.Forms.ToolStripMenuItem mnuDelTF;
+		private System.Windows.Forms.ListView lstST;
+		private System.Windows.Forms.ColumnHeader colSTName;
+		private System.Windows.Forms.ColumnHeader colSTID;
+		private System.Windows.Forms.ColumnHeader colSTUses;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.ListView lstActions;
+		private System.Windows.Forms.ColumnHeader colActionNr;
+		private System.Windows.Forms.ColumnHeader colActionDesc;
+		private System.Windows.Forms.ColumnHeader colActionParam;
+		private System.Windows.Forms.ComboBox cmbAction;
+		private System.Windows.Forms.ComboBox cmbParam;
 	}
 }

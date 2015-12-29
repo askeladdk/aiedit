@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Collections;
 using System.Text;
 using System.IO;
@@ -36,7 +37,7 @@ namespace AIEdit
             actions = new ArrayList();
 
             // Deep copy.
-            foreach (ScriptType.ScriptAction sa in st.actions)
+            foreach (ScriptAction sa in st.actions)
             {
                 actions.Add(new ScriptAction(sa));
             }
@@ -107,55 +108,88 @@ namespace AIEdit
         public string Name { get { return name; } set { name = value; } }
         public string ID { get { return id; } set { id = value; } }
         #endregion
-
-
-
-        /// <summary>
-        /// Script action.
-        /// </summary>
-        public class ScriptAction
-        {
-			private static int[] offsets = { 0, 65536, 131072, 196608, 262144 };
-            private int action, param, offset;
-
-            public ScriptAction(int action, int param)
-            {
-                this.action = action;
-                this.param = CheckOffset(param);
-            }
-
-            public ScriptAction(ScriptAction sa)
-            {
-                action = sa.action;
-                param = sa.param;
-                offset = sa.offset;
-            }
-
-			// annoying special case buildingtype offsets.
-            private int CheckOffset(int n)
-            {
-				for (int i = offsets.Length - 1; i >= 0 ; i--)
-				{
-					int of = offsets[i];
-					if (n >= of)
-					{
-						this.offset = i;
-						return n - of;
-					}
-				}
-				this.offset = 0;
-				return n;
-            }
-
-            public void Write(StreamWriter stream, int index)
-            {
-                int n = param + offsets[offset];
-                stream.WriteLine(index.ToString() + "=" + action.ToString() + "," + n.ToString());
-            }
-
-            public int Action { get { return action; } set { action = value; } }
-            public int Param { get { return param; } set { param = CheckOffset(value); } }
-            public int Offset { get { return offset; } set { offset = value; } }
-        };
     }
+
+
+	/// <summary>
+	/// Script action.
+	/// </summary>
+	public class ScriptAction
+	{
+		private static int[] offsets = { 0, 65536, 131072, 196608, 262144 };
+		private int action, param, offset;
+
+		public ScriptAction(int action, int param)
+		{
+			this.action = action;
+			this.param = CheckOffset(param);
+		}
+
+		public ScriptAction(ScriptAction sa)
+		{
+			action = sa.action;
+			param = sa.param;
+			offset = sa.offset;
+		}
+
+		// annoying special case buildingtype offsets.
+		private int CheckOffset(int n)
+		{
+			for (int i = offsets.Length - 1; i >= 0; i--)
+			{
+				int of = offsets[i];
+				if (n >= of)
+				{
+					this.offset = i;
+					return n - of;
+				}
+			}
+			this.offset = 0;
+			return n;
+		}
+
+		public void Write(StreamWriter stream, int index)
+		{
+			int n = param + offsets[offset];
+			stream.WriteLine(index.ToString() + "=" + action.ToString() + "," + n.ToString());
+		}
+
+		public int Action { get { return action; } set { action = value; } }
+		public int Param { get { return param; } set { param = CheckOffset(value); } }
+		public int Offset { get { return offset; } set { offset = value; } }
+	};
+
+	public class ScriptType2
+	{
+		private string id;
+		private List<ScriptAction> actions;
+		public string Name;
+
+		public string ID { get { return id;  } }
+		public List<ScriptAction> Actions { get { return actions; } }
+
+		public ScriptType2(string id, string name, List<ScriptAction> actions=null)
+		{
+			this.id = id;
+			this.Name = name;
+			this.actions = (actions == null) ? new List<ScriptAction>() : actions;
+		}
+
+		public static ScriptType2 Parse(string id, OrderedDictionary section)
+		{
+			string name = section["Name"] as string;
+			List<ScriptAction> actions = new List<ScriptAction>();
+
+			for(int i = 1; i < section.Count; i++)
+			{
+				string[] split = (section[i] as string).Split(',');
+				int a = int.Parse(split[0]);
+				int p = int.Parse(split[1]);
+				ScriptAction action = new ScriptAction(a, p);
+				actions.Add(action);
+			}
+
+			return new ScriptType2(id, name, actions);
+		}
+	}
 }

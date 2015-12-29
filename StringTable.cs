@@ -118,7 +118,7 @@ namespace AIEdit
         {
             string[] split;
             string name, type, desc;
-            ScriptActionType sat;
+            ScriptActionTypeOld sat;
             ip.Parse();
 
             foreach (string line in ip.Table.Values)
@@ -128,7 +128,7 @@ namespace AIEdit
                 type = split[1].Trim();
                 desc = split[2].Trim();
 
-                sat = new ScriptActionType();
+                sat = new ScriptActionTypeOld();
 
                 // name
                 sat.Name = name;

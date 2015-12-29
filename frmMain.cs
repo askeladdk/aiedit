@@ -1797,7 +1797,7 @@ namespace AIEdit
 
             // Add scripttype action types.
 			cmbSTAction.Items.Clear();
-            foreach (ScriptActionType sat in settings.ActionTypes) cmbSTAction.Items.Add(sat.Name);
+            foreach (ScriptActionTypeOld sat in settings.ActionTypes) cmbSTAction.Items.Add(sat.Name);
             cmbSTAction.SelectedIndex = 0;
 
             // TaskForce and TeamType groups.
@@ -1934,7 +1934,7 @@ namespace AIEdit
 
             // Show actions.
             lstSTActions.Items.Clear();
-            foreach (ScriptType.ScriptAction sa in selectedst.Actions)
+            foreach (ScriptAction sa in selectedst.Actions)
             {
                 InsertSTAction(sa.Action, sa.Param, lstSTActions.Items.Count);
             }
@@ -2054,7 +2054,7 @@ namespace AIEdit
         /// <param name="index">The index at which the action must be inserted.</param>
         private void InsertSTAction(int action, int param, int index)
         {
-            ScriptActionType sat = (ScriptActionType)settings.ActionTypes[action];
+            ScriptActionTypeOld sat = (ScriptActionTypeOld)settings.ActionTypes[action];
 
             string sparam = (sat.List == null || sat.List.Count == 0) ? param.ToString() : (string)sat.List[param];
 
@@ -2467,7 +2467,7 @@ namespace AIEdit
 
         private void cmbSTAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptActionType sat = (ScriptActionType)settings.ActionTypes[cmbSTAction.SelectedIndex];
+            ScriptActionTypeOld sat = (ScriptActionTypeOld)settings.ActionTypes[cmbSTAction.SelectedIndex];
             ArrayList list = sat.List;
 
             cmbSTParam.Items.Clear();
@@ -2510,7 +2510,7 @@ namespace AIEdit
 
                 cmbSTAction.SelectedIndex = action;
 
-                ScriptActionType sat = (ScriptActionType)settings.ActionTypes[action];
+                ScriptActionTypeOld sat = (ScriptActionTypeOld)settings.ActionTypes[action];
 
                 // Show the correct param item if the actiontype has a list.
                 if ( sat.List == null || sat.List.Count == 0 )
@@ -2523,7 +2523,7 @@ namespace AIEdit
                     cmbSTParam.SelectedIndex = int.Parse(item.SubItems[1].Text);
                 }
 
-                cmbSTAOffset.SelectedIndex = ((ScriptType.ScriptAction)selectedst.Actions[index]).Offset;
+                cmbSTAOffset.SelectedIndex = ((ScriptAction)selectedst.Actions[index]).Offset;
             }
         }
 
@@ -2533,7 +2533,7 @@ namespace AIEdit
             int offset = int.Parse(cmbSTAOffset.Text.Split(new char[]{' '}, 2)[0]);
             int param;
 
-            if (((ScriptActionType)settings.ActionTypes[action]).List == null)
+            if (((ScriptActionTypeOld)settings.ActionTypes[action]).List == null)
             {
                 param = int.Parse(cmbSTParam.Text);
             }
@@ -2558,7 +2558,7 @@ namespace AIEdit
                 ListViewItem item = lstSTActions.Items[index];
                 
                 action = cmbSTAction.SelectedIndex;
-                if (((ScriptActionType)settings.ActionTypes[action]).List == null)
+                if (((ScriptActionTypeOld)settings.ActionTypes[action]).List == null)
                 {
                     try { param = int.Parse(cmbSTParam.Text); }
                     catch { param = 0; }
@@ -2568,7 +2568,7 @@ namespace AIEdit
                     param = cmbSTParam.SelectedIndex;
                 }
 
-                ScriptType.ScriptAction sa = (ScriptType.ScriptAction)selectedst.Actions[index];
+                ScriptAction sa = (ScriptAction)selectedst.Actions[index];
                 sa.Action = action;
                 sa.Param = param + offset;
 
@@ -2662,11 +2662,11 @@ namespace AIEdit
 
         private void cmbSTAOffset_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptType.ScriptAction sa;
+            ScriptAction sa;
 
             foreach (int index in lstSTActions.SelectedIndices)
             {
-                sa = (ScriptType.ScriptAction)selectedst.Actions[index];
+                sa = (ScriptAction)selectedst.Actions[index];
                 sa.Offset = cmbSTAOffset.SelectedIndex;
             }
         }
@@ -3043,7 +3043,7 @@ namespace AIEdit
 
             foreach (int i in lstSTActions.SelectedIndices) index = i;
 
-            if (((ScriptActionType)settings.ActionTypes[action]).List == null)
+            if (((ScriptActionTypeOld)settings.ActionTypes[action]).List == null)
             {
                 param = int.Parse(cmbSTParam.Text);
             }

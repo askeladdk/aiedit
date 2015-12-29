@@ -14,25 +14,8 @@ namespace AIEdit
 
 	public partial class frmMainNew : Form
 	{
-
-		private class ScriptActionType2
-		{
-			private string name, desc;
-			private ComboBoxStyle style;
-			private object list;
-
-			public ScriptActionType2(string name, string desc, ComboBoxStyle style, object list)
-			{
-				this.name = name;
-				this.desc = desc;
-				this.style = style;
-				this.list = list;
-			}
-		}
-
 		private static int DEFAULT_GROUP = -1;
 		private static uint ID_BASE = 0x01000000;
-		private static uint ID_MAX = 0xFFFFFFFF;
 		private uint idCounter = ID_BASE;
 
 		// TECHNOTYPE TABLES
@@ -43,7 +26,7 @@ namespace AIEdit
 
 		// AI CONFIG TABLES
 		private OrderedDictionary tfGroup;
-		private ScriptActionType2[] scriptActionTypes;
+		private ScriptActionType[] scriptActionTypes;
 
 		// AI TABLES
 		private OrderedDictionary taskForces;
@@ -112,13 +95,20 @@ namespace AIEdit
 			foreach (DictionaryEntry entry in unitTypes) technoTypes[entry.Key] = entry.Value;
 			foreach (DictionaryEntry entry in buildingTypes) technoTypes[entry.Key] = entry.Value;
 			technoTypes = SortOrderedDict<string, TechnoType>(technoTypes);
+
+			for(int i = 0; i < buildingTypes.Count; i++)
+			{
+				buildingTypes[i] = (buildingTypes[i] as TechnoType).Name;
+			}
 		}
 
 		private void LoadConfig(IniDictionary config)
 		{
 			OrderedDictionary actionTypes = config["ActionTypes"];
 			OrderedDictionary noTypes = config["NoTypes"];
-			ArrayList actions = new ArrayList();
+			List<ScriptActionType> actions = new List<ScriptActionType>();
+
+			cmbAction.Items.Clear();
 
 			// script action types.
 			foreach (DictionaryEntry entry in actionTypes)
@@ -134,7 +124,7 @@ namespace AIEdit
 
 				if (listType == "Number")
 				{
-					style = ComboBoxStyle.Simple;
+					style = ComboBoxStyle.DropDown;
 					list  = null;
 				}
 				else if (listType == "BuildingTypes")
@@ -146,10 +136,13 @@ namespace AIEdit
 					list = config[listType];
 				}
 
-				actions.Add(new ScriptActionType2(name, desc, style, list));
+				actions.Add(new ScriptActionType(name, desc, style, list));
+				cmbAction.Items.Add(name);
 			}
 
-			scriptActionTypes = actions.Cast<ScriptActionType2>().ToArray();
+			cmbAction.SelectedIndex = 0;
+
+			scriptActionTypes = actions.ToArray();
 
 			// TaskForce groupings
 			tfGroup = new OrderedDictionary();
@@ -220,6 +213,7 @@ namespace AIEdit
 		{
 			int selected = lstTF.Items.Count > 0 ? lstTF.SelectedIndices[0] : 0;
 			lstTF.Items.Clear();
+			
 			foreach (DictionaryEntry entry in taskForces)
 			{
 				TaskForce tf = entry.Value as TaskForce;
