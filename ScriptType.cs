@@ -4,178 +4,305 @@ using System.Collections.Specialized;
 using System.Collections;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace AIEdit
 {
-    /// <summary>
-    /// ScriptType.
-    /// </summary>
-    class ScriptType : IAIObjectOld
-    {
-        private string name, id;
-        private ArrayList actions;
+	public interface IParamListEntry
+	{
+		uint ParamListIndex { get; }
+	}
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ScriptType()
-        {
-            actions = new ArrayList();
-            name = "";
-            id = "";
-        }
+	public class ParamListEntry : IParamListEntry, IComparable
+	{
+		private string value;
+		private uint index;
 
-        /// <summary>
-        /// Copy constructor.
-        /// </summary>
-        /// <param name="st"></param>
-        public ScriptType(ScriptType st, string newid)
-        {
-            id = newid;
-            name = (string)st.name.Clone();
+		public uint ParamListIndex { get { return index; } }
 
-            actions = new ArrayList();
+		public ParamListEntry(string value, uint index)
+		{
+			this.value = value;
+			this.index = index;
+		}
 
-            // Deep copy.
-            foreach (ScriptAction sa in st.actions)
-            {
-                actions.Add(new ScriptAction(sa));
-            }
-        }
+		public override string ToString()
+		{
+			return value;
+		}
 
-        public ScriptAction AddAction(int action, int param)
-        {
-            ScriptAction sta;
-            sta = new ScriptAction(action, param);
-            actions.Add(sta);
-            return sta;
-        }
+		public int CompareTo(object other)
+		{
+			return value.CompareTo((other as ParamListEntry).value);
+		}
+	}
 
-        public ScriptAction InsertAction(int action, int param, int index)
-        {
-            ScriptAction sta = new ScriptAction(action, param);
-            actions.Insert(index, sta);
-            return sta;
-        }
+	public enum ScriptParamType
+	{
+		Number,
+		List,
+		TechnoType,
+		ScriptType,
+		TeamType
+	}
 
-        public bool RemoveAction(int action_index)
-        {
-            if (action_index >= actions.Count) return false;
-            actions.RemoveAt(action_index);
-            return true;
-        }
+	public interface IActionType
+	{
+		uint Code { get; }
+		string Name { get; }
+		string Description { get; }
+		IList List { get; }
+		ScriptParamType ParamType { get; }
+		string ParamToString(uint param);
+		IParamListEntry ParamEntry(uint param);
+	}
 
-        public bool ModifyAction(int action_index, int action, int param)
-        {
-            ScriptAction sta = (ScriptAction)Actions[action_index];
-            if (sta == null) return false;
-            sta.Action = action;
-            sta.Param = param;
-            return true;
-        }
+	public class ActionTypeNumber : IActionType, IComparable
+	{
+		private uint code;
+		private string name, desc;
 
-        public void SwapActions(int indexa, int indexb)
-        {
-            ScriptAction a = (ScriptAction)Actions[indexa];
-            ScriptAction b = (ScriptAction)Actions[indexb];
-            Actions[indexa] = b;
-            Actions[indexb] = a;
-        }
+		public uint Code { get { return code; } }
+		public string Name { get { return name; } }
+		public string Description { get { return desc; } }
+		public IList List { get { return null; } }
+		public ScriptParamType ParamType { get { return ScriptParamType.Number; } }
 
-        public void Write(StreamWriter stream)
-        {
-            int n = 0;//, p;
+		public string ParamToString(uint param)
+		{
+			return param.ToString();
+		}
 
-            //stream.WriteLine();
-            stream.WriteLine("[" + id + "]");
-            stream.WriteLine("Name=" + name);
+		public IParamListEntry ParamEntry(uint param)
+		{
+			return null;
+		}
 
-            foreach (ScriptAction sa in actions)
-            {
-                //p = sa.Param + sa.Offset;
-                //stream.WriteLine(n.ToString() + "=" + sa.Action.ToString() + "," + p.ToString());
-                sa.Write(stream, n);
-                n++;
-            }
+		public ActionTypeNumber(uint code, string name, string desc)
+		{
+			this.code = code;
+			this.name = name;
+			this.desc = desc;
+		}
 
-            stream.WriteLine();
-        }
+		public override string ToString()
+		{
+			return name;
+		}
 
+		public int CompareTo(object other)
+		{
+			return name.CompareTo((other as IActionType).Name);
+		}
+	}
 
-        public ArrayList Actions { get { return actions; } }
-        
-        #region IAIObject Members
-        public string Name { get { return name; } set { name = value; } }
-        public string ID { get { return id; } set { id = value; } }
-        #endregion
-    }
+	public class ActionTypeList : IActionType, IComparable
+	{
+		private uint code;
+		private string name, desc;
+		private IList list;
+		ScriptParamType paramType;
 
+		public uint Code { get { return code; } }
+		public string Name { get { return name; } }
+		public string Description { get { return desc; } }
+		public IList List { get { return list; } }
+		public ScriptParamType ParamType { get { return paramType; } }
+
+		public IParamListEntry ParamEntry(uint param)
+		{
+			foreach (IParamListEntry entry in list)
+			{
+				if (entry.ParamListIndex == param) return entry;
+			}
+			return null;
+		}
+
+		public string ParamToString(uint param)
+		{
+			IParamListEntry entry = ParamEntry(param);
+			return entry != null ? entry.ToString() : "<error>";
+		}
+
+		public ActionTypeList(uint code, string name, string desc, IList list, ScriptParamType paramType)
+		{
+			this.code = code;
+			this.name = name;
+			this.desc = desc;
+			this.list = list;
+			this.paramType = paramType;
+		}
+
+		public override string ToString()
+		{
+			return name;
+		}
+
+		public int CompareTo(object other)
+		{
+			return name.CompareTo((other as IActionType).Name);
+		}
+	}
 
 	/// <summary>
 	/// Script action.
 	/// </summary>
 	public class ScriptAction
 	{
-		private static int[] offsets = { 0, 65536, 131072, 196608, 262144 };
-		private int action, param, offset;
+		private static uint[] offsets = { 0, 65536, 131072, 196608 };
+		private static string[] offsetsDesc = { "Least Threat", "Most Threat", "Closest", "Farthest" };
+		private IActionType action;
+		private uint param, offset;
 
-		public ScriptAction(int action, int param)
+		public IActionType Action
+		{
+			get
+			{
+				return action;
+			}
+			set
+			{
+				if(action.List != value.List)
+				{
+					param  = 0;
+					offset = 0;
+				}
+				action = value;
+			}
+		}
+
+		public uint Param { get { return param; } set { param = value; } }
+		public uint Offset { get { return offset; } set { offset = value; } }
+
+		public string ParamString { get { return action.ParamToString(param); } }
+
+		public string OffsetString
+		{
+			get
+			{
+				if (action.ParamType != ScriptParamType.TechnoType) return "";
+				return offsetsDesc[offset];
+			}
+		}
+
+		public IParamListEntry ParamEntry
+		{
+			get
+			{
+				return action.ParamEntry(param);
+			}
+		}
+
+		public ScriptAction(IActionType action, uint param)
 		{
 			this.action = action;
-			this.param = CheckOffset(param);
-		}
-
-		public ScriptAction(ScriptAction sa)
-		{
-			action = sa.action;
-			param = sa.param;
-			offset = sa.offset;
-		}
-
-		// annoying special case buildingtype offsets.
-		private int CheckOffset(int n)
-		{
-			for (int i = offsets.Length - 1; i >= 0; i--)
-			{
-				int of = offsets[i];
-				if (n >= of)
-				{
-					this.offset = i;
-					return n - of;
-				}
-			}
-			this.offset = 0;
-			return n;
+			GetOffset(param, out this.param, out offset);
 		}
 
 		public void Write(StreamWriter stream, int index)
 		{
-			int n = param + offsets[offset];
-			stream.WriteLine(index.ToString() + "=" + action.ToString() + "," + n.ToString());
+			uint a = action.Code;
+			uint p = param + offsets[offset];
+			stream.WriteLine(index.ToString() + "=" + a.ToString() + "," + p.ToString());
 		}
 
-		public int Action { get { return action; } set { action = value; } }
-		public int Param { get { return param; } set { param = CheckOffset(value); } }
-		public int Offset { get { return offset; } set { offset = value; } }
+		private static void GetOffset(uint index, out uint param, out uint offset)
+		{
+			for (int i = offsets.Length - 1; i >= 0; i--)
+			{
+				if (index >= offsets[i])
+				{
+					param = index - offsets[i];
+					offset = (uint)i;
+					return;
+				}
+			}
+			param = index;
+			offset = 0;
+		}
+
+		public static string[] OffsetDescriptions()
+		{
+			return offsetsDesc;
+		}
 	};
 
-	public class ScriptType2
+	/// <summary>
+	/// Script Type.
+	/// </summary>
+	public class ScriptType : IAIObject, IEnumerable<ScriptAction>
 	{
-		private string id;
 		private List<ScriptAction> actions;
-		public string Name;
+		private string name, id;
 
-		public string ID { get { return id;  } }
-		public List<ScriptAction> Actions { get { return actions; } }
+		public string Name { get { return name; } set { name = value; } }
+		public string ID { get { return id; } }
+		public int Count { get { return actions.Count; } }
+		public int Uses { get { return 0; } }
+		public IList Actions { get { return actions; } }
 
-		public ScriptType2(string id, string name, List<ScriptAction> actions=null)
+		public IEnumerator<ScriptAction> GetEnumerator()
+		{
+			return actions.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public ScriptType(string id, string name, List<ScriptAction> actions=null)
 		{
 			this.id = id;
-			this.Name = name;
+			this.name = name;
 			this.actions = (actions == null) ? new List<ScriptAction>() : actions;
 		}
 
-		public static ScriptType2 Parse(string id, OrderedDictionary section)
+		private int Swap(int a, int b)
+		{
+			ScriptAction tmp = actions[a];
+			actions[a] = actions[b];
+			actions[b] = tmp;
+			return b;
+		}
+
+		public int MoveUp(int index)
+		{
+			if (index <= 0) return index;
+			return Swap(index, index - 1);
+		}
+
+		public int MoveDown(int index)
+		{
+			if (index >= actions.Count - 1) return index;
+			return Swap(index, index + 1);
+		}
+
+		public void Add(ScriptAction action)
+		{
+			actions.Add(action);
+		}
+
+		public void Insert(ScriptAction action, int index)
+		{
+			actions.Insert(index, action);
+		}
+
+		public void Remove(ScriptAction a)
+		{
+			actions.Remove(a);
+		}
+
+		public void Write(StreamWriter stream)
+		{
+			int n = 0;
+			stream.WriteLine("[" + id + "]");
+			stream.WriteLine("Name=" + name);
+			foreach(ScriptAction a in actions) a.Write(stream, n++);
+			stream.WriteLine();
+		}
+
+		public static ScriptType Parse(string id, OrderedDictionary section, List<IActionType> types)
 		{
 			string name = section["Name"] as string;
 			List<ScriptAction> actions = new List<ScriptAction>();
@@ -183,13 +310,15 @@ namespace AIEdit
 			for(int i = 1; i < section.Count; i++)
 			{
 				string[] split = (section[i] as string).Split(',');
-				int a = int.Parse(split[0]);
-				int p = int.Parse(split[1]);
-				ScriptAction action = new ScriptAction(a, p);
+				int a  = int.Parse(split[0]);
+				uint p = uint.Parse(split[1]);
+				IActionType actionType = types[a];
+
+				ScriptAction action = new ScriptAction(actionType, p);
 				actions.Add(action);
 			}
 
-			return new ScriptType2(id, name, actions);
+			return new ScriptType(id, name, actions);
 		}
 	}
 }

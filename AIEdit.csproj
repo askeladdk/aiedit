@@ -123,7 +123,7 @@
     <Compile Include="frmMainNewFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HouseList.cs" />
+    <Compile Include="GroupType.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,48 +131,28 @@
       <DependentUpon>InputBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="StringTable.cs" />
     <Compile Include="AITable.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="DoubleMap.cs" />
-    <Compile Include="frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="IAIObject.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IniParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScriptActionType.cs" />
     <Compile Include="ScriptType.cs" />
-    <Compile Include="STTable.cs" />
     <Compile Include="TaskForce.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TeamType.cs" />
-    <Compile Include="Rules.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TechnoTable.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TechnoType.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TFTable.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TriggerType.cs" />
     <Compile Include="TrTable.cs" />
     <Compile Include="TTTable.cs" />
-    <Compile Include="Utils.cs" />
     <Content Include="App.ico" />
-    <EmbeddedResource Include="frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmMainNew.resx">
       <DependentUpon>frmMainNew.cs</DependentUpon>
     </EmbeddedResource>

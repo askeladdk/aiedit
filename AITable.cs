@@ -9,7 +9,7 @@ namespace AIEdit
 	/// <summary>
 	/// Summary description for AITable.
 	/// </summary>
-	public abstract class AITableOld<T> where T : IAIObjectOld, new()
+	public abstract class AITableOld<T> where T : IAIObjectOld//, new()
 	{
 		private Hashtable names;
         private OrderedDictionary table;
@@ -87,14 +87,14 @@ namespace AIEdit
 					ip.Skip();
 					continue;
 				}
-				
+
 				ip.Parse();
                 foreach (string id in ip.Table.Values)
                 {
                     if (id == null || id.Length == 0) continue;
                     if (!table.Contains(id))
                     {
-                        t = new T();
+						t = default(T);//new T();
                         t.ID = id;
                         table.Add(id, t);
                     }
@@ -194,11 +194,7 @@ namespace AIEdit
 			}
 			stream.WriteLine();
 
-			foreach(T entry in items)
-			{
-				entry.Write(stream);
-			}
-			stream.WriteLine();
+			foreach(T entry in items) entry.Write(stream);
 		}
 	}
 }

@@ -18,21 +18,20 @@ namespace AIEdit
 		private static uint ID_BASE = 0x01000000;
 		private uint idCounter = ID_BASE;
 
-		private List<string> orderTaskForces;
-
 		// TECHNOTYPE TABLES
 		private List<TechnoType> unitTypes;     // sorted by name
-		private List<string> buildingNames; // sorted by [BuildingTypes] index (very important)
+		private List<TechnoType> buildingTypes; // sorted by [BuildingTypes] index (very important)
 		private List<TechnoType> technoTypes;   // sorted by name
 		private string[] houses;           // sorted by [Houses] index (very important)
 
 		// AI CONFIG TABLES
-		private OrderedDictionary tfGroup;
-		private ScriptActionType[] scriptActionTypes;
+		private List<GroupType> groupTypes;
+		private List<IActionType> actionTypes;
 
 		// AI TABLES
 		//private OrderedDictionary taskForces;
 		private AITable<TaskForce> taskForces;
+		private AITable<ScriptType> scriptTypes;
 
 		private string nextID()
 		{
@@ -42,9 +41,11 @@ namespace AIEdit
 
 		private void LoadTechnoTypes(List<TechnoType> technos, IniDictionary ini, string type, string editorName)
 		{
+			uint tableIndex = 0;
 			foreach (DictionaryEntry de in ini[type])
 			{
 				string id = de.Value as string;
+
 				if (ini.ContainsKey(id))
 				{
 					OrderedDictionary section = ini[id];
@@ -58,14 +59,13 @@ namespace AIEdit
 
 					if(tt == null)
 					{
-						tt = new TechnoType(id, name, cost);
+						tt = new TechnoType(id, name, cost, tableIndex++);
 						technos.Add(tt);
 					}
-					else
-					{
-						tt.Name = name;
-						tt.Cost = cost;
-					}
+				}
+				else
+				{
+					tableIndex++;
 				}
 			}
 		}
@@ -85,90 +85,130 @@ namespace AIEdit
 			unitTypes.Sort();
 
 			// load buildings
-			List<TechnoType> buildingTypes = new List<TechnoType>();
+			buildingTypes = new List<TechnoType>();
 			LoadTechnoTypes(buildingTypes, ini, "BuildingTypes", editorName);
+			buildingTypes.Sort();
 
 			// sort and combine technotypes
+			/*
 			technoTypes = new List<TechnoType>();
 			technoTypes.AddRange(unitTypes);
 			technoTypes.AddRange(buildingTypes);
 			technoTypes.Sort();
+			 */
+		}
 
-			// Building names
-			buildingNames = new List<string>();
-			foreach(TechnoType blg in buildingTypes)
+		private IList ToStringList(OrderedDictionary od)
+		{
+			List<IParamListEntry> lst = new List<IParamListEntry>();
+			uint idx = 0;
+			foreach (DictionaryEntry entry in od)
 			{
-				buildingNames.Add(blg.Name);
+				lst.Add(new ParamListEntry(entry.Value as string, idx++));
 			}
+			return lst;
+		}
+
+		private List<IActionType> LoadActionTypes(IniDictionary config)
+		{
+			List<IActionType> actionTypes = new List<IActionType>();
+
+			List<IParamListEntry> buildings = new List<IParamListEntry>();
+			foreach (TechnoType tt in buildingTypes) buildings.Add(tt);
+
+			Dictionary<string, IList> typeLists = new Dictionary<string, IList>()
+			{
+				{"BuildingTypes", buildings},
+				{"NoTypes", ToStringList(config["NoTypes"])},
+				{"TargetTypes", ToStringList(config["TargetTypes"])},
+				{"UnloadTypes", ToStringList(config["UnloadTypes"])},
+				{"MissionTypes", ToStringList(config["MissionTypes"])},
+				{"FacingTypes", ToStringList(config["FacingTypes"])},
+				{"TalkBubbleTypes", ToStringList(config["TalkBubbleTypes"])},
+				//{"ScriptTypes", OrderedDictToList<object>(config["ScriptTypes"])},
+				//{"TeamTypes", OrderedDictToList<object>(config["TeamTypes"])},
+			};
+
+			foreach(DictionaryEntry entry in config["ActionTypes"])
+			{
+				uint code = uint.Parse(entry.Key as string);
+				string[] split = (entry.Value as string).Split(',');
+				string name = split[0];
+				string type = split[1];
+				string desc = split[2];
+				IActionType actionType;
+
+				if (desc.Length == 0) desc = name + ".";
+
+				if(type.CompareTo("Number") == 0)
+				{
+					actionType = new ActionTypeNumber(code, name, desc);
+				}
+				else if (type.CompareTo("BuildingTypes") == 0)
+				{
+					actionType = new ActionTypeList(code, name, desc, typeLists[type], ScriptParamType.TechnoType);
+				}
+				else
+				{
+					actionType = new ActionTypeList(code, name, desc, typeLists[type], ScriptParamType.List);
+				}
+
+				actionTypes.Add(actionType);
+			}
+
+			return actionTypes;
+		}
+
+		private List<GroupType> LoadGroupTypes(IniDictionary config)
+		{
+			List<GroupType> groupTypes = new List<GroupType>();
+			OrderedDictionary section = config["Group"];
+			foreach(DictionaryEntry entry in section)
+			{
+				int idx = int.Parse(entry.Key as string);
+				string name = entry.Value as string;
+				groupTypes.Add(new GroupType(idx, name));
+			}
+			return groupTypes;
 		}
 
 		private void LoadConfig(IniDictionary config)
 		{
-			OrderedDictionary actionTypes = config["ActionTypes"];
-			OrderedDictionary noTypes = config["NoTypes"];
-			List<ScriptActionType> actions = new List<ScriptActionType>();
-
-			cmbAction.Items.Clear();
-
-			// script action types.
-			foreach (DictionaryEntry entry in actionTypes)
-			{
-				string[] split = (entry.Value as string).Split(',');
-				string name = split[0];
-				string listType = split[1];
-				string desc = split[2];
-				ComboBoxStyle style = ComboBoxStyle.DropDownList;
-				OrderedDictionary list = noTypes;
-
-				if (desc.Length == 0) desc = name;
-
-				if (listType == "Number")
-				{
-					style = ComboBoxStyle.DropDown;
-					list  = null;
-				}
-				else if (listType == "BuildingTypes")
-				{
-					list = null;// buildingNames;
-				}
-				else
-				{
-					list = config[listType];
-				}
-
-				actions.Add(new ScriptActionType(name, desc, style, list));
-				cmbAction.Items.Add(name);
-			}
-
-			cmbAction.SelectedIndex = 0;
-
-			scriptActionTypes = actions.ToArray();
-
-			// TaskForce groupings
-			tfGroup = new OrderedDictionary();
-			cmbTFGroup.Items.Clear();
-			foreach (DictionaryEntry entry in config["Group"])
-			{
-				tfGroup.Add(int.Parse(entry.Key as string), entry.Value);
-				cmbTFGroup.Items.Add(entry.Value);
-			}
-			cmbTFGroup.SelectedIndex = 0;
+			actionTypes = LoadActionTypes(config);
+			groupTypes = LoadGroupTypes(config);
 		}
 
-		private AITable<TaskForce> LoadTaskForces(IniDictionary ai, List<TechnoType> technoTypes)
+		private AITable<TaskForce> LoadTaskForces(IniDictionary ai,
+			List<TechnoType> technoTypes, List<GroupType> groupTypes)
 		{
-			List<TaskForce> tfs = new List<TaskForce>();
+			List<TaskForce> items = new List<TaskForce>();
 			OrderedDictionary aiTaskForces = ai["TaskForces"] as OrderedDictionary;
 
 			foreach (DictionaryEntry entry in aiTaskForces)
 			{
 				string id = entry.Value as string;
 				OrderedDictionary section = ai[id] as OrderedDictionary;
-				TaskForce tf = TaskForce.Parse(id, section, technoTypes);
-				tfs.Add(tf);
+				TaskForce tf = TaskForce.Parse(id, section, unitTypes, groupTypes);
+				items.Add(tf);
 			}
 
-			return new AITable<TaskForce>("TaskForces", tfs);
+			return new AITable<TaskForce>("TaskForces", items);
+		}
+
+		private AITable<ScriptType> LoadScriptTypes(IniDictionary ai, List<IActionType> actionTypes)
+		{
+			List<ScriptType> items = new List<ScriptType>();
+			OrderedDictionary aiScriptTypes = ai["ScriptTypes"] as OrderedDictionary;
+
+			foreach(DictionaryEntry entry in aiScriptTypes)
+			{
+				string id = entry.Value as string;
+				OrderedDictionary section = ai[id] as OrderedDictionary;
+				ScriptType tf = ScriptType.Parse(id, section, actionTypes);
+				items.Add(tf);
+			}
+
+			return new AITable<ScriptType>("ScriptTypes", items);
 		}
 
 		private void LoadAI(string path)
@@ -181,7 +221,8 @@ namespace AIEdit
 				idCounter = uint.Parse(ai["AIEdit"]["Counter"] as string);
 			}
 
-			taskForces = LoadTaskForces(ai, technoTypes);
+			taskForces = LoadTaskForces(ai, technoTypes, groupTypes);
+			scriptTypes = LoadScriptTypes(ai, actionTypes);
 		}
 
 		private void WriteAI(string path)
@@ -193,6 +234,7 @@ namespace AIEdit
 			stream.WriteLine();
 
 			taskForces.Write(stream);
+			scriptTypes.Write(stream);
 
 			stream.Close();
 		}
@@ -201,58 +243,7 @@ namespace AIEdit
 		{
 			TaskForce tf = olvTF.SelectedObject as TaskForce;
 			if (tf == null) return;
-			txtTFTotalCost.Text = "Total Cost: " + tf.TotalCost();
+			txtTFTotalCost.Text = tf.TotalCost().ToString();
 		}
-
-		/*
-		private void RefreshTFList(bool select=true)
-		{
-			int selected = lstTF.Items.Count > 0 ? lstTF.SelectedIndices[0] : 0;
-			lstTF.Items.Clear();
-			
-			foreach (DictionaryEntry entry in taskForces)
-			{
-				TaskForce tf = entry.Value as TaskForce;
-				string[] items = { tf.Name, tf.ID, "0" };
-				ListViewItem lvi = new ListViewItem(items);
-				lvi.Tag = tf;
-				lstTF.Items.Add(lvi);
-			}
-
-			if (select && lstTF.Items.Count > 0)
-			{
-				selected = Math.Min(selected, lstTF.Items.Count - 1);
-				lstTF.Items[selected].Selected = true;
-			}
-		}
-
-		private int SelectedTFUnitIndex()
-		{
-			if (lstTFUnits.SelectedIndices.Count == 0) return 0;
-			return lstTFUnits.SelectedIndices[0];
-		}
-
-		private bool ShowTF(TaskForce tf)
-		{
-			int total = 0;
-			lstTFUnits.Items.Clear();
-			foreach (DictionaryEntry entry in tf.Units)
-			{
-				TechnoType tt = entry.Key as TechnoType;
-				int count = (int)entry.Value;
-				string[] items = { count.ToString(), tt.Name, (count * tt.Cost).ToString() };
-				ListViewItem lvi = new ListViewItem(items);
-				lvi.Tag = tt;
-				lstTFUnits.Items.Add(lvi);
-				total += count * tt.Cost;
-			}
-
-			txtTFTotalCost.Text = "Total Cost: " + total;
-
-			activeTaskForce = tf;
-			return tf.Units.Count > 0;
-		}
-		 */
-
 	}
 }

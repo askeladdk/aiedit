@@ -8,144 +8,6 @@ using System.Linq;
 
 namespace AIEdit
 {
-	/// <summary>
-	/// Summary description for TaskForce.
-	/// </summary>
-	public class TaskForceOld : IAIObjectOld
-	{
-		private ArrayList units;
-		private string name, id;
-        private int group;
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-		public TaskForceOld()
-		{
-			units = new ArrayList();
-            group = -1;
-		}
-
-        /// <summary>
-        /// Copy constructor.
-        /// </summary>
-        /// <param name="tf"></param>
-        public TaskForceOld(TaskForceOld tf, string newid)
-        {
-            id = newid;
-            name = (string)tf.name.Clone();
-            units = new ArrayList();
-            group = tf.group;
-            // Deep copy.
-            foreach (TFUnit unit in tf.units) units.Add(new TFUnit(unit));
-        }
-
-        public bool AddUnit(TFUnit newunit)
-        {
-            foreach (TFUnit unit in Units)
-            {
-                if (unit.ID.CompareTo(newunit.ID) == 0)
-                {
-                    unit.Count += newunit.Count;
-                    return true;
-                }
-            }
-
-            Units.Add(newunit);
-            return true;
-        }
-
-        public bool ModifyUnit(string unitid, TFUnit newunit)
-        {
-            foreach (TFUnit unit in Units)
-            {
-                if (unit.ID.CompareTo(unitid) == 0)
-                {
-                    if (newunit.Count == 0)
-                    {
-                        Units.Remove(unit);
-                    }
-                    else
-                    {
-                        unit.ID = newunit.ID;
-                        unit.Count = newunit.Count;
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool RemoveUnit(string unitid)
-        {
-            foreach (TFUnit unit in Units)
-            {
-                if (unit.ID.CompareTo(unitid) == 0)
-                {
-                    Units.Remove(unit);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public void Write(StreamWriter stream)
-        {
-            int n = 0;
-            //stream.WriteLine();
-            stream.WriteLine("[" + id + "]");
-            stream.WriteLine("Name=" + name);
-
-            foreach (TFUnit unit in units)
-            {
-                stream.WriteLine(n.ToString() + "=" + unit.Count.ToString() + "," + unit.ID);
-                n++;
-            }
-            stream.WriteLine("Group=" + group.ToString());
-            stream.WriteLine();
-        }
-
-		public ArrayList Units { get { return units; } }
-
-        public string Name { get { return name; } set { name = value; } }
-        public string ID { get { return id; } set { id = value; } }
-
-        public int Group { get { return group; } set { group = value; } }
-
-
-
-        /// <summary>
-        /// TFUnit.
-        /// </summary>
-        public class TFUnit
-        {
-            private string id;
-            private int count;
-
-            public TFUnit(string id, int count)
-            {
-                this.id = id;
-                this.count = count;
-            }
-
-            public TFUnit(TFUnit unit)
-            {
-                id = (string)unit.id.Clone();
-                count = unit.count;
-            }
-
-            public string ID { get { return id; } set { id = value; } }
-
-            public int Count
-            {
-                get { return count; }
-                set { count = value > 100 ? 100 : value; }
-            }
-        };
-	}
-
-
-
 	public class TaskForceEntry
 	{
 		private TechnoType unit;
@@ -173,20 +35,17 @@ namespace AIEdit
 	public class TaskForce : IAIObject, IEnumerable<TaskForceEntry>
 	{
 		private string name, id;
-		private int group;
+		private GroupType group;
 		private List<TaskForceEntry> units;
 
 		public string Name { get { return name; } set { name = value; } }
 		public string ID { get { return id; } }
 		public int Uses { get { return 0; } }
-		public int Group { get { return group; } }
+		public GroupType Group { get { return group; } set { group = value; } }
 
 		public IEnumerator<TaskForceEntry> GetEnumerator()
 		{
-			foreach(TaskForceEntry entry in units)
-			{
-				yield return entry;
-			}
+			return units.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -220,7 +79,7 @@ namespace AIEdit
 			return cost;
 		}
 
-		public TaskForce(string id, string name, int group, List<TaskForceEntry> units = null)
+		public TaskForce(string id, string name, GroupType group, List<TaskForceEntry> units = null)
 		{
 			this.id = id;
 			this.name = name;
@@ -233,8 +92,12 @@ namespace AIEdit
 			TaskForceEntry entry = GetEntry(unit);
 			if(entry == null)
 			{
-				Add(unit, (uint)count);
-				return 1;
+				if (count > 0)
+				{
+					Add(unit, (uint)count);
+					return 1;
+				}
+				return 0;
 			}
 
 			count = Math.Max(0, count + (int)entry.Count);
@@ -272,19 +135,22 @@ namespace AIEdit
 
 			foreach(TaskForceEntry entry in this.units)
 			{
-				stream.WriteLine(n.ToString() + "=" + entry.Count.ToString() + "," + entry.Unit.ID);
+				stream.WriteLine(n + "=" + entry.Count + "," + entry.Unit.ID);
 				n++;
 			}
-			stream.WriteLine("Group=" + this.group.ToString());
+			stream.WriteLine("Group=" + this.group.Value);
 			stream.WriteLine();
 		}
 
-		public static TaskForce Parse(string id, OrderedDictionary section, List<TechnoType> technoTypes)
+		public static TaskForce Parse(string id, OrderedDictionary section,
+			List<TechnoType> technoTypes, List<GroupType> groupTypes)
 		{
 			string name = section["Name"] as string;
-			int group = int.Parse(section["Group"] as string);
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
+
+			int groupi = int.Parse(section["Group"] as string);
+			GroupType group = groupTypes.Single(g => g.Value == groupi);
 
 			for (int i = 1; i < section.Count - 1; i++)
 			{
