@@ -31,6 +31,11 @@ namespace AIEdit
 			return olvST.SelectedObject as ScriptType;
 		}
 
+		public TeamType SelectedTeamType()
+		{
+			return olvTT.SelectedObject as TeamType;
+		}
+
 		private void mnuLoadRA_Click(object sender, EventArgs e)
 		{
 			IniDictionary config = IniParser.ParseToDictionary("config/ra2.ini");
@@ -38,11 +43,7 @@ namespace AIEdit
 			string sectionHouses = general["Houses"] as string;
 			string editorName = general["EditorName"] as string;
 
-
-
-			LoadRules("rulesmd.ini", sectionHouses, editorName);
-			LoadConfig(config);
-			LoadAI("aimd.ini");
+			Load("rulesmd.ini", "aimd.ini");
 
 			// cmb tf unit
 			cmbTFUnit.Items.Clear();
@@ -51,7 +52,7 @@ namespace AIEdit
 
 			// cmb tf group
 			cmbTFGroup.Items.Clear();
-			foreach (GroupType gt in groupTypes) cmbTFGroup.Items.Add(gt);
+			foreach (AITypeListEntry gt in groupTypes) cmbTFGroup.Items.Add(gt);
 			cmbTFGroup.SelectedIndex = 0;
 			
 			olvTF.Sort(olvColTFName, SortOrder.Ascending);
@@ -59,6 +60,9 @@ namespace AIEdit
 
 			olvST.Sort(olvColSTName, SortOrder.Ascending);
 			olvST.SetObjects(scriptTypes.Items);
+
+			olvTT.Sort(olvColTTName, SortOrder.Ascending);
+			olvTT.SetObjects(teamTypes.Items);
 		}
 
 		private void UpdateTFUnit(int mod)
@@ -96,13 +100,20 @@ namespace AIEdit
 
 		private void DelActiveTF()
 		{
+			TaskForce tf = SelectedTaskForce();
+
+			if(tf.Uses > 0)
+			{
+				MessageBox.Show("Cannot delete Task Force while it is in use.", "Delete Task Force");
+				return;
+			}
+
 			DialogResult res = MessageBox.Show("Are you sure you want to delete this Task Force?",
 				"Delete Task Force", MessageBoxButtons.YesNo);
 
 			if (res == DialogResult.Yes)
 			{
 				int idx = Math.Min(olvTF.SelectedIndex, olvTF.Items.Count - 1);
-				TaskForce tf = SelectedTaskForce();
 				taskForces.Remove(tf);
 				olvTF.BeginUpdate();
 				olvTF.RemoveObject(tf);
@@ -113,13 +124,20 @@ namespace AIEdit
 
 		private void DelActiveST()
 		{
+			ScriptType st = SelectedScriptType();
+
+			if (st.Uses > 0)
+			{
+				MessageBox.Show("Cannot delete Script Type while it is in use.", "Delete Script Type");
+				return;
+			}
+
 			DialogResult res = MessageBox.Show("Are you sure you want to delete this Script Type?",
 				"Delete Script Type", MessageBoxButtons.YesNo);
 
 			if (res == DialogResult.Yes)
 			{
 				int idx = Math.Min(olvST.SelectedIndex, olvST.Items.Count - 1);
-				ScriptType st = SelectedScriptType();
 				scriptTypes.Remove(st);
 				olvST.BeginUpdate();
 				olvST.RemoveObject(st);
@@ -283,13 +301,14 @@ namespace AIEdit
 				TaskForceEntry tfe = olvTFUnits.SelectedObject as TaskForceEntry;
 				tf.Remove(tfe.Unit);
 				olvTFUnits.SetObjects(tf);
+				e.Handled = true;
 			}
 		}
 
 		private void cmbTFGroup_SelectionChangeCommitted(object sender, EventArgs e)
 		{
 			TaskForce tf = SelectedTaskForce();
-			tf.Group = cmbTFGroup.SelectedItem as GroupType;
+			tf.Group = cmbTFGroup.SelectedItem as AITypeListEntry;
 		}
 
 		private void olvST_SelectedIndexChanged(object sender, EventArgs e)
@@ -491,10 +510,57 @@ namespace AIEdit
 					break;
 				case Keys.Insert:
 					STActionNew();
+					e.Handled = true;
 					break;
 				case Keys.Delete:
 					STActionDelete();
+					e.Handled = true;
 					break;
+			}
+		}
+
+		private void olvTT_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TeamType tt = SelectedTeamType();
+			olvTTSettings.PrimarySortColumn = olvColTTSort;
+			olvTTSettings.PrimarySortOrder = SortOrder.Ascending;
+			olvTTSettings.SecondarySortColumn = olvColTTName;
+			olvTTSettings.SecondarySortOrder = SortOrder.Ascending;
+			olvTTSettings.Sort();
+			olvTTSettings.SetObjects(tt);
+		}
+
+		private void olvTTSettings_FormatRow(object sender, BrightIdeasSoftware.FormatRowEventArgs e)
+		{
+			//e.Item.SubItems[0].Text = (e.Model as TeamTypeEntry).Option.Name;
+		}
+
+		private void olvTTSettings_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			int idx = olvTTSettings.SelectedIndex;
+			TeamTypeOption option = (e.RowObject as TeamTypeEntry).Option;
+
+			if( (option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList) )
+			{
+				ComboBox cmb = new ComboBox();
+				cmb.FlatStyle = FlatStyle.Flat;
+				cmb.DropDownStyle = ComboBoxStyle.DropDownList;
+				cmb.Sorted = option is TeamTypeOptionAIObject;
+				foreach(object item in option.List) cmb.Items.Add(item);
+				cmb.SelectedItem = e.Value;
+				cmb.Bounds = e.CellBounds;
+				e.Control = cmb;
+			}
+		}
+
+		private void olvTTSettings_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			int idx = olvTTSettings.SelectedIndex;
+			TeamTypeOption option = (e.RowObject as TeamTypeEntry).Option; //teamTypeOptions[idx];
+
+			if ((option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList))
+			{
+				e.NewValue = (e.Control as ComboBox).SelectedItem;
 			}
 		}
 	}

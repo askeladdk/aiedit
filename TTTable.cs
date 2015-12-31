@@ -8,7 +8,7 @@ namespace AIEdit
     /// <summary>
     /// TeamType Table.
     /// </summary>
-    class TTTable : AITableOld<TeamType>
+    class TTTable : AITableOld<TeamTypeOld>
     {
         public TTTable()
         {
@@ -19,19 +19,19 @@ namespace AIEdit
             return "0" + id.ToString("X") + "-G";
         }
 
-        public TeamType NewTT(uint id, string name)
+        public TeamTypeOld NewTT(uint id, string name)
         {
-            TeamType tt = new TeamType();
+            TeamTypeOld tt = new TeamTypeOld();
             tt.ID = MakeId(id);
             tt.Name = name;
             Add(tt.ID, tt);
             return tt;
         }
 
-        public TeamType Copy(int index, uint id)
+        public TeamTypeOld Copy(int index, uint id)
         {
-            TeamType old = (TeamType)Table[index];
-            TeamType newtt = new TeamType(old, MakeId(id));
+            TeamTypeOld old = (TeamTypeOld)Table[index];
+            TeamTypeOld newtt = new TeamTypeOld(old, MakeId(id));
             newtt.Name = newtt.Name + " COPY";
             Add(newtt.ID, newtt);
             return newtt;
@@ -49,7 +49,7 @@ namespace AIEdit
 
             stream.WriteLine();
 
-            foreach (TeamType tt in Table.Values)
+            foreach (TeamTypeOld tt in Table.Values)
             {
                 tt.Write(stream);
             }
@@ -58,7 +58,7 @@ namespace AIEdit
         public override void ParseSection(IniParser ip)
         {
             string id = ip.Section;
-            TeamType tt = GetByID(id);
+            TeamTypeOld tt = GetByID(id);
 
             if (tt == null)
             {

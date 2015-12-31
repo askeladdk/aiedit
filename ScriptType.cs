@@ -234,12 +234,16 @@ namespace AIEdit
 	{
 		private List<ScriptAction> actions;
 		private string name, id;
+		private int uses;
 
 		public string Name { get { return name; } set { name = value; } }
 		public string ID { get { return id; } }
 		public int Count { get { return actions.Count; } }
-		public int Uses { get { return 0; } }
+		public int Uses { get { return uses; } }
 		public IList Actions { get { return actions; } }
+
+		public void IncUses() { uses++; }
+		public void DecUses() { uses--; }
 
 		public IEnumerator<ScriptAction> GetEnumerator()
 		{
@@ -249,6 +253,11 @@ namespace AIEdit
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		public override string ToString()
+		{
+			return name;
 		}
 
 		public ScriptType(string id, string name, List<ScriptAction> actions=null)

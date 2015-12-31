@@ -14,7 +14,6 @@ namespace AIEdit
 
 	public partial class frmMainNew : Form
 	{
-		private static int DEFAULT_GROUP = -1;
 		private static uint ID_BASE = 0x01000000;
 		private uint idCounter = ID_BASE;
 
@@ -22,16 +21,20 @@ namespace AIEdit
 		private List<TechnoType> unitTypes;     // sorted by name
 		private List<TechnoType> buildingTypes; // sorted by [BuildingTypes] index (very important)
 		private List<TechnoType> technoTypes;   // sorted by name
-		private string[] houses;           // sorted by [Houses] index (very important)
 
 		// AI CONFIG TABLES
-		private List<GroupType> groupTypes;
+		private List<AITypeListEntry> groupTypes;
+		private List<AITypeListEntry> veterancyTypes;
+		private List<AITypeListEntry> mindControlTypes;
+		private List<AITypeListEntry> houseTypes;
 		private List<IActionType> actionTypes;
+		private List<TeamTypeOption> teamTypeOptions;
 
 		// AI TABLES
 		//private OrderedDictionary taskForces;
 		private AITable<TaskForce> taskForces;
 		private AITable<ScriptType> scriptTypes;
+		private AITable<TeamType> teamTypes;
 
 		private string nextID()
 		{
@@ -39,7 +42,7 @@ namespace AIEdit
 			return id.ToString("X8") + "-G";
 		}
 
-		private void LoadTechnoTypes(List<TechnoType> technos, IniDictionary ini, string type, string editorName)
+		private void ParseTechnoTypes(List<TechnoType> technos, IniDictionary ini, string type, string editorName)
 		{
 			uint tableIndex = 0;
 			foreach (DictionaryEntry de in ini[type])
@@ -68,34 +71,6 @@ namespace AIEdit
 					tableIndex++;
 				}
 			}
-		}
-
-		private void LoadRules(string path, string sectionHouses, string editorName)
-		{
-			IniDictionary ini = IniParser.ParseToDictionary(path);
-
-			// load houses
-			houses = ini[sectionHouses].Values.Cast<string>().ToArray();
-
-			// load units
-			unitTypes = new List<TechnoType>();
-			LoadTechnoTypes(unitTypes, ini, "AircraftTypes", editorName);
-			LoadTechnoTypes(unitTypes, ini, "InfantryTypes", editorName);
-			LoadTechnoTypes(unitTypes, ini, "VehicleTypes", editorName);
-			unitTypes.Sort();
-
-			// load buildings
-			buildingTypes = new List<TechnoType>();
-			LoadTechnoTypes(buildingTypes, ini, "BuildingTypes", editorName);
-			buildingTypes.Sort();
-
-			// sort and combine technotypes
-			/*
-			technoTypes = new List<TechnoType>();
-			technoTypes.AddRange(unitTypes);
-			technoTypes.AddRange(buildingTypes);
-			technoTypes.Sort();
-			 */
 		}
 
 		private IList ToStringList(OrderedDictionary od)
@@ -159,27 +134,132 @@ namespace AIEdit
 			return actionTypes;
 		}
 
-		private List<GroupType> LoadGroupTypes(IniDictionary config)
+		private List<AITypeListEntry> LoadAITypeList(IniDictionary config, string sectionName)
 		{
-			List<GroupType> groupTypes = new List<GroupType>();
-			OrderedDictionary section = config["Group"];
+			List<AITypeListEntry> listTypes = new List<AITypeListEntry>();
+			OrderedDictionary section = config[sectionName];
 			foreach(DictionaryEntry entry in section)
 			{
 				int idx = int.Parse(entry.Key as string);
 				string name = entry.Value as string;
-				groupTypes.Add(new GroupType(idx, name));
+				listTypes.Add(new AITypeListEntry(idx, name));
 			}
-			return groupTypes;
+			return listTypes;
 		}
 
-		private void LoadConfig(IniDictionary config)
+		private List<TeamTypeOption> LoadTeamTypeOptions(IniDictionary config)
 		{
+			List<TeamTypeOption> options = new List<TeamTypeOption>();
+			OrderedDictionary section = config["TeamTypeOptionsNew"];
+			foreach(DictionaryEntry entry in section)
+			{
+				string[] split = (entry.Value as string).Split(',');
+				string tag = split[0];
+				string name = split[1];
+				string type = split[2];
+				TeamTypeOption option = null;
+
+				if(type.CompareTo("TASKFORCES") == 0)
+				{
+					option = new TeamTypeOptionAIObject(tag, name, taskForces.Items);
+				}
+				else if (type.CompareTo("SCRIPTTYPES") == 0)
+				{
+					option = new TeamTypeOptionAIObject(tag, name, scriptTypes.Items);
+				}
+				else if (type.CompareTo("VETERANCY") == 0)
+				{
+					option = new TeamTypeOptionList(tag, name, veterancyTypes);
+				}
+				else if (type.CompareTo("GROUP") == 0)
+				{
+					option = new TeamTypeOptionList(tag, name, groupTypes);
+				}
+				else if (type.CompareTo("MIND") == 0)
+				{
+					option = new TeamTypeOptionList(tag, name, mindControlTypes);
+				}
+				else if (type.CompareTo("HOUSE") == 0)
+				{
+					option = new TeamTypeOptionStringList(tag, name, houseTypes);
+				}
+				else if(type.CompareTo("BOOL") == 0)
+				{
+					option = new TeamTypeOptionBool(tag, name);
+				}
+				else
+				{
+					option = new TeamTypeOptionNumber(tag, name);
+				}
+
+				options.Add(option);
+			}
+
+			return options;
+		}
+
+		private void LoadTechnoTypes(IniDictionary rules, string editorName)
+		{
+			// load units
+			unitTypes = new List<TechnoType>();
+			ParseTechnoTypes(unitTypes, rules, "AircraftTypes", editorName);
+			ParseTechnoTypes(unitTypes, rules, "InfantryTypes", editorName);
+			ParseTechnoTypes(unitTypes, rules, "VehicleTypes", editorName);
+			unitTypes.Sort();
+
+			// load buildings
+			buildingTypes = new List<TechnoType>();
+			ParseTechnoTypes(buildingTypes, rules, "BuildingTypes", editorName);
+			buildingTypes.Sort();
+
+			// sort and combine technotypes
+			/*
+			technoTypes = new List<TechnoType>();
+			technoTypes.AddRange(unitTypes);
+			technoTypes.AddRange(buildingTypes);
+			technoTypes.Sort();
+			 */
+		}
+
+		private void Load(string rulesPath, string aiPath)
+		{
+			IniDictionary rules = IniParser.ParseToDictionary(rulesPath);
+			IniDictionary ai = IniParser.ParseToDictionary(aiPath);
+			IniDictionary config;
+			string configPath = "config/ts.ini";
+
+			// autodetect ra2/ts
+			if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
+			config = IniParser.ParseToDictionary(configPath);
+			
+			idCounter = ID_BASE;
+			if (ai.ContainsKey("AIEdit"))
+			{
+				idCounter = uint.Parse(ai["AIEdit"]["Counter"] as string);
+			}
+
+			string sectionHouses = config["General"].GetString("Houses");
+			string editorName    = config["General"].GetString("EditorName");
+
+			LoadTechnoTypes(rules, editorName);
+
+			houseTypes = LoadAITypeList(rules, sectionHouses);
+			houseTypes.Add(new AITypeListEntry(-1, "<none>"));
+
 			actionTypes = LoadActionTypes(config);
-			groupTypes = LoadGroupTypes(config);
+			groupTypes = LoadAITypeList(config, "Group");
+			veterancyTypes = LoadAITypeList(config, "VeteranLevels");
+			mindControlTypes = LoadAITypeList(config, "MCDecisions");
+
+			taskForces = LoadTaskForces(ai, technoTypes, groupTypes);
+			scriptTypes = LoadScriptTypes(ai, actionTypes);
+
+			teamTypeOptions = LoadTeamTypeOptions(config);
+			teamTypes = LoadTeamTypes(ai, teamTypeOptions);
 		}
 
 		private AITable<TaskForce> LoadTaskForces(IniDictionary ai,
-			List<TechnoType> technoTypes, List<GroupType> groupTypes)
+			List<TechnoType> technoTypes, List<AITypeListEntry> groupTypes)
 		{
 			List<TaskForce> items = new List<TaskForce>();
 			OrderedDictionary aiTaskForces = ai["TaskForces"] as OrderedDictionary;
@@ -187,7 +267,7 @@ namespace AIEdit
 			foreach (DictionaryEntry entry in aiTaskForces)
 			{
 				string id = entry.Value as string;
-				OrderedDictionary section = ai[id] as OrderedDictionary;
+				OrderedDictionary section = ai[id];
 				TaskForce tf = TaskForce.Parse(id, section, unitTypes, groupTypes);
 				items.Add(tf);
 			}
@@ -203,7 +283,7 @@ namespace AIEdit
 			foreach(DictionaryEntry entry in aiScriptTypes)
 			{
 				string id = entry.Value as string;
-				OrderedDictionary section = ai[id] as OrderedDictionary;
+				OrderedDictionary section = ai[id];
 				ScriptType tf = ScriptType.Parse(id, section, actionTypes);
 				items.Add(tf);
 			}
@@ -211,18 +291,20 @@ namespace AIEdit
 			return new AITable<ScriptType>("ScriptTypes", items);
 		}
 
-		private void LoadAI(string path)
+		private AITable<TeamType> LoadTeamTypes(IniDictionary ai, List<TeamTypeOption> teamTypeOptions)
 		{
-			IniDictionary ai = IniParser.ParseToDictionary(path);
+			List<TeamType> items = new List<TeamType>();
+			OrderedDictionary aiTeamTypes = ai["TeamTypes"] as OrderedDictionary;
 
-			idCounter = ID_BASE;
-			if (ai.ContainsKey("AIEdit"))
+			foreach(DictionaryEntry entry in aiTeamTypes)
 			{
-				idCounter = uint.Parse(ai["AIEdit"]["Counter"] as string);
+				string id = entry.Value as string;
+				OrderedDictionary section = ai[id];
+				TeamType tt = TeamType.Parse(id, section, teamTypeOptions);
+				items.Add(tt);
 			}
 
-			taskForces = LoadTaskForces(ai, technoTypes, groupTypes);
-			scriptTypes = LoadScriptTypes(ai, actionTypes);
+			return new AITable<TeamType>("TeamTypes", items);
 		}
 
 		private void WriteAI(string path)
@@ -235,6 +317,7 @@ namespace AIEdit
 
 			taskForces.Write(stream);
 			scriptTypes.Write(stream);
+			teamTypes.Write(stream);
 
 			stream.Close();
 		}

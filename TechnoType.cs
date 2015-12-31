@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AIEdit
 {
-	public class TechnoType : IAIObject, IParamListEntry, IComparable<TechnoType>
+	public class TechnoType : IParamListEntry, IComparable<TechnoType>
 	{
         private string name, owner, id;
         private uint cost;

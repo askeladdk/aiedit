@@ -114,6 +114,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIListTypeEntry.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="frmMainNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,7 +125,6 @@
     <Compile Include="frmMainNewFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GroupType.cs" />
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>

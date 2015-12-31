@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AIEdit
 {
-	public class GroupType
+	public class AITypeListEntry
 	{
 		private int value;
 		private string name;
@@ -13,7 +13,7 @@ namespace AIEdit
 		public int Value { get { return value; } }
 		public string Name { get { return name;} }
 
-		public GroupType(int value, string name)
+		public AITypeListEntry(int value, string name)
 		{
 			this.value = value;
 			this.name = name;

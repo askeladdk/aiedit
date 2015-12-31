@@ -35,13 +35,17 @@ namespace AIEdit
 	public class TaskForce : IAIObject, IEnumerable<TaskForceEntry>
 	{
 		private string name, id;
-		private GroupType group;
+		private AITypeListEntry group;
 		private List<TaskForceEntry> units;
+		private int uses;
 
 		public string Name { get { return name; } set { name = value; } }
 		public string ID { get { return id; } }
-		public int Uses { get { return 0; } }
-		public GroupType Group { get { return group; } set { group = value; } }
+		public int Uses { get { return uses; } }
+		public AITypeListEntry Group { get { return group; } set { group = value; } }
+
+		public void IncUses() { uses++; }
+		public void DecUses() { uses--; }
 
 		public IEnumerator<TaskForceEntry> GetEnumerator()
 		{
@@ -51,6 +55,11 @@ namespace AIEdit
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		public override string ToString()
+		{
+			return name;
 		}
 
 		private TaskForceEntry GetEntry(TechnoType unit)
@@ -79,7 +88,7 @@ namespace AIEdit
 			return cost;
 		}
 
-		public TaskForce(string id, string name, GroupType group, List<TaskForceEntry> units = null)
+		public TaskForce(string id, string name, AITypeListEntry group, List<TaskForceEntry> units = null)
 		{
 			this.id = id;
 			this.name = name;
@@ -143,14 +152,14 @@ namespace AIEdit
 		}
 
 		public static TaskForce Parse(string id, OrderedDictionary section,
-			List<TechnoType> technoTypes, List<GroupType> groupTypes)
+			List<TechnoType> technoTypes, List<AITypeListEntry> groupTypes)
 		{
 			string name = section["Name"] as string;
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
 
 			int groupi = int.Parse(section["Group"] as string);
-			GroupType group = groupTypes.Single(g => g.Value == groupi);
+			AITypeListEntry group = groupTypes.Single(g => g.Value == groupi);
 
 			for (int i = 1; i < section.Count - 1; i++)
 			{

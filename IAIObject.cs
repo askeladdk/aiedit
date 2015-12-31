@@ -16,6 +16,10 @@ namespace AIEdit
 	{
 		string Name { get; set; }
 		string ID { get; }
+		int Uses { get; }
+
+		void IncUses();
+		void DecUses();
 
 		void Write(StreamWriter stream);
 	}
