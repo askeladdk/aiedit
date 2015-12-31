@@ -43,7 +43,7 @@ namespace AIEdit
 			string sectionHouses = general["Houses"] as string;
 			string editorName = general["EditorName"] as string;
 
-			Load("rulesmd.ini", "aimd.ini");
+			LoadData("rulesmd.ini", "aimd.ini");
 
 			// cmb tf unit
 			cmbTFUnit.Items.Clear();
@@ -528,6 +528,7 @@ namespace AIEdit
 			olvTTSettings.SecondarySortOrder = SortOrder.Ascending;
 			olvTTSettings.Sort();
 			olvTTSettings.SetObjects(tt);
+			olvTTSettings.SelectedIndex = 0;
 		}
 
 		private void olvTTSettings_FormatRow(object sender, BrightIdeasSoftware.FormatRowEventArgs e)
@@ -540,7 +541,7 @@ namespace AIEdit
 			int idx = olvTTSettings.SelectedIndex;
 			TeamTypeOption option = (e.RowObject as TeamTypeEntry).Option;
 
-			if( (option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList) )
+			if(option.List != null)// (option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList) )
 			{
 				ComboBox cmb = new ComboBox();
 				cmb.FlatStyle = FlatStyle.Flat;
@@ -558,9 +559,70 @@ namespace AIEdit
 			int idx = olvTTSettings.SelectedIndex;
 			TeamTypeOption option = (e.RowObject as TeamTypeEntry).Option; //teamTypeOptions[idx];
 
-			if ((option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList))
+			if(option.List != null)// ((option is TeamTypeOptionAIObject) || (option is TeamTypeOptionList))
 			{
 				e.NewValue = (e.Control as ComboBox).SelectedItem;
+			}
+		}
+
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			switch(tabControl1.SelectedIndex)
+			{
+				case 0:
+					olvTF.RefreshObjects(taskForces.Items);
+					break;
+				case 1:
+					olvST.RefreshObjects(scriptTypes.Items);
+					break;
+				case 2:
+					olvTT.RefreshObjects(teamTypes.Items);
+					break;
+				case 3:
+					//olvTr.RefreshObjects(triggerTypes.Items);
+					break;
+			}
+		}
+
+		private void mnuTTNew_Click(object sender, EventArgs e)
+		{
+			InputBox.InputResult res = InputBox.Show("New Team", "Enter name:");
+
+			if (res.ReturnCode == DialogResult.OK)
+			{
+				string id = nextID();
+				List<TeamTypeEntry> entries = new List<TeamTypeEntry>();
+				foreach (TeamTypeOption option in teamTypeOptions) entries.Add(option.DefaultValue);
+				TeamType tt = new TeamType(id, res.Text, entries);
+				teamTypes.Add(tt);
+				olvTT.BeginUpdate();
+				olvTT.AddObject(tt);
+				olvTT.EndUpdate();
+				olvTT.SelectedObject = tt;
+			}
+		}
+
+		private void mnuTTDelete_Click(object sender, EventArgs e)
+		{
+			TeamType tt = SelectedTeamType();
+
+			if (tt.Uses > 0)
+			{
+				MessageBox.Show("Cannot delete Team while it is in use.", "Delete Team");
+				return;
+			}
+
+			DialogResult res = MessageBox.Show("Are you sure you want to delete this Team?",
+				"Delete Task Force", MessageBoxButtons.YesNo);
+
+			if (res == DialogResult.Yes)
+			{
+				int idx = Math.Min(olvTT.SelectedIndex, olvTT.Items.Count - 1);
+				teamTypes.Remove(tt);
+				olvTT.BeginUpdate();
+				olvTT.RemoveObject(tt);
+				olvTT.EndUpdate();
+				olvTT.SelectedIndex = idx;
 			}
 		}
 	}

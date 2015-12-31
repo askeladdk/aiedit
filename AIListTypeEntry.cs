@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AIEdit
 {
-	public class AITypeListEntry
+	public class AITypeListEntry : IComparable
 	{
 		private int value;
 		private string name;
@@ -22,6 +22,11 @@ namespace AIEdit
 		public override string ToString()
 		{
 			return name;
+		}
+
+		public int CompareTo(object other)
+		{
+			return name.CompareTo((other as AITypeListEntry).name);
 		}
 	}
 }

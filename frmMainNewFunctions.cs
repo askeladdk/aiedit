@@ -26,7 +26,8 @@ namespace AIEdit
 		private List<AITypeListEntry> groupTypes;
 		private List<AITypeListEntry> veterancyTypes;
 		private List<AITypeListEntry> mindControlTypes;
-		private List<AITypeListEntry> houseTypes;
+		private List<AITypeListEntry> teamHouseTypes;
+		private List<AITypeListEntry> triggerHouseTypes;
 		private List<IActionType> actionTypes;
 		private List<TeamTypeOption> teamTypeOptions;
 
@@ -134,9 +135,9 @@ namespace AIEdit
 			return actionTypes;
 		}
 
-		private List<AITypeListEntry> LoadAITypeList(IniDictionary config, string sectionName)
+		private List<AITypeListEntry> LoadAITypeList(IniDictionary config, string sectionName,
+			List<AITypeListEntry> listTypes)
 		{
-			List<AITypeListEntry> listTypes = new List<AITypeListEntry>();
 			OrderedDictionary section = config[sectionName];
 			foreach(DictionaryEntry entry in section)
 			{
@@ -145,6 +146,12 @@ namespace AIEdit
 				listTypes.Add(new AITypeListEntry(idx, name));
 			}
 			return listTypes;
+		}
+
+		private List<AITypeListEntry> LoadAITypeList(IniDictionary config, string sectionName)
+		{
+			List<AITypeListEntry> listTypes = new List<AITypeListEntry>();
+			return LoadAITypeList(config, sectionName, listTypes);
 		}
 
 		private List<TeamTypeOption> LoadTeamTypeOptions(IniDictionary config)
@@ -181,7 +188,7 @@ namespace AIEdit
 				}
 				else if (type.CompareTo("HOUSE") == 0)
 				{
-					option = new TeamTypeOptionStringList(tag, name, houseTypes);
+					option = new TeamTypeOptionStringList(tag, name, teamHouseTypes);
 				}
 				else if(type.CompareTo("BOOL") == 0)
 				{
@@ -221,7 +228,7 @@ namespace AIEdit
 			 */
 		}
 
-		private void Load(string rulesPath, string aiPath)
+		private void LoadData(string rulesPath, string aiPath)
 		{
 			IniDictionary rules = IniParser.ParseToDictionary(rulesPath);
 			IniDictionary ai = IniParser.ParseToDictionary(aiPath);
@@ -243,8 +250,13 @@ namespace AIEdit
 
 			LoadTechnoTypes(rules, editorName);
 
-			houseTypes = LoadAITypeList(rules, sectionHouses);
-			houseTypes.Add(new AITypeListEntry(-1, "<none>"));
+			teamHouseTypes = LoadAITypeList(rules, sectionHouses);
+			teamHouseTypes.Add(new AITypeListEntry(-1, "<none>"));
+			teamHouseTypes.Sort();
+
+			triggerHouseTypes = LoadAITypeList(rules, sectionHouses);
+			triggerHouseTypes.Add(new AITypeListEntry(-1, "<all>"));
+			triggerHouseTypes.Sort();
 
 			actionTypes = LoadActionTypes(config);
 			groupTypes = LoadAITypeList(config, "Group");
@@ -326,7 +338,7 @@ namespace AIEdit
 		{
 			TaskForce tf = olvTF.SelectedObject as TaskForce;
 			if (tf == null) return;
-			txtTFTotalCost.Text = tf.TotalCost().ToString();
+			txtTFTotalCost.Text = "$" + tf.TotalCost().ToString();
 		}
 	}
 }

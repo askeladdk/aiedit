@@ -92,6 +92,9 @@
 			this.olvColTTName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTUses = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.mnuCtxTT = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuTTNew = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuTTDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageTr = new System.Windows.Forms.TabPage();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -112,6 +115,7 @@
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.olvTTSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTT)).BeginInit();
+			this.mnuCtxTT.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -214,6 +218,7 @@
 			this.tabControl1.Size = new System.Drawing.Size(880, 634);
 			this.tabControl1.TabIndex = 1;
 			this.tabControl1.TabStop = false;
+			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
 			// tabPageTF
 			// 
@@ -365,11 +370,13 @@
 			// olvColTFCost
 			// 
 			this.olvColTFCost.AspectName = "Cost";
+			this.olvColTFCost.AspectToStringFormat = "${0:d}";
 			this.olvColTFCost.Hideable = false;
 			this.olvColTFCost.IsEditable = false;
 			this.olvColTFCost.Searchable = false;
 			this.olvColTFCost.Sortable = false;
 			this.olvColTFCost.Text = "Cost";
+			this.olvColTFCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// btnTFDelUnit
 			// 
@@ -431,7 +438,7 @@
 			this.tabPageST.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageST.Size = new System.Drawing.Size(872, 608);
 			this.tabPageST.TabIndex = 1;
-			this.tabPageST.Text = "Script Types";
+			this.tabPageST.Text = "Scripts";
 			this.tabPageST.UseVisualStyleBackColor = true;
 			// 
 			// olvST
@@ -567,6 +574,7 @@
 			this.olvColSTIndex.IsEditable = false;
 			this.olvColSTIndex.Sortable = false;
 			this.olvColSTIndex.Text = "#";
+			this.olvColSTIndex.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.olvColSTIndex.Width = 30;
 			// 
 			// olvColSTAction
@@ -645,7 +653,7 @@
 			this.tabPageTT.Name = "tabPageTT";
 			this.tabPageTT.Size = new System.Drawing.Size(872, 608);
 			this.tabPageTT.TabIndex = 2;
-			this.tabPageTT.Text = "Team Types";
+			this.tabPageTT.Text = "Teams";
 			this.tabPageTT.UseVisualStyleBackColor = true;
 			// 
 			// groupBox3
@@ -726,6 +734,7 @@
             this.olvColTTName,
             this.olvColTTID,
             this.olvColTTUses});
+			this.olvTT.ContextMenuStrip = this.mnuCtxTT;
 			this.olvTT.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTT.FullRowSelect = true;
 			this.olvTT.HideSelection = false;
@@ -765,13 +774,35 @@
 			this.olvColTTUses.Text = "Uses";
 			this.olvColTTUses.Width = 40;
 			// 
+			// mnuCtxTT
+			// 
+			this.mnuCtxTT.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTTNew,
+            this.mnuTTDelete});
+			this.mnuCtxTT.Name = "mnuCtxTT";
+			this.mnuCtxTT.Size = new System.Drawing.Size(153, 70);
+			// 
+			// mnuTTNew
+			// 
+			this.mnuTTNew.Name = "mnuTTNew";
+			this.mnuTTNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuTTNew.Text = "New";
+			this.mnuTTNew.Click += new System.EventHandler(this.mnuTTNew_Click);
+			// 
+			// mnuTTDelete
+			// 
+			this.mnuTTDelete.Name = "mnuTTDelete";
+			this.mnuTTDelete.Size = new System.Drawing.Size(152, 22);
+			this.mnuTTDelete.Text = "Delete";
+			this.mnuTTDelete.Click += new System.EventHandler(this.mnuTTDelete_Click);
+			// 
 			// tabPageTr
 			// 
 			this.tabPageTr.Location = new System.Drawing.Point(4, 22);
 			this.tabPageTr.Name = "tabPageTr";
-			this.tabPageTr.Size = new System.Drawing.Size(872, 508);
+			this.tabPageTr.Size = new System.Drawing.Size(872, 608);
 			this.tabPageTr.TabIndex = 3;
-			this.tabPageTr.Text = "Trigger Types";
+			this.tabPageTr.Text = "Triggers";
 			this.tabPageTr.UseVisualStyleBackColor = true;
 			// 
 			// openFileDialog1
@@ -812,6 +843,7 @@
 			this.groupBox3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.olvTTSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTT)).EndInit();
+			this.mnuCtxTT.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -884,5 +916,8 @@
 		private BrightIdeasSoftware.OLVColumn olvColTTSetting;
 		private BrightIdeasSoftware.OLVColumn olvColTTValue;
 		private BrightIdeasSoftware.OLVColumn olvColTTSort;
+		private System.Windows.Forms.ContextMenuStrip mnuCtxTT;
+		private System.Windows.Forms.ToolStripMenuItem mnuTTNew;
+		private System.Windows.Forms.ToolStripMenuItem mnuTTDelete;
 	}
 }
