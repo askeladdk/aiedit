@@ -36,6 +36,11 @@ namespace AIEdit
 			return olvTT.SelectedObject as TeamType;
 		}
 
+		public TriggerType SelectedTriggerType()
+		{
+			return olvTr.SelectedObject as TriggerType;
+		}
+
 		private void mnuLoadRA_Click(object sender, EventArgs e)
 		{
 			IniDictionary config = IniParser.ParseToDictionary("config/ra2.ini");
@@ -63,6 +68,9 @@ namespace AIEdit
 
 			olvTT.Sort(olvColTTName, SortOrder.Ascending);
 			olvTT.SetObjects(teamTypes.Items);
+
+			olvTr.Sort(olvColTrName, SortOrder.Ascending);
+			olvTr.SetObjects(triggerTypes.Items);
 		}
 
 		private void UpdateTFUnit(int mod)
@@ -417,6 +425,10 @@ namespace AIEdit
 					NumericUpDown nud = e.Control as NumericUpDown;
 					action.Param = (uint)nud.Value;
 				}
+				else if(action.Action.ParamType == ScriptParamType.AIObject)
+				{
+					//action.Param = 
+				}
 				else
 				{
 					ComboBox cmb = e.Control as ComboBox;
@@ -579,7 +591,7 @@ namespace AIEdit
 					olvTT.RefreshObjects(teamTypes.Items);
 					break;
 				case 3:
-					//olvTr.RefreshObjects(triggerTypes.Items);
+					olvTr.RefreshObjects(triggerTypes.Items);
 					break;
 			}
 		}
@@ -623,6 +635,48 @@ namespace AIEdit
 				olvTT.RemoveObject(tt);
 				olvTT.EndUpdate();
 				olvTT.SelectedIndex = idx;
+			}
+		}
+
+		private void olvTr_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			TriggerType tr = SelectedTriggerType();
+			olvTrSettings.PrimarySortColumn = olvColTrSort;
+			olvTrSettings.PrimarySortOrder = SortOrder.Ascending;
+			olvTrSettings.Sort();
+			olvTrSettings.SetObjects(tr);
+			olvTrSettings.SelectedIndex = 0;
+		}
+
+		private void olvTrSettings_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			int idx = olvTrSettings.SelectedIndex;
+			TriggerTypeOption option = (e.RowObject as TriggerTypeEntry).Option;
+
+			if (option.List != null)
+			{
+				ComboBox cmb = new ComboBox();
+				cmb.FlatStyle = FlatStyle.Flat;
+				cmb.DropDownStyle = ComboBoxStyle.DropDownList;
+				cmb.Sorted = option is TriggerTypeOptionAIObject;
+
+				if (option is TriggerTypeOptionAIObject) cmb.Items.Add(noneTeam);
+				foreach (object item in option.List) cmb.Items.Add(item);
+
+				cmb.SelectedItem = e.Value;
+				cmb.Bounds = e.CellBounds;
+				e.Control = cmb;
+			}
+		}
+
+		private void olvTrSettings_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			int idx = olvTrSettings.SelectedIndex;
+			TriggerTypeOption option = (e.RowObject as TriggerTypeEntry).Option;
+
+			if (option.List != null)
+			{
+				e.NewValue = (e.Control as ComboBox).SelectedItem;
 			}
 		}
 	}

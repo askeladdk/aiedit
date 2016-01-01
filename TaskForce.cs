@@ -147,7 +147,7 @@ namespace AIEdit
 				stream.WriteLine(n + "=" + entry.Count + "," + entry.Unit.ID);
 				n++;
 			}
-			stream.WriteLine("Group=" + this.group.Value);
+			stream.WriteLine("Group=" + this.group.Index);
 			stream.WriteLine();
 		}
 
@@ -159,7 +159,7 @@ namespace AIEdit
 			TechnoType deftt = technoTypes[0] as TechnoType;
 
 			int groupi = int.Parse(section["Group"] as string);
-			AITypeListEntry group = groupTypes.Single(g => g.Value == groupi);
+			AITypeListEntry group = groupTypes.Single(g => g.Index == groupi);
 
 			for (int i = 1; i < section.Count - 1; i++)
 			{

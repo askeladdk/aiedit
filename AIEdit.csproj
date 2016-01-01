@@ -151,7 +151,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TriggerType.cs" />
-    <Compile Include="TrTable.cs" />
     <Content Include="App.ico" />
     <EmbeddedResource Include="frmMainNew.resx">
       <DependentUpon>frmMainNew.cs</DependentUpon>

@@ -96,6 +96,14 @@
 			this.mnuTTNew = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuTTDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageTr = new System.Windows.Forms.TabPage();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.olvTrSettings = new BrightIdeasSoftware.ObjectListView();
+			this.olvColTrSort = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrSetting = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrValue = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvTr = new BrightIdeasSoftware.ObjectListView();
+			this.olvColTrName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
@@ -116,6 +124,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTTSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTT)).BeginInit();
 			this.mnuCtxTT.SuspendLayout();
+			this.tabPageTr.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.olvTr)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -551,6 +563,7 @@
 			this.olvSTActions.ContextMenuStrip = this.mnuCtxSTActions;
 			this.olvSTActions.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvSTActions.FullRowSelect = true;
+			this.olvSTActions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvSTActions.HideSelection = false;
 			this.olvSTActions.HighlightBackgroundColor = System.Drawing.Color.Empty;
 			this.olvSTActions.HighlightForegroundColor = System.Drawing.Color.Empty;
@@ -711,7 +724,6 @@
 			this.olvColTTSetting.AspectName = "Name";
 			this.olvColTTSetting.Hideable = false;
 			this.olvColTTSetting.IsEditable = false;
-			this.olvColTTSetting.Sortable = false;
 			this.olvColTTSetting.Text = "Setting";
 			this.olvColTTSetting.Width = 200;
 			// 
@@ -780,30 +792,136 @@
             this.mnuTTNew,
             this.mnuTTDelete});
 			this.mnuCtxTT.Name = "mnuCtxTT";
-			this.mnuCtxTT.Size = new System.Drawing.Size(153, 70);
+			this.mnuCtxTT.Size = new System.Drawing.Size(108, 48);
 			// 
 			// mnuTTNew
 			// 
 			this.mnuTTNew.Name = "mnuTTNew";
-			this.mnuTTNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuTTNew.Size = new System.Drawing.Size(107, 22);
 			this.mnuTTNew.Text = "New";
 			this.mnuTTNew.Click += new System.EventHandler(this.mnuTTNew_Click);
 			// 
 			// mnuTTDelete
 			// 
 			this.mnuTTDelete.Name = "mnuTTDelete";
-			this.mnuTTDelete.Size = new System.Drawing.Size(152, 22);
+			this.mnuTTDelete.Size = new System.Drawing.Size(107, 22);
 			this.mnuTTDelete.Text = "Delete";
 			this.mnuTTDelete.Click += new System.EventHandler(this.mnuTTDelete_Click);
 			// 
 			// tabPageTr
 			// 
+			this.tabPageTr.Controls.Add(this.groupBox4);
+			this.tabPageTr.Controls.Add(this.olvTr);
 			this.tabPageTr.Location = new System.Drawing.Point(4, 22);
 			this.tabPageTr.Name = "tabPageTr";
 			this.tabPageTr.Size = new System.Drawing.Size(872, 608);
 			this.tabPageTr.TabIndex = 3;
 			this.tabPageTr.Text = "Triggers";
 			this.tabPageTr.UseVisualStyleBackColor = true;
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.olvTrSettings);
+			this.groupBox4.Location = new System.Drawing.Point(333, 6);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(534, 594);
+			this.groupBox4.TabIndex = 1;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Settings";
+			// 
+			// olvTrSettings
+			// 
+			this.olvTrSettings.AllColumns.Add(this.olvColTrSort);
+			this.olvTrSettings.AllColumns.Add(this.olvColTrSetting);
+			this.olvTrSettings.AllColumns.Add(this.olvColTrValue);
+			this.olvTrSettings.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.SingleClickAlways;
+			this.olvTrSettings.CellEditUseWholeCell = false;
+			this.olvTrSettings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColTrSort,
+            this.olvColTrSetting,
+            this.olvColTrValue});
+			this.olvTrSettings.Cursor = System.Windows.Forms.Cursors.Default;
+			this.olvTrSettings.FullRowSelect = true;
+			this.olvTrSettings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.olvTrSettings.HideSelection = false;
+			this.olvTrSettings.HighlightBackgroundColor = System.Drawing.Color.Empty;
+			this.olvTrSettings.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTrSettings.Location = new System.Drawing.Point(6, 19);
+			this.olvTrSettings.MultiSelect = false;
+			this.olvTrSettings.Name = "olvTrSettings";
+			this.olvTrSettings.ShowGroups = false;
+			this.olvTrSettings.Size = new System.Drawing.Size(522, 569);
+			this.olvTrSettings.TabIndex = 0;
+			this.olvTrSettings.UseCompatibleStateImageBehavior = false;
+			this.olvTrSettings.View = System.Windows.Forms.View.Details;
+			this.olvTrSettings.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvTrSettings_CellEditFinishing);
+			this.olvTrSettings.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvTrSettings_CellEditStarting);
+			// 
+			// olvColTrSort
+			// 
+			this.olvColTrSort.AspectName = "SortOrder";
+			this.olvColTrSort.Hideable = false;
+			this.olvColTrSort.IsEditable = false;
+			this.olvColTrSort.MaximumWidth = 0;
+			this.olvColTrSort.MinimumWidth = 0;
+			this.olvColTrSort.Text = "Sort Order";
+			this.olvColTrSort.Width = 0;
+			// 
+			// olvColTrSetting
+			// 
+			this.olvColTrSetting.AspectName = "Name";
+			this.olvColTrSetting.Hideable = false;
+			this.olvColTrSetting.IsEditable = false;
+			this.olvColTrSetting.Text = "Setting";
+			this.olvColTrSetting.Width = 200;
+			// 
+			// olvColTrValue
+			// 
+			this.olvColTrValue.AspectName = "Value";
+			this.olvColTrValue.Hideable = false;
+			this.olvColTrValue.Sortable = false;
+			this.olvColTrValue.Text = "Value";
+			this.olvColTrValue.Width = 300;
+			// 
+			// olvTr
+			// 
+			this.olvTr.AllColumns.Add(this.olvColTrName);
+			this.olvTr.AllColumns.Add(this.olvColTrID);
+			this.olvTr.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
+			this.olvTr.CellEditUseWholeCell = false;
+			this.olvTr.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColTrName,
+            this.olvColTrID});
+			this.olvTr.Cursor = System.Windows.Forms.Cursors.Default;
+			this.olvTr.FullRowSelect = true;
+			this.olvTr.HideSelection = false;
+			this.olvTr.HighlightBackgroundColor = System.Drawing.Color.Empty;
+			this.olvTr.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTr.Location = new System.Drawing.Point(6, 6);
+			this.olvTr.MultiSelect = false;
+			this.olvTr.Name = "olvTr";
+			this.olvTr.ShowGroups = false;
+			this.olvTr.Size = new System.Drawing.Size(320, 594);
+			this.olvTr.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			this.olvTr.TabIndex = 0;
+			this.olvTr.UseCompatibleStateImageBehavior = false;
+			this.olvTr.View = System.Windows.Forms.View.Details;
+			this.olvTr.SelectedIndexChanged += new System.EventHandler(this.olvTr_SelectedIndexChanged);
+			// 
+			// olvColTrName
+			// 
+			this.olvColTrName.AspectName = "Name";
+			this.olvColTrName.Hideable = false;
+			this.olvColTrName.Text = "Name";
+			this.olvColTrName.Width = 290;
+			// 
+			// olvColTrID
+			// 
+			this.olvColTrID.AspectName = "ID";
+			this.olvColTrID.Hideable = false;
+			this.olvColTrID.IsEditable = false;
+			this.olvColTrID.Text = "ID";
+			this.olvColTrID.Width = 0;
 			// 
 			// openFileDialog1
 			// 
@@ -844,6 +962,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTTSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTT)).EndInit();
 			this.mnuCtxTT.ResumeLayout(false);
+			this.tabPageTr.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.olvTr)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -919,5 +1041,13 @@
 		private System.Windows.Forms.ContextMenuStrip mnuCtxTT;
 		private System.Windows.Forms.ToolStripMenuItem mnuTTNew;
 		private System.Windows.Forms.ToolStripMenuItem mnuTTDelete;
+		private BrightIdeasSoftware.ObjectListView olvTr;
+		private BrightIdeasSoftware.OLVColumn olvColTrName;
+		private BrightIdeasSoftware.OLVColumn olvColTrID;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private BrightIdeasSoftware.ObjectListView olvTrSettings;
+		private BrightIdeasSoftware.OLVColumn olvColTrSort;
+		private BrightIdeasSoftware.OLVColumn olvColTrSetting;
+		private BrightIdeasSoftware.OLVColumn olvColTrValue;
 	}
 }

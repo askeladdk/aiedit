@@ -7,15 +7,15 @@ namespace AIEdit
 {
 	public class AITypeListEntry : IComparable
 	{
-		private int value;
+		private int index;
 		private string name;
 
-		public int Value { get { return value; } }
+		public int Index { get { return index; } }
 		public string Name { get { return name;} }
 
-		public AITypeListEntry(int value, string name)
+		public AITypeListEntry(int index, string name)
 		{
-			this.value = value;
+			this.index = index;
 			this.name = name;
 		}
 

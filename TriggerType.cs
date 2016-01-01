@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Globalization;
 
 namespace AIEdit
 {
@@ -15,14 +17,14 @@ namespace AIEdit
         BaseDefense
     }
 
-    class TriggerType : IAIObjectOld
+    class TriggerTypeOld : IAIObjectOld
     {
         private string name, id;
         private string teamtype, teamtype2, owner, techtype;
         private int side, techlevel, oper, amount, prob, probmax, probmin, condition;
         private bool[] options;
 
-        public TriggerType()
+        public TriggerTypeOld()
         {
             name = "";
             id = "";
@@ -45,7 +47,7 @@ namespace AIEdit
         /// Copy constructor.
         /// </summary>
         /// <param name="tt"></param>
-        public TriggerType(TriggerType tt, string newid)
+        public TriggerTypeOld(TriggerTypeOld tt, string newid)
         {
             name = new string(tt.name.ToCharArray());
             id = newid;
@@ -163,5 +165,336 @@ namespace AIEdit
         public string ID { get { return id; } set { id = value; } }
         #endregion
     }
-}
 
+
+
+
+	public abstract class TriggerTypeOption
+	{
+		protected string name;
+		private int sortOrder;
+
+		public string Name { get { return name; } }
+		public int SortOrder { get { return sortOrder; } }
+
+		public abstract IList List { get; }
+		public abstract string ToString(object value);
+
+		public TriggerTypeOption(string name, int sortOrder)
+		{
+			this.name = name;
+			this.sortOrder = sortOrder;
+		}
+
+		public virtual object FindByIndex(int index, object def=null)
+		{
+			foreach (AITypeListEntry entry in this.List)
+			{
+				if (entry.Index == index) return entry;
+			}
+			return def;
+		}
+
+		public virtual object FindByString(string str, object def=null)
+		{
+			foreach (AITypeListEntry entry in this.List)
+			{
+				if (entry.Name == str) return entry;
+			}
+			return def;
+		}
+	}
+
+
+	public class TriggerTypeOptionBool : TriggerTypeOptionList
+	{
+		private static List<AITypeListEntry> bools = new List<AITypeListEntry>()
+		{
+			new AITypeListEntry(0, "no"),
+			new AITypeListEntry(1, "yes"),
+		};
+		
+		public TriggerTypeOptionBool(string name, int sortOrder)
+			: base(name, sortOrder, bools)
+		{
+		}
+	}
+
+	public class TriggerTypeOptionNumber : TriggerTypeOption
+	{
+		public override IList List { get { return null; } }
+
+		public override string ToString(object value)
+		{
+			return value.ToString();
+		}
+
+		public TriggerTypeOptionNumber(string name, int sortOrder)
+			: base(name, sortOrder)
+		{
+		}
+	}
+
+	public class TriggerTypeOptionList : TriggerTypeOption
+	{
+		protected IList dataList;
+
+		public override IList List { get { return dataList; } }
+
+		public override string ToString(object value)
+		{
+			return (value as AITypeListEntry).Index.ToString();
+		}
+
+		public TriggerTypeOptionList(string name, int sortOrder, IList dataList)
+			: base(name, sortOrder)
+		{
+			this.dataList = dataList;
+		}
+	}
+
+	public class TriggerTypeOptionStringList : TriggerTypeOptionList
+	{
+		public override string ToString(object value)
+		{
+			return (value as AITypeListEntry).Name;
+		}
+
+		public TriggerTypeOptionStringList(string name, int sortOrder, IList dataList)
+			: base(name, sortOrder, dataList)
+		{
+		}
+	}
+
+	public class TriggerTypeOptionAIObject : TriggerTypeOptionList
+	{
+		public override string ToString(object value)
+		{
+			return (value as IAIObject).ID;
+		}
+
+		public TriggerTypeOptionAIObject(string name, int sortOrder, IList dataList)
+			: base(name, sortOrder, dataList)
+		{
+		}
+
+		public override object FindByString(string str, object def=null)
+		{
+			foreach (IAIObject entry in this.List)
+			{
+				if (entry.ID == str) return entry;
+			}
+			return def;
+		}
+	}
+
+	public class TriggerTypeOptionTechno : TriggerTypeOptionList
+	{
+		public override string ToString(object value)
+		{
+			return (value as TechnoType).ID;
+		}
+
+		public TriggerTypeOptionTechno(string name, int sortOrder, IList dataList)
+			: base(name, sortOrder, dataList)
+		{
+		}
+
+		public override object FindByString(string str, object def = null)
+		{
+			foreach (TechnoType entry in this.List)
+			{
+				if (entry.ID == str) return entry;
+			}
+			return def;
+		}
+	}
+	
+	public class TriggerTypeEntry
+	{
+		private TriggerTypeOption option;
+		private object value;
+
+
+		public object Value
+		{
+			get
+			{
+				return value;
+			}
+			set
+			{
+				if (this.value is IAIObject) (this.value as IAIObject).DecUses();
+				if (value is IAIObject) (value as IAIObject).IncUses();
+				this.value = value;
+			}
+		}
+
+		public string Name { get { return option.Name; } }
+		public int SortOrder { get { return option.SortOrder; } }
+		public IList List { get { return option.List; } }
+		public TriggerTypeOption Option { get { return option; } }
+
+		public TriggerTypeEntry(TriggerTypeOption option, object value)
+		{
+			this.option = option;
+			Value = value;
+		}
+
+		public override string ToString()
+		{
+			return option.ToString(value);
+		}
+	}
+
+	public class TriggerType : IAIObject, IEnumerable<TriggerTypeEntry>
+	{
+		private string id, name;
+		private Dictionary<string, TriggerTypeEntry> entries;
+
+		public string ID { get { return id; } }
+		public string Name { get { return name; } set { name = value; } }
+		public int Uses { get { return 0; } }
+		public void IncUses() { }
+		public void DecUses() { }
+
+		public IEnumerator<TriggerTypeEntry> GetEnumerator()
+		{
+			return entries.Values.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public TriggerType(string id, string name, Dictionary<string, TriggerTypeEntry> entries)
+		{
+			this.id = id;
+			this.name = name;
+			this.entries = entries;
+		}
+
+		public void Write(StreamWriter stream)
+		{
+
+		}
+
+		public static TriggerType Parse(string id, string data,
+			Dictionary<string, TriggerTypeOption> triggerTypeOptions, TeamType noneTeam)
+		{
+			string[] split = data.Split(',');
+			string tag;
+			string name = split[0];
+			TriggerTypeOption option;
+			Dictionary<string, TriggerTypeEntry> entries = new Dictionary<string, TriggerTypeEntry>();
+			object value;
+
+			// team 1
+			tag = "Team1";
+			option = triggerTypeOptions[tag];
+			value = option.FindByString(split[1], noneTeam);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// owner
+			tag = "Owner";
+			option = triggerTypeOptions[tag];
+			value = option.FindByString(split[2]);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// techlevel
+			tag = "TechLevel";
+			option = triggerTypeOptions[tag];
+			value = uint.Parse(split[3]);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// condition
+			tag = "Condition";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[4]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// techtype
+			tag = "TechType";
+			option = triggerTypeOptions[tag];
+			value = option.FindByString(split[5]);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// amount
+			tag = "Amount";
+			option = triggerTypeOptions[tag];
+			value = Convert.ToUInt32(split[6].Substring(0, 8), 16).SwapEndianness();
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// operator
+			tag = "Operator";
+			option = triggerTypeOptions[tag];
+			value = Convert.ToUInt32(split[6].Substring(8, 8), 16);//.SwapEndianness();
+			value = option.FindByIndex((int)(uint)value);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// starting probability
+			tag = "Prob";
+			option = triggerTypeOptions[tag];
+			value = (uint)float.Parse(split[7], CultureInfo.InvariantCulture);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// minimum probability
+			tag = "ProbMin";
+			option = triggerTypeOptions[tag];
+			value = (uint)float.Parse(split[8], CultureInfo.InvariantCulture);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// maximum probability
+			tag = "ProbMax";
+			option = triggerTypeOptions[tag];
+			value = (uint)float.Parse(split[9], CultureInfo.InvariantCulture);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// skirmish
+			tag = "Skirmish";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[10]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// side
+			tag = "Side";
+			option = triggerTypeOptions[tag];
+			int side = int.Parse(split[12]);
+			value = option.FindByIndex(side);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// base defense
+			tag = "BaseDefense";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[13]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// team 2
+			tag = "Team2";
+			option = triggerTypeOptions[tag];
+			value = option.FindByString(split[14], noneTeam);
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// easy
+			tag = "Easy";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[15]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// medium
+			tag = "Medium";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[16]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// hard
+			tag = "Hard";
+			option = triggerTypeOptions[tag];
+			value = option.FindByIndex(int.Parse(split[17]));
+			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			return new TriggerType(id, name, entries);
+		}
+	}
+}

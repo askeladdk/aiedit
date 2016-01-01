@@ -27,9 +27,9 @@ namespace AIEdit
             names = new Hashtable();
         }
 
-        public TriggerType NewTr(uint id, string name)
+        public TriggerTypeOld NewTr(uint id, string name)
         {
-            TriggerType tr = new TriggerType();
+            TriggerTypeOld tr = new TriggerTypeOld();
             tr.ID = MakeId(id);
             tr.Name = name; // tf.ID;
             //if (tr.Name == null) tr.Name = tr.ID;
@@ -38,17 +38,17 @@ namespace AIEdit
             return tr;
         }
 
-        public TriggerType Copy(int index, uint id)
+        public TriggerTypeOld Copy(int index, uint id)
         {
-            TriggerType old = (TriggerType)Table[index];
-            TriggerType newtt = new TriggerType(old, MakeId(id));
+            TriggerTypeOld old = (TriggerTypeOld)Table[index];
+            TriggerTypeOld newtt = new TriggerTypeOld(old, MakeId(id));
             newtt.Name = newtt.Name + " COPY";
             table[newtt.ID] = newtt;
             names[newtt.Name] = newtt;
             return newtt;
         }
 
-        public void UpdateName(TriggerType t, string newname)
+        public void UpdateName(TriggerTypeOld t, string newname)
         {
             if (!names.ContainsKey(t.Name)) return;
             names.Remove(t.Name);
@@ -67,7 +67,7 @@ namespace AIEdit
             StreamReader stream = new StreamReader(file);
             IniParser ip = new IniParser(stream);
             IDictionaryEnumerator e;
-            TriggerType tr;
+            TriggerTypeOld tr;
 
             while (ip.Next())
             {
@@ -77,7 +77,7 @@ namespace AIEdit
                     e = ip.Table.GetEnumerator();
                     while (e.MoveNext())
                     {
-                        tr = new TriggerType();
+                        tr = new TriggerTypeOld();
                         tr.Parse((string)e.Key, (string)e.Value);
                         table.Add(tr.ID, tr);
                         names[tr.Name] = tr;
@@ -95,27 +95,27 @@ namespace AIEdit
         public void Write(StreamWriter stream)
         {
             stream.WriteLine("[AITriggerTypes]");
-            foreach (TriggerType tt in table.Values) tt.Write(stream);
+            foreach (TriggerTypeOld tt in table.Values) tt.Write(stream);
         }
 
         public string[] GetNames()
         {
             int i = 0;
             string[] a = new string[table.Count];
-            foreach (TriggerType tr in table.Values) a[i++] = tr.Name;
+            foreach (TriggerTypeOld tr in table.Values) a[i++] = tr.Name;
             return a;
         }
 
-        public TriggerType GetByID(string id)
+        public TriggerTypeOld GetByID(string id)
         {
             if (!table.Contains(id)) return null;
-            return (TriggerType)table[id];
+            return (TriggerTypeOld)table[id];
         }
 
-        public TriggerType GetByName(string name)
+        public TriggerTypeOld GetByName(string name)
         {
             if (!names.Contains(name)) return null;
-            return (TriggerType)names[name];
+            return (TriggerTypeOld)names[name];
         }
 
         public OrderedDictionary Table { get { return table; } }

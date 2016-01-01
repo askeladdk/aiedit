@@ -42,8 +42,7 @@ namespace AIEdit
 		Number,
 		List,
 		TechnoType,
-		ScriptType,
-		TeamType
+		AIObject
 	}
 
 	public interface IActionType
@@ -230,11 +229,13 @@ namespace AIEdit
 	/// <summary>
 	/// Script Type.
 	/// </summary>
-	public class ScriptType : IAIObject, IEnumerable<ScriptAction>
+	public class ScriptType : IAIObject, IEnumerable<ScriptAction>, IParamListEntry
 	{
 		private List<ScriptAction> actions;
 		private string name, id;
 		private int uses;
+
+		public uint ParamListIndex { get { return 0; } }
 
 		public string Name { get { return name; } set { name = value; } }
 		public string ID { get { return id; } }

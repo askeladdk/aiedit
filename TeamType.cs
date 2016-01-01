@@ -84,14 +84,14 @@ namespace AIEdit
 			int val = section.GetInt(tag);
 			foreach (AITypeListEntry listitem in dataList)
 			{
-				if (listitem.Value == val) return new TeamTypeEntry(this, listitem);
+				if (listitem.Index == val) return new TeamTypeEntry(this, listitem);
 			}
 			return new TeamTypeEntry(this, null);
 		}
 
 		public override void Write(StreamWriter stream, object value)
 		{
-			int v = (value as AITypeListEntry).Value;
+			int v = (value as AITypeListEntry).Index;
 			stream.WriteLine(tag + "=" + v);
 		}
 	}
@@ -182,11 +182,14 @@ namespace AIEdit
 		}
 	}
 
-	public class TeamType : IAIObject, IEnumerable<TeamTypeEntry>
+	public class TeamType : IAIObject, IEnumerable<TeamTypeEntry>, IParamListEntry
 	{
 		private string name, id;
 		private List<TeamTypeEntry> entries;
 		private int uses;
+
+
+		public uint ParamListIndex { get { return 0; } }
 
 		public string Name { get { return name; } set { name = value; } }
 		public string ID { get { return id; } }
@@ -210,6 +213,11 @@ namespace AIEdit
 			this.id = id;
 			this.name = name;
 			this.entries = (entries != null) ? entries : new List<TeamTypeEntry>();
+		}
+
+		public override string ToString()
+		{
+			return name;
 		}
 
 		public void Write(StreamWriter stream)
