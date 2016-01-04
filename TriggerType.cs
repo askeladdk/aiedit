@@ -377,7 +377,28 @@ namespace AIEdit
 
 		public void Write(StreamWriter stream)
 		{
-
+			string s = string.Format("{0}={1},{2},{3},{4},{5},{6},{7}0{8}000000000000000000000000000000000000000000000000000000,{9}.000000,{10}.000000,{11}.000000,{12},0,{13},{14},{15},{16},{17},{18}",
+				id,
+				name,
+				(entries["Team1"].Value as TeamType).ID,
+				entries["Owner"].Value,
+				entries["TechLevel"].Value,
+				(entries["Condition"].Value as AITypeListEntry).Index,
+				(entries["TechType"].Value as TechnoType).ID,
+				((uint)entries["Amount"].Value).SwapEndianness().ToString("X8"),
+				(entries["Operator"].Value as AITypeListEntry).Index,
+				entries["Prob"].Value,
+				entries["ProbMin"].Value,
+				entries["ProbMax"].Value,
+				(entries["Skirmish"].Value as AITypeListEntry).Index,
+				(entries["Side"].Value as AITypeListEntry).Index,
+				(entries["BaseDefense"].Value as AITypeListEntry).Index,
+				(entries["Team2"].Value as TeamType).ID,
+				(entries["Easy"].Value as AITypeListEntry).Index,
+				(entries["Medium"].Value as AITypeListEntry).Index,
+				(entries["Hard"].Value as AITypeListEntry).Index
+			);
+			stream.WriteLine(s);
 		}
 
 		public static TriggerType Parse(string id, string data,
@@ -429,7 +450,7 @@ namespace AIEdit
 			// operator
 			tag = "Operator";
 			option = triggerTypeOptions[tag];
-			value = Convert.ToUInt32(split[6].Substring(8, 8), 16);//.SwapEndianness();
+			value = uint.Parse(split[6].Substring(9, 1));
 			value = option.FindByIndex((int)(uint)value);
 			entries.Add(tag, new TriggerTypeEntry(option, value));
 
@@ -456,6 +477,8 @@ namespace AIEdit
 			option = triggerTypeOptions[tag];
 			value = option.FindByIndex(int.Parse(split[10]));
 			entries.Add(tag, new TriggerTypeEntry(option, value));
+
+			// [11] is unknown and always zero
 
 			// side
 			tag = "Side";

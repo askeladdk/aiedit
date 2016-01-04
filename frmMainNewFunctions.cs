@@ -127,6 +127,7 @@ namespace AIEdit
 				{
 					actionType = new ActionTypeNumber(code, name, desc);
 				}
+					/*
 				else if (type.CompareTo("ScriptTypes") == 0)
 				{
 					actionType = new ActionTypeList(code, name, desc, scriptTypes.Items, ScriptParamType.AIObject);
@@ -135,6 +136,7 @@ namespace AIEdit
 				{
 					actionType = new ActionTypeList(code, name, desc, teamTypes.Items, ScriptParamType.AIObject);
 				}
+					 * */
 				else if (type.CompareTo("BuildingTypes") == 0)
 				{
 					actionType = new ActionTypeList(code, name, desc, typeLists[type], ScriptParamType.TechnoType);
@@ -172,7 +174,7 @@ namespace AIEdit
 		private List<TeamTypeOption> LoadTeamTypeOptions(IniDictionary config)
 		{
 			List<TeamTypeOption> options = new List<TeamTypeOption>();
-			OrderedDictionary section = config["TeamTypeOptionsNew"];
+			OrderedDictionary section = config["TeamTypeOptions"];
 
 			foreach(DictionaryEntry entry in section)
 			{
@@ -224,7 +226,7 @@ namespace AIEdit
 		private Dictionary<string, TriggerTypeOption> LoadTriggerTypeOptions(IniDictionary config)
 		{
 			Dictionary<string, TriggerTypeOption> options = new Dictionary<string, TriggerTypeOption>();
-			OrderedDictionary section = config["TriggerTypeOptionsNew"];
+			OrderedDictionary section = config["TriggerTypeOptions"];
 			int sortOrder = 0;
 
 			foreach(DictionaryEntry entry in section)
@@ -419,14 +421,16 @@ namespace AIEdit
 		private void WriteAI(string path)
 		{
 			StreamWriter stream = new StreamWriter(path);
-
-			stream.WriteLine("[AIEdit]");
-			stream.WriteLine("Index=" + idCounter);
-			stream.WriteLine();
-
+			
 			taskForces.Write(stream);
 			scriptTypes.Write(stream);
 			teamTypes.Write(stream);
+			triggerTypes.Write(stream, false);
+
+			stream.WriteLine();
+			stream.WriteLine("[AIEdit]");
+			stream.WriteLine("Index=" + idCounter);
+			stream.WriteLine();
 
 			stream.Close();
 		}

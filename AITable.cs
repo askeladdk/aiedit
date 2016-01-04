@@ -52,16 +52,20 @@ namespace AIEdit
 			items.Remove(entry);
 		}
 
-		public void Write(StreamWriter stream)
+		public void Write(StreamWriter stream, bool writeIDs=true)
 		{
 			stream.WriteLine("[" + name + "]");
-			int n = 0;
-			foreach(T entry in items)
+
+			if (writeIDs)
 			{
-				stream.WriteLine(n + "=" + entry.ID);
-				n++;
+				int n = 0;
+				foreach (T entry in items)
+				{
+					stream.WriteLine(n + "=" + entry.ID);
+					n++;
+				}
+				stream.WriteLine();
 			}
-			stream.WriteLine();
 
 			foreach(T entry in items) entry.Write(stream);
 		}
