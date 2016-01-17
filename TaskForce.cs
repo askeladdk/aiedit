@@ -166,7 +166,14 @@ namespace AIEdit
 				string[] split = (section[i] as string).Split(',');
 				uint count = uint.Parse(split[0] as string);
 				string unitid = split[1] as string;
-				TechnoType tt = technoTypes.Single(t => t.ID == unitid);
+				TechnoType tt = technoTypes.SingleOrDefault(t => t.ID == unitid);
+				
+				if(tt == null)
+				{
+					MessageBox.Show("TechnoType " + unitid + " referenced in Task Force \"" + name + "\" does not exist!", "Warning");
+					tt = new TechnoType(unitid, unitid, 0, 0);
+					technoTypes.Add(tt);
+				}
 
 				if (tt == null)
 				{

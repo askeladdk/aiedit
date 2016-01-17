@@ -59,7 +59,7 @@
     </StartProgram>
     <StartURL>
     </StartURL>
-    <StartWorkingDirectory>./</StartWorkingDirectory>
+    <StartWorkingDirectory>.\..\..</StartWorkingDirectory>
     <StartWithIE>false</StartWithIE>
   </PropertyGroup>
 </Project>

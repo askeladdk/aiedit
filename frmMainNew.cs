@@ -43,34 +43,7 @@ namespace AIEdit
 
 		private void mnuLoadRA_Click(object sender, EventArgs e)
 		{
-			IniDictionary config = IniParser.ParseToDictionary("config/ra2.ini");
-			OrderedDictionary general = config["General"];
-			string sectionHouses = general["Houses"] as string;
-			string editorName = general["EditorName"] as string;
-
-			LoadData("rulesmd.ini", "aimd.ini");
-
-			// cmb tf unit
-			cmbTFUnit.Items.Clear();
-			foreach(TechnoType entry in unitTypes) cmbTFUnit.Items.Add(entry);
-			cmbTFUnit.SelectedIndex = 0;
-
-			// cmb tf group
-			cmbTFGroup.Items.Clear();
-			foreach (AITypeListEntry gt in groupTypes) cmbTFGroup.Items.Add(gt);
-			cmbTFGroup.SelectedIndex = 0;
 			
-			olvTF.Sort(olvColTFName, SortOrder.Ascending);
-			olvTF.SetObjects(taskForces.Items);
-
-			olvST.Sort(olvColSTName, SortOrder.Ascending);
-			olvST.SetObjects(scriptTypes.Items);
-
-			olvTT.Sort(olvColTTName, SortOrder.Ascending);
-			olvTT.SetObjects(teamTypes.Items);
-
-			olvTr.Sort(olvColTrName, SortOrder.Ascending);
-			olvTr.SetObjects(triggerTypes.Items);
 		}
 
 		private void UpdateTFUnit(int mod)
@@ -103,7 +76,10 @@ namespace AIEdit
 
 		private void saveAIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			WriteAI("aimd_out.ini");
+			saveFileDialog1.FileName = "*.ini";
+			saveFileDialog1.Title = "Save AI";
+			if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
+			WriteAI(saveFileDialog1.FileName);
 		}
 
 		private void DelActiveTF()
@@ -625,7 +601,7 @@ namespace AIEdit
 			}
 
 			DialogResult res = MessageBox.Show("Are you sure you want to delete this Team?",
-				"Delete Task Force", MessageBoxButtons.YesNo);
+				"Delete Trigger", MessageBoxButtons.YesNo);
 
 			if (res == DialogResult.Yes)
 			{
@@ -678,6 +654,116 @@ namespace AIEdit
 			{
 				e.NewValue = (e.Control as ComboBox).SelectedItem;
 			}
+		}
+
+		private void mnuNewTr_Click(object sender, EventArgs e)
+		{
+			InputBox.InputResult res = InputBox.Show("New Trigger", "Enter name:");
+
+			if (res.ReturnCode == DialogResult.OK)
+			{
+				string id = nextID();
+				TriggerType tr = new TriggerType(id, res.Text, triggerTypeOptions);
+				triggerTypes.Add(tr);
+				olvTr.BeginUpdate();
+				olvTr.AddObject(tr);
+				olvTr.EndUpdate();
+				olvTr.SelectedObject = tr;
+			}
+		}
+
+		private void mnuDeleteTr_Click(object sender, EventArgs e)
+		{
+			TriggerType tr = SelectedTriggerType();
+			
+			DialogResult res = MessageBox.Show("Are you sure you want to delete this Trigger?",
+				"Delete Trigger", MessageBoxButtons.YesNo);
+
+			if (res == DialogResult.Yes)
+			{
+				int idx = Math.Min(olvTr.SelectedIndex, olvTr.Items.Count - 1);
+				triggerTypes.Remove(tr);
+				olvTr.BeginUpdate();
+				olvTr.RemoveObject(tr);
+				olvTr.EndUpdate();
+				olvTr.SelectedIndex = idx;
+			}
+		}
+
+		private void olvTr_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch(e.KeyCode)
+			{
+				case Keys.Insert:
+					mnuNewTr_Click(sender, e);
+					break;
+				case Keys.Delete:
+					mnuDeleteTr_Click(sender, e);
+					break;
+			}
+		}
+
+		string OpenFileDialog(string title, string filename)
+		{
+			openFileDialog1.Title = title;
+			openFileDialog1.FileName = filename;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				return openFileDialog1.FileName;
+			}
+
+			return null;
+		}
+
+		void LoadAI(string rulesfile, string aifile)
+		{
+			LoadData(rulesfile, aifile);
+
+			olvTFUnits.Items.Clear();
+			olvSTActions.Items.Clear();
+			olvTTSettings.Items.Clear();
+			olvTrSettings.Items.Clear();
+
+			// cmb tf unit
+			cmbTFUnit.Items.Clear();
+			foreach (TechnoType entry in unitTypes) cmbTFUnit.Items.Add(entry);
+			cmbTFUnit.SelectedIndex = 0;
+
+			// cmb tf group
+			cmbTFGroup.Items.Clear();
+			foreach (AITypeListEntry gt in groupTypes) cmbTFGroup.Items.Add(gt);
+			cmbTFGroup.SelectedIndex = 0;
+
+			olvTF.Sort(olvColTFName, SortOrder.Ascending);
+			olvTF.SetObjects(taskForces.Items);
+
+			olvST.Sort(olvColSTName, SortOrder.Ascending);
+			olvST.SetObjects(scriptTypes.Items);
+
+			olvTT.Sort(olvColTTName, SortOrder.Ascending);
+			olvTT.SetObjects(teamTypes.Items);
+
+			olvTr.Sort(olvColTrName, SortOrder.Ascending);
+			olvTr.SetObjects(triggerTypes.Items);
+		}
+
+		private void mnuLoad_Click(object sender, EventArgs e)
+		{
+			string rulesfile = OpenFileDialog("Select Rules", "rules*.ini");
+			if (rulesfile == null) return;
+			string aifile = OpenFileDialog("Select AI", "ai*.ini");
+			if (aifile == null) return;
+
+			LoadAI(rulesfile, aifile);
+		}
+
+		private void mnuNew_Click(object sender, EventArgs e)
+		{
+			string rulesfile = OpenFileDialog("Select Rules", "rules*.ini");
+			if (rulesfile == null) return;
+
+			LoadAI(rulesfile, "config/default.ini");
 		}
 	}
 }

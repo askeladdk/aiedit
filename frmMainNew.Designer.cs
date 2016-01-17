@@ -32,11 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainNew));
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.loadRulesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuLoadRA = new System.Windows.Forms.ToolStripMenuItem();
-			this.tiberianSunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.loadAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuLoad = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			this.clearAllDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +101,9 @@
 			this.olvTr = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTrName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.mnuCtxTr = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.mnuNewTr = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuDeleteTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
@@ -128,6 +128,7 @@
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).BeginInit();
+			this.mnuCtxTr.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -143,9 +144,8 @@
 			// fileToolStripMenuItem
 			// 
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadRulesToolStripMenuItem,
-            this.loadAIToolStripMenuItem,
-            this.toolStripMenuItem1,
+            this.mnuNew,
+            this.mnuLoad,
             this.saveAIToolStripMenuItem,
             this.toolStripMenuItem2,
             this.clearAllDataToolStripMenuItem,
@@ -155,66 +155,47 @@
 			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
-			// loadRulesToolStripMenuItem
+			// mnuNew
 			// 
-			this.loadRulesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuLoadRA,
-            this.tiberianSunToolStripMenuItem});
-			this.loadRulesToolStripMenuItem.Name = "loadRulesToolStripMenuItem";
-			this.loadRulesToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-			this.loadRulesToolStripMenuItem.Text = "Load &Rules";
+			this.mnuNew.Name = "mnuNew";
+			this.mnuNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuNew.Text = "&New";
+			this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
 			// 
-			// mnuLoadRA
+			// mnuLoad
 			// 
-			this.mnuLoadRA.Name = "mnuLoadRA";
-			this.mnuLoadRA.Size = new System.Drawing.Size(140, 22);
-			this.mnuLoadRA.Text = "Red Alert 2";
-			this.mnuLoadRA.Click += new System.EventHandler(this.mnuLoadRA_Click);
-			// 
-			// tiberianSunToolStripMenuItem
-			// 
-			this.tiberianSunToolStripMenuItem.Name = "tiberianSunToolStripMenuItem";
-			this.tiberianSunToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-			this.tiberianSunToolStripMenuItem.Text = "Tiberian Sun";
-			// 
-			// loadAIToolStripMenuItem
-			// 
-			this.loadAIToolStripMenuItem.Name = "loadAIToolStripMenuItem";
-			this.loadAIToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-			this.loadAIToolStripMenuItem.Text = "Load &AI";
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(142, 6);
+			this.mnuLoad.Name = "mnuLoad";
+			this.mnuLoad.Size = new System.Drawing.Size(152, 22);
+			this.mnuLoad.Text = "&Open";
+			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
 			// saveAIToolStripMenuItem
 			// 
 			this.saveAIToolStripMenuItem.Name = "saveAIToolStripMenuItem";
-			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-			this.saveAIToolStripMenuItem.Text = "&Save AI";
+			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAIToolStripMenuItem.Text = "&Save";
 			this.saveAIToolStripMenuItem.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(142, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
 			// 
 			// clearAllDataToolStripMenuItem
 			// 
 			this.clearAllDataToolStripMenuItem.Name = "clearAllDataToolStripMenuItem";
-			this.clearAllDataToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.clearAllDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.clearAllDataToolStripMenuItem.Text = "&Clear All Data";
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(142, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			// 
 			// tabControl1
@@ -892,6 +873,7 @@
 			this.olvTr.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTrName,
             this.olvColTrID});
+			this.olvTr.ContextMenuStrip = this.mnuCtxTr;
 			this.olvTr.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTr.FullRowSelect = true;
 			this.olvTr.HideSelection = false;
@@ -907,6 +889,7 @@
 			this.olvTr.UseCompatibleStateImageBehavior = false;
 			this.olvTr.View = System.Windows.Forms.View.Details;
 			this.olvTr.SelectedIndexChanged += new System.EventHandler(this.olvTr_SelectedIndexChanged);
+			this.olvTr.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvTr_KeyDown);
 			// 
 			// olvColTrName
 			// 
@@ -922,6 +905,28 @@
 			this.olvColTrID.IsEditable = false;
 			this.olvColTrID.Text = "ID";
 			this.olvColTrID.Width = 0;
+			// 
+			// mnuCtxTr
+			// 
+			this.mnuCtxTr.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuNewTr,
+            this.mnuDeleteTr});
+			this.mnuCtxTr.Name = "mnuCtxTr";
+			this.mnuCtxTr.Size = new System.Drawing.Size(108, 48);
+			// 
+			// mnuNewTr
+			// 
+			this.mnuNewTr.Name = "mnuNewTr";
+			this.mnuNewTr.Size = new System.Drawing.Size(107, 22);
+			this.mnuNewTr.Text = "New";
+			this.mnuNewTr.Click += new System.EventHandler(this.mnuNewTr_Click);
+			// 
+			// mnuDeleteTr
+			// 
+			this.mnuDeleteTr.Name = "mnuDeleteTr";
+			this.mnuDeleteTr.Size = new System.Drawing.Size(107, 22);
+			this.mnuDeleteTr.Text = "Delete";
+			this.mnuDeleteTr.Click += new System.EventHandler(this.mnuDeleteTr_Click);
 			// 
 			// openFileDialog1
 			// 
@@ -966,6 +971,7 @@
 			this.groupBox4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).EndInit();
+			this.mnuCtxTr.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -978,16 +984,11 @@
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPageTF;
 		private System.Windows.Forms.TabPage tabPageST;
-		private System.Windows.Forms.ToolStripMenuItem loadRulesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem loadAIToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem saveAIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem clearAllDataToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem mnuLoadRA;
-		private System.Windows.Forms.ToolStripMenuItem tiberianSunToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.GroupBox groupBox1;
@@ -1049,5 +1050,10 @@
 		private BrightIdeasSoftware.OLVColumn olvColTrSort;
 		private BrightIdeasSoftware.OLVColumn olvColTrSetting;
 		private BrightIdeasSoftware.OLVColumn olvColTrValue;
+		private System.Windows.Forms.ContextMenuStrip mnuCtxTr;
+		private System.Windows.Forms.ToolStripMenuItem mnuNewTr;
+		private System.Windows.Forms.ToolStripMenuItem mnuDeleteTr;
+		private System.Windows.Forms.ToolStripMenuItem mnuLoad;
+		private System.Windows.Forms.ToolStripMenuItem mnuNew;
 	}
 }

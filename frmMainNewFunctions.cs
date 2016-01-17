@@ -309,11 +309,11 @@ namespace AIEdit
 			// autodetect ra2/ts
 			if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
 			config = IniParser.ParseToDictionary(configPath);
-			
+
 			idCounter = ID_BASE;
 			if (ai.ContainsKey("AIEdit"))
 			{
-				idCounter = uint.Parse(ai["AIEdit"]["Counter"] as string);
+				idCounter = uint.Parse(ai["AIEdit"]["Index"] as string);
 			}
 
 			string sectionHouses = config["General"].GetString("Houses");

@@ -180,6 +180,8 @@ namespace AIEdit
 		public abstract IList List { get; }
 		public abstract string ToString(object value);
 
+		public abstract TriggerTypeEntry DefaultValue();
+
 		public TriggerTypeOption(string name, int sortOrder)
 		{
 			this.name = name;
@@ -233,6 +235,11 @@ namespace AIEdit
 			: base(name, sortOrder)
 		{
 		}
+
+		public override TriggerTypeEntry DefaultValue()
+		{
+			return new TriggerTypeEntry(this, 0U);
+		}
 	}
 
 	public class TriggerTypeOptionList : TriggerTypeOption
@@ -250,6 +257,11 @@ namespace AIEdit
 			: base(name, sortOrder)
 		{
 			this.dataList = dataList;
+		}
+
+		public override TriggerTypeEntry DefaultValue()
+		{
+			return new TriggerTypeEntry(this, dataList[0]);
 		}
 	}
 
@@ -375,6 +387,18 @@ namespace AIEdit
 			this.entries = entries;
 		}
 
+		public TriggerType(string id, string name, Dictionary<string, TriggerTypeOption> triggerTypeOptions)
+		{
+			this.id = id;
+			this.name = name;
+			this.entries = new Dictionary<string, TriggerTypeEntry>();
+
+			foreach(KeyValuePair<string, TriggerTypeOption> option in triggerTypeOptions)
+			{
+				this.entries.Add(option.Key, option.Value.DefaultValue());
+			}
+		}
+
 		public void Write(StreamWriter stream)
 		{
 			string s = string.Format("{0}={1},{2},{3},{4},{5},{6},{7}0{8}000000000000000000000000000000000000000000000000000000,{9}.000000,{10}.000000,{11}.000000,{12},0,{13},{14},{15},{16},{17},{18}",
@@ -385,7 +409,7 @@ namespace AIEdit
 				entries["TechLevel"].Value,
 				(entries["Condition"].Value as AITypeListEntry).Index,
 				(entries["TechType"].Value as TechnoType).ID,
-				((uint)entries["Amount"].Value).SwapEndianness().ToString("X8"),
+				((uint)entries["Amount"].Value).SwapEndianness().ToString("x8"),
 				(entries["Operator"].Value as AITypeListEntry).Index,
 				entries["Prob"].Value,
 				entries["ProbMin"].Value,

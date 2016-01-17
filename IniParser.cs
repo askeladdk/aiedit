@@ -170,7 +170,7 @@ namespace AIEdit
 					if( (index = line.IndexOf(']')) == -1 ) continue;
 					key = line.Substring(1, index - 1);
 					section = new OrderedDictionary();
-					ini.Add(key, section);
+					if( !ini.ContainsKey(key) ) ini.Add(key, section);
 				}
 				// key=value pair
 				else if(section != null)
