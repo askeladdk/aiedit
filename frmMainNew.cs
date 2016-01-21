@@ -759,6 +759,7 @@ namespace AIEdit
 			if (aifile == null) return;
 
 			LoadAI(rulesfile, aifile);
+			this.Text = "C&C AI Editor - " + aifile;
 		}
 
 		private void mnuNew_Click(object sender, EventArgs e)
@@ -767,6 +768,7 @@ namespace AIEdit
 			if (rulesfile == null) return;
 
 			LoadAI(rulesfile, "config/default.ini");
+			this.Text = "C&C AI Editor";
 		}
 
 		private void olvST_KeyDown(object sender, KeyEventArgs e)
