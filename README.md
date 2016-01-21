@@ -1,18 +1,20 @@
-### AIEdit ###
+### C&C AI Editor ###
 
-Editor for Red Alert 2 and Tiberian Sun AI.ini files.
-
-Deezire's AI guide is included in case you need help figuring out what's what. The program usage itself should be self explanatory.
+This is a program to edit the AI of the Red Alert 2 and Tiberian Sun computer games. To use it you have to extract the rules.ini and ai.ini files first.
 
 The config directory contains two ini files with the correct configuration for vanilla RA2 and TS. These files can be edited to support your own mod.
 
-## Known issues ##
-
-- The editor crashes if the ai.ini contains errors. For example, there are a couple of improperly formatted TriggerTypes in Deezire's ai.ini which you have to fix manually first.
-
-- The editor also crashes if any AI Type contains references to units or buildings that do not exist in the rules.ini.
-
 ## Changelog ##
+
+### v2.00 ###
+- Rewrote the entire program!
+- Cleaned up user interface.
+- Autodetects RA2 and TS modes.
+- Now loads all AI files regardless of how the sections are ordered.
+- Sorted lists for easy searching and organising.
+- AI type references are tracked and you can see what they are used by (right click -> Use Info).
+- Added keyboard shortcuts for most actions.
+- Now distributed under ISC license.
 
 ### v1.06 ###
 - Bugfix: Building offsets (again...).
