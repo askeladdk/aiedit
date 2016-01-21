@@ -37,6 +37,8 @@ namespace AIEdit
 
 		private TeamType noneTeam = new TeamType("<none>", "<none>", null);
 
+		private string digestString = null;
+
 		// AI TABLES
 		//private OrderedDictionary taskForces;
 		private AITable<TaskForce> taskForces;
@@ -316,6 +318,9 @@ namespace AIEdit
 				idCounter = uint.Parse(ai["AIEdit"]["Index"] as string);
 			}
 
+			if (ai.ContainsKey("Digest")) digestString = ai["Digest"].GetString("1");
+			else digestString = config["General"].GetString("Digest");
+
 			string sectionHouses = config["General"].GetString("Houses");
 			string editorName    = config["General"].GetString("EditorName");
 
@@ -426,11 +431,14 @@ namespace AIEdit
 			scriptTypes.Write(stream);
 			teamTypes.Write(stream);
 			triggerTypes.Write(stream, false);
-
 			stream.WriteLine();
+
+			stream.WriteLine("[Digest]");
+			stream.WriteLine("1=" + digestString);
+			stream.WriteLine();
+
 			stream.WriteLine("[AIEdit]");
 			stream.WriteLine("Index=" + idCounter);
-			stream.WriteLine();
 
 			stream.Close();
 		}
