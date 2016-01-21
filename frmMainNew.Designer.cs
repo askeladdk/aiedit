@@ -65,7 +65,7 @@
 			this.olvColSTUses = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.mnuCtxST = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuNewST = new System.Windows.Forms.ToolStripMenuItem();
-			this.deleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuDelST = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.txtSTActionDesc = new System.Windows.Forms.TextBox();
 			this.olvSTActions = new BrightIdeasSoftware.ObjectListView();
@@ -158,44 +158,44 @@
 			// mnuNew
 			// 
 			this.mnuNew.Name = "mnuNew";
-			this.mnuNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuNew.Size = new System.Drawing.Size(145, 22);
 			this.mnuNew.Text = "&New";
 			this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
 			// 
 			// mnuLoad
 			// 
 			this.mnuLoad.Name = "mnuLoad";
-			this.mnuLoad.Size = new System.Drawing.Size(152, 22);
+			this.mnuLoad.Size = new System.Drawing.Size(145, 22);
 			this.mnuLoad.Text = "&Open";
 			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
 			// saveAIToolStripMenuItem
 			// 
 			this.saveAIToolStripMenuItem.Name = "saveAIToolStripMenuItem";
-			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.saveAIToolStripMenuItem.Text = "&Save";
 			this.saveAIToolStripMenuItem.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(142, 6);
 			// 
 			// clearAllDataToolStripMenuItem
 			// 
 			this.clearAllDataToolStripMenuItem.Name = "clearAllDataToolStripMenuItem";
-			this.clearAllDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.clearAllDataToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.clearAllDataToolStripMenuItem.Text = "&Clear All Data";
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(142, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			// 
 			// tabControl1
@@ -462,6 +462,7 @@
 			this.olvST.View = System.Windows.Forms.View.Details;
 			this.olvST.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvST_CellEditFinished);
 			this.olvST.SelectedIndexChanged += new System.EventHandler(this.olvST_SelectedIndexChanged);
+			this.olvST.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvST_KeyDown);
 			// 
 			// olvColSTName
 			// 
@@ -489,7 +490,7 @@
 			// 
 			this.mnuCtxST.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuNewST,
-            this.deleteToolStripMenuItem1});
+            this.mnuDelST});
 			this.mnuCtxST.Name = "mnuCtxST";
 			this.mnuCtxST.Size = new System.Drawing.Size(108, 48);
 			// 
@@ -500,12 +501,12 @@
 			this.mnuNewST.Text = "New";
 			this.mnuNewST.Click += new System.EventHandler(this.mnuNewST_Click);
 			// 
-			// deleteToolStripMenuItem1
+			// mnuDelST
 			// 
-			this.deleteToolStripMenuItem1.Name = "deleteToolStripMenuItem1";
-			this.deleteToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-			this.deleteToolStripMenuItem1.Text = "Delete";
-			this.deleteToolStripMenuItem1.Click += new System.EventHandler(this.deleteToolStripMenuItem1_Click);
+			this.mnuDelST.Name = "mnuDelST";
+			this.mnuDelST.Size = new System.Drawing.Size(107, 22);
+			this.mnuDelST.Text = "Delete";
+			this.mnuDelST.Click += new System.EventHandler(this.mnuDelST_Click);
 			// 
 			// groupBox2
 			// 
@@ -743,6 +744,7 @@
 			this.olvTT.UseCompatibleStateImageBehavior = false;
 			this.olvTT.View = System.Windows.Forms.View.Details;
 			this.olvTT.SelectedIndexChanged += new System.EventHandler(this.olvTT_SelectedIndexChanged);
+			this.olvTT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvTT_KeyDown);
 			// 
 			// olvColTTName
 			// 
@@ -1029,7 +1031,7 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuSTActionDelete;
 		private System.Windows.Forms.ContextMenuStrip mnuCtxST;
 		private System.Windows.Forms.ToolStripMenuItem mnuNewST;
-		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem mnuDelST;
 		private BrightIdeasSoftware.ObjectListView olvTT;
 		private BrightIdeasSoftware.OLVColumn olvColTTName;
 		private BrightIdeasSoftware.OLVColumn olvColTTUses;

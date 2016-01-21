@@ -82,55 +82,6 @@ namespace AIEdit
 			WriteAI(saveFileDialog1.FileName);
 		}
 
-		private void DelActiveTF()
-		{
-			TaskForce tf = SelectedTaskForce();
-
-			if(tf.Uses > 0)
-			{
-				MessageBox.Show("Cannot delete Task Force while it is in use.", "Delete Task Force");
-				return;
-			}
-
-			DialogResult res = MessageBox.Show("Are you sure you want to delete this Task Force?",
-				"Delete Task Force", MessageBoxButtons.YesNo);
-
-			if (res == DialogResult.Yes)
-			{
-				int idx = Math.Min(olvTF.SelectedIndex, olvTF.Items.Count - 1);
-				taskForces.Remove(tf);
-				olvTF.BeginUpdate();
-				olvTF.RemoveObject(tf);
-				olvTF.EndUpdate();
-				olvTF.SelectedIndex = idx;
-			}
-		}
-
-		private void DelActiveST()
-		{
-			ScriptType st = SelectedScriptType();
-
-			if (st.Uses > 0)
-			{
-				MessageBox.Show("Cannot delete Script Type while it is in use.", "Delete Script Type");
-				return;
-			}
-
-			DialogResult res = MessageBox.Show("Are you sure you want to delete this Script Type?",
-				"Delete Script Type", MessageBoxButtons.YesNo);
-
-			if (res == DialogResult.Yes)
-			{
-				int idx = Math.Min(olvST.SelectedIndex, olvST.Items.Count - 1);
-				scriptTypes.Remove(st);
-				olvST.BeginUpdate();
-				olvST.RemoveObject(st);
-				olvST.EndUpdate();
-				olvST.SelectedIndex = idx;
-			}
-		}
-
-
 		private void STActionMoveUp()
 		{
 			ScriptType st = SelectedScriptType();
@@ -177,7 +128,26 @@ namespace AIEdit
 
 		private void mnuDelTF_Click(object sender, EventArgs e)
 		{
-			DelActiveTF();
+			TaskForce tf = SelectedTaskForce();
+
+			if (tf.Uses > 0)
+			{
+				MessageBox.Show("Cannot delete Task Force while it is in use.", "Delete Task Force");
+				return;
+			}
+
+			DialogResult res = MessageBox.Show("Are you sure you want to delete this Task Force?",
+				"Delete Task Force", MessageBoxButtons.YesNo);
+
+			if (res == DialogResult.Yes)
+			{
+				int idx = Math.Min(olvTF.SelectedIndex, olvTF.Items.Count - 1);
+				taskForces.Remove(tf);
+				olvTF.BeginUpdate();
+				olvTF.RemoveObject(tf);
+				olvTF.EndUpdate();
+				olvTF.SelectedIndex = idx;
+			}
 		}
 
 		private void mnuNewTF_Click(object sender, EventArgs e)
@@ -274,7 +244,15 @@ namespace AIEdit
 
 		private void olvTF_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Delete) DelActiveTF();
+			switch(e.KeyCode)
+			{
+				case Keys.Insert:
+					mnuNewTF_Click(sender, e);
+					break;
+				case Keys.Delete:
+					mnuDelTF_Click(sender, e);
+					break;
+			}
 		}
 
 		private void olvTFUnits_KeyDown(object sender, KeyEventArgs e)
@@ -451,9 +429,28 @@ namespace AIEdit
 			}
 		}
 
-		private void deleteToolStripMenuItem1_Click(object sender, EventArgs e)
+		private void mnuDelST_Click(object sender, EventArgs e)
 		{
-			DelActiveST();
+			ScriptType st = SelectedScriptType();
+
+			if (st.Uses > 0)
+			{
+				MessageBox.Show("Cannot delete Script Type while it is in use.", "Delete Script Type");
+				return;
+			}
+
+			DialogResult res = MessageBox.Show("Are you sure you want to delete this Script Type?",
+				"Delete Script Type", MessageBoxButtons.YesNo);
+
+			if (res == DialogResult.Yes)
+			{
+				int idx = Math.Min(olvST.SelectedIndex, olvST.Items.Count - 1);
+				scriptTypes.Remove(st);
+				olvST.BeginUpdate();
+				olvST.RemoveObject(st);
+				olvST.EndUpdate();
+				olvST.SelectedIndex = idx;
+			}
 		}
 
 		private void olvTFUnits_SelectedIndexChanged(object sender, EventArgs e)
@@ -764,6 +761,32 @@ namespace AIEdit
 			if (rulesfile == null) return;
 
 			LoadAI(rulesfile, "config/default.ini");
+		}
+
+		private void olvST_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch(e.KeyCode)
+			{
+				case Keys.Insert:
+					mnuNewST_Click(sender, e);
+					break;
+				case Keys.Delete:
+					mnuDelST_Click(sender, e);
+					break;
+			}
+		}
+
+		private void olvTT_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch(e.KeyCode)
+			{
+				case Keys.Insert:
+					mnuTTNew_Click(sender, e);
+					break;
+				case Keys.Delete:
+					mnuTTDelete_Click(sender, e);
+					break;
+			}
 		}
 	}
 }
