@@ -208,6 +208,11 @@ namespace AIEdit
 			return GetEnumerator();
 		}
 
+		public bool HasObject(object obj)
+		{
+			return entries.FirstOrDefault(e => e.Value == obj) != null;
+		}
+
 		public TeamType(string id, string name, List<TeamTypeEntry> entries)
 		{
 			this.id = id;

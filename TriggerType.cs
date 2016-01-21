@@ -370,6 +370,11 @@ namespace AIEdit
 		public void IncUses() { }
 		public void DecUses() { }
 
+		public bool HasTeamType(TeamType tt)
+		{
+			return entries["Team1"].Value == tt || entries["Team2"].Value == tt;
+		}
+
 		public IEnumerator<TriggerTypeEntry> GetEnumerator()
 		{
 			return entries.Values.GetEnumerator();

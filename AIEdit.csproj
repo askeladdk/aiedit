@@ -125,6 +125,12 @@
     <Compile Include="frmMainNewFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UseInfoBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UseInfoBox.Designer.cs">
+      <DependentUpon>UseInfoBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +160,9 @@
     <Content Include="App.ico" />
     <EmbeddedResource Include="frmMainNew.resx">
       <DependentUpon>frmMainNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UseInfoBox.resx">
+      <DependentUpon>UseInfoBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InputBox.resx">
       <SubType>Designer</SubType>

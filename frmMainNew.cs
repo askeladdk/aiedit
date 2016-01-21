@@ -163,6 +163,7 @@ namespace AIEdit
 				olvTF.AddObject(tf);
 				olvTF.EndUpdate();
 				olvTF.SelectedObject = tf;
+				olvTF.EnsureVisible();
 			}
 		}
 
@@ -426,6 +427,7 @@ namespace AIEdit
 				olvST.AddObject(st);
 				olvST.EndUpdate();
 				olvST.SelectedObject = st;
+				olvST.EnsureVisible();
 			}
 		}
 
@@ -584,6 +586,7 @@ namespace AIEdit
 				olvTT.AddObject(tt);
 				olvTT.EndUpdate();
 				olvTT.SelectedObject = tt;
+				olvTT.EnsureVisible();
 			}
 		}
 
@@ -666,6 +669,7 @@ namespace AIEdit
 				olvTr.AddObject(tr);
 				olvTr.EndUpdate();
 				olvTr.SelectedObject = tr;
+				olvTr.EnsureVisible();
 			}
 		}
 
@@ -787,6 +791,60 @@ namespace AIEdit
 					mnuTTDelete_Click(sender, e);
 					break;
 			}
+		}
+
+
+		private void mnuInfoTF_Click(object sender, EventArgs e)
+		{
+			TaskForce tf = SelectedTaskForce();
+			var tts = FilterTeamTypes(tf);
+			object tt = UseInfoBox.Show("Used by Teams", tts);
+			if(tt != null)
+			{
+				tabControl1.SelectedIndex = 2;
+				olvTT.SelectedObject = tt;
+				olvTT.EnsureVisible();
+			}
+		}
+
+		private void mnuInfoST_Click(object sender, EventArgs e)
+		{
+			ScriptType st = SelectedScriptType();
+			var tts = FilterTeamTypes(st);
+			object tt = UseInfoBox.Show("Used by Teams", tts);
+			if (tt != null)
+			{
+				tabControl1.SelectedIndex = 2;
+				olvTT.SelectedObject = tt;
+				olvTT.EnsureVisible();
+			}
+		}
+
+		private void mnuInfoTT_Click(object sender, EventArgs e)
+		{
+			TeamType tt = SelectedTeamType();
+			var trs = from tre in triggerTypes.Items
+					  where tre.HasTeamType(tt)
+					  select tre;
+			object tr = UseInfoBox.Show("Used by Triggers", trs);
+			if (tr != null)
+			{
+				tabControl1.SelectedIndex = 3;
+				olvTr.SelectedObject = tr;
+				olvTr.EnsureVisible();
+			}
+		}
+
+		private void mnuExit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		private void mnuAbout_Click(object sender, EventArgs e)
+		{
+			string text = "C&C AI Editor v" + Application.ProductVersion + "\nProgrammed by Askeladd";
+			string title = "About";
+			MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

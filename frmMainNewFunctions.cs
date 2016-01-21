@@ -441,5 +441,13 @@ namespace AIEdit
 			if (tf == null) return;
 			txtTFTotalCost.Text = "$" + tf.TotalCost().ToString();
 		}
+
+		private IEnumerable FilterTeamTypes(object val)
+		{
+			var tts = from tt in teamTypes.Items
+					  where tt.HasObject(val)
+					  select tt;
+			return tts;
+		}
 	}
 }
