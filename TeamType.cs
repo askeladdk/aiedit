@@ -86,7 +86,7 @@ namespace AIEdit
 			{
 				if (listitem.Index == val) return new TeamTypeEntry(this, listitem);
 			}
-			return new TeamTypeEntry(this, null);
+			return new TeamTypeEntry(this, dataList[0]);
 		}
 
 		public override void Write(StreamWriter stream, object value)
@@ -111,7 +111,7 @@ namespace AIEdit
 			{
 				if (listitem.Name == val) return new TeamTypeEntry(this, listitem);
 			}
-			return new TeamTypeEntry(this, null);
+			return new TeamTypeEntry(this, dataList[0]);
 		}
 
 		public override void Write(StreamWriter stream, object value)
@@ -135,7 +135,7 @@ namespace AIEdit
 			{
 				if (aiobj.ID == id) return new TeamTypeEntry(this, aiobj);
 			}
-			return new TeamTypeEntry(this, null);
+			return new TeamTypeEntry(this, dataList[0]);
 		}
 
 		public override void Write(StreamWriter stream, object value)
@@ -237,6 +237,7 @@ namespace AIEdit
 		{
 			List<TeamTypeEntry> entries = new List<TeamTypeEntry>();
 			string name = section.GetString("Name");
+			if (name == null) name = id;
 
 			foreach(TeamTypeOption option in options)
 			{

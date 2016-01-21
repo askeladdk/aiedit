@@ -154,23 +154,31 @@ namespace AIEdit
 		public static TaskForce Parse(string id, OrderedDictionary section,
 			List<TechnoType> technoTypes, List<AITypeListEntry> groupTypes)
 		{
+			int starti = 1;
 			string name = section["Name"] as string;
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
 
 			int groupi = int.Parse(section["Group"] as string);
-			AITypeListEntry group = groupTypes.Single(g => g.Index == groupi);
+			AITypeListEntry group = groupTypes.SingleOrDefault(g => g.Index == groupi);
+			if (group == null) group = groupTypes[0];
 
-			for (int i = 1; i < section.Count - 1; i++)
+			if (name == null)
+			{
+				starti = 0;
+				name = id;
+			}
+
+			for (int i = starti; i < section.Count - 1; i++)
 			{
 				string[] split = (section[i] as string).Split(',');
 				uint count = uint.Parse(split[0] as string);
 				string unitid = split[1] as string;
 				TechnoType tt = technoTypes.SingleOrDefault(t => t.ID == unitid);
-				
+
 				if(tt == null)
 				{
-					MessageBox.Show("TechnoType " + unitid + " referenced in Task Force \"" + name + "\" does not exist!", "Warning");
+					MessageBox.Show("TechnoType " + unitid + " referenced by Task Force \"" + name + "\" does not exist!", "Warning");
 					tt = new TechnoType(unitid, unitid, 0, 0);
 					technoTypes.Add(tt);
 				}

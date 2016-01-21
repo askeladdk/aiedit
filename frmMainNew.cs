@@ -554,6 +554,7 @@ namespace AIEdit
 
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			/*
 			switch(tabControl1.SelectedIndex)
 			{
 				case 0:
@@ -569,6 +570,7 @@ namespace AIEdit
 					olvTr.RefreshObjects(triggerTypes.Items);
 					break;
 			}
+			 */
 		}
 
 		private void mnuTTNew_Click(object sender, EventArgs e)
@@ -842,7 +844,7 @@ namespace AIEdit
 
 		private void mnuAbout_Click(object sender, EventArgs e)
 		{
-			string text = "C&C AI Editor v" + Application.ProductVersion + "\nProgrammed by Askeladd";
+			string text = "C&C AI Editor v" + Application.ProductVersion + "\nDeveloped by Askeladd";
 			string title = "About";
 			MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}

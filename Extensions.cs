@@ -27,7 +27,14 @@ namespace AIEdit
 
 		public static uint GetUint(this IOrderedDictionary dict, string key)
 		{
-			return uint.Parse(dict[key] as string);
+			try
+			{
+				return uint.Parse(dict[key] as string);
+			}
+			catch(OverflowException)
+			{
+				return 0;
+			}
 		}
 
 		public static bool GetBool(this IOrderedDictionary dict, string key)

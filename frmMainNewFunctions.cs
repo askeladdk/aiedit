@@ -411,7 +411,7 @@ namespace AIEdit
 			{
 				string id = entry.Key as string;
 				string data = entry.Value as string;
-				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam);
+				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam, technoTypes[0]);
 				items.Add(tr);
 			}
 

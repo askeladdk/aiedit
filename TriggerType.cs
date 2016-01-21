@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Windows.Forms;
 
 namespace AIEdit
 {
@@ -431,7 +432,7 @@ namespace AIEdit
 		}
 
 		public static TriggerType Parse(string id, string data,
-			Dictionary<string, TriggerTypeOption> triggerTypeOptions, TeamType noneTeam)
+			Dictionary<string, TriggerTypeOption> triggerTypeOptions, TeamType noneTeam, TechnoType noneTechno)
 		{
 			string[] split = data.Split(',');
 			string tag;
@@ -439,6 +440,8 @@ namespace AIEdit
 			TriggerTypeOption option;
 			Dictionary<string, TriggerTypeEntry> entries = new Dictionary<string, TriggerTypeEntry>();
 			object value;
+
+			if (name == null) name = id;
 
 			// team 1
 			tag = "Team1";
@@ -468,6 +471,11 @@ namespace AIEdit
 			tag = "TechType";
 			option = triggerTypeOptions[tag];
 			value = option.FindByString(split[5]);
+			if(value == null)
+			{
+				MessageBox.Show("TechnoType " + split[5] + " referenced by Trigger \"" + name + "\" does not exist!", "Warning");
+				value = noneTechno;
+			}
 			entries.Add(tag, new TriggerTypeEntry(option, value));
 
 			// amount
@@ -504,7 +512,7 @@ namespace AIEdit
 			// skirmish
 			tag = "Skirmish";
 			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[10]));
+			value = option.FindByIndex(int.Parse("0" + split[10]));
 			entries.Add(tag, new TriggerTypeEntry(option, value));
 
 			// [11] is unknown and always zero

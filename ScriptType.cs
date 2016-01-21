@@ -314,10 +314,17 @@ namespace AIEdit
 
 		public static ScriptType Parse(string id, OrderedDictionary section, List<IActionType> types)
 		{
-			string name = section["Name"] as string;
+			int starti = 1;
+			string name = section["Name"] as string;		
 			List<ScriptAction> actions = new List<ScriptAction>();
 
-			for(int i = 1; i < section.Count; i++)
+			if (name == null)
+			{
+				starti = 0;
+				name = id;
+			}
+
+			for (int i = starti; i < section.Count; i++)
 			{
 				string[] split = (section[i] as string).Split(',');
 				int a  = int.Parse(split[0]);
