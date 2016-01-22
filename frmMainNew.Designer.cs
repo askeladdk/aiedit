@@ -37,6 +37,8 @@
 			this.saveAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageTF = new System.Windows.Forms.TabPage();
 			this.olvTF = new BrightIdeasSoftware.ObjectListView();
@@ -110,8 +112,6 @@
 			this.mnuDeleteTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
@@ -196,6 +196,21 @@
 			this.mnuExit.Size = new System.Drawing.Size(152, 22);
 			this.mnuExit.Text = "E&xit";
 			this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuAbout});
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// mnuAbout
+			// 
+			this.mnuAbout.Name = "mnuAbout";
+			this.mnuAbout.Size = new System.Drawing.Size(107, 22);
+			this.mnuAbout.Text = "About";
+			this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
 			// 
 			// tabControl1
 			// 
@@ -974,21 +989,11 @@
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
+			this.openFileDialog1.Filter = "Ini files (*.ini)|*.ini";
 			// 
-			// helpToolStripMenuItem
+			// saveFileDialog1
 			// 
-			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuAbout});
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
-			// 
-			// mnuAbout
-			// 
-			this.mnuAbout.Name = "mnuAbout";
-			this.mnuAbout.Size = new System.Drawing.Size(152, 22);
-			this.mnuAbout.Text = "About";
-			this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
+			this.saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
 			// 
 			// frmMainNew
 			// 

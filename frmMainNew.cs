@@ -80,6 +80,7 @@ namespace AIEdit
 			saveFileDialog1.Title = "Save AI";
 			if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 			WriteAI(saveFileDialog1.FileName);
+			this.Text = "C&C AI Editor - " + saveFileDialog1.FileName;
 		}
 
 		private void STActionMoveUp()
