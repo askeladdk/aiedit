@@ -309,12 +309,20 @@ namespace AIEdit
 			// techtype
 			tag = "TechType";
 			option = triggerTypeOptions[tag];
-			value = option.FindByString(split[5]);
-			if(value == null)
+			string unitid = split[5];
+			value = noneTechno;
+
+			if (unitid != "<none>")
 			{
-				MessageBox.Show("TechnoType " + split[5] + " referenced by Trigger \"" + name + "\" does not exist!", "Warning");
-				value = noneTechno;
+				value = option.FindByString(unitid);
+				if (value == null)
+				{
+					MessageBox.Show("TechnoType " + split[5] + " referenced by Trigger \"" + name + "\" does not exist!", "Warning");
+					value = new TechnoType(unitid, unitid, 0, 0);
+					option.List.Add(value);
+				}
 			}
+
 			entries.Add(tag, new TriggerTypeEntry(option, value));
 
 			// amount
