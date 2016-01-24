@@ -35,16 +35,17 @@ namespace AIEdit
 		private List<TeamTypeOption> teamTypeOptions;
 		private Dictionary<string, TriggerTypeOption> triggerTypeOptions;
 
-		private TeamType noneTeam = new TeamType("<none>", "<none>", null);
-
-		private string digestString = null;
-
 		// AI TABLES
-		//private OrderedDictionary taskForces;
 		private AITable<TaskForce> taskForces;
 		private AITable<ScriptType> scriptTypes;
 		private AITable<TeamType> teamTypes;
 		private AITable<TriggerType> triggerTypes;
+
+		// OTHER VALUES
+		private TeamType noneTeam = new TeamType("<none>", "<none>", null);
+		private string digestString = null;
+
+		private Logger logger = new Logger();
 
 		private string nextID()
 		{
@@ -307,7 +308,7 @@ namespace AIEdit
 			IniDictionary ai = IniParser.ParseToDictionary(aiPath);
 			IniDictionary config;
 			string configPath = "config/ts.ini";
-
+			
 			// autodetect ra2/ts
 			if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
 			config = IniParser.ParseToDictionary(configPath);
@@ -365,8 +366,15 @@ namespace AIEdit
 			foreach (DictionaryEntry entry in aiTaskForces)
 			{
 				string id = entry.Value as string;
+
+				if(!ai.ContainsKey(id))
+				{
+					logger.Add("Listed Task Force \"" + id + "\" does not exist!");
+					continue;
+				}
+
 				OrderedDictionary section = ai[id];
-				TaskForce tf = TaskForce.Parse(id, section, unitTypes, groupTypes);
+				TaskForce tf = TaskForce.Parse(id, section, unitTypes, groupTypes, logger);
 				items.Add(tf);
 			}
 
@@ -382,6 +390,13 @@ namespace AIEdit
 			foreach(DictionaryEntry entry in aiScriptTypes)
 			{
 				string id = entry.Value as string;
+
+				if (!ai.ContainsKey(id))
+				{
+					logger.Add("Listed Script \"" + id + "\" does not exist!");
+					continue;
+				}
+
 				OrderedDictionary section = ai[id];
 				ScriptType tf = ScriptType.Parse(id, section, actionTypes);
 				items.Add(tf);
@@ -399,6 +414,13 @@ namespace AIEdit
 			foreach(DictionaryEntry entry in aiTeamTypes)
 			{
 				string id = entry.Value as string;
+
+				if (!ai.ContainsKey(id))
+				{
+					logger.Add("Listed Team \"" + id + "\" does not exist!");
+					continue;
+				}
+
 				OrderedDictionary section = ai[id];
 				TeamType tt = TeamType.Parse(id, section, teamTypeOptions);
 				items.Add(tt);
@@ -416,7 +438,7 @@ namespace AIEdit
 			{
 				string id = entry.Key as string;
 				string data = entry.Value as string;
-				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam, technoTypes[0]);
+				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam, technoTypes[0], logger);
 				items.Add(tr);
 			}
 

@@ -271,7 +271,8 @@ namespace AIEdit
 		}
 
 		public static TriggerType Parse(string id, string data,
-			Dictionary<string, TriggerTypeOption> triggerTypeOptions, TeamType noneTeam, TechnoType noneTechno)
+			Dictionary<string, TriggerTypeOption> triggerTypeOptions, TeamType noneTeam, TechnoType noneTechno,
+			Logger logger)
 		{
 			string[] split = data.Split(',');
 			string tag;
@@ -317,7 +318,7 @@ namespace AIEdit
 				value = option.FindByString(unitid);
 				if (value == null)
 				{
-					MessageBox.Show("TechnoType " + split[5] + " referenced by Trigger \"" + name + "\" does not exist!", "Warning");
+					logger.Add("TechnoType " + split[5] + " referenced by Trigger " + id + " does not exist!");
 					value = new TechnoType(unitid, unitid, 0, 0);
 					option.List.Add(value);
 				}

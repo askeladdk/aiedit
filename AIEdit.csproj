@@ -125,6 +125,7 @@
     <Compile Include="frmMainNewFunctions.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="UseInfoBox.cs">
       <SubType>Form</SubType>
     </Compile>

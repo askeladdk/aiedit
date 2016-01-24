@@ -722,6 +722,7 @@ namespace AIEdit
 
 		void LoadAI(string rulesfile, string aifile)
 		{
+			logger.Clear();
 			LoadData(rulesfile, aifile);
 
 			olvTFUnits.Items.Clear();
@@ -750,6 +751,14 @@ namespace AIEdit
 
 			olvTr.Sort(olvColTrName, SortOrder.Ascending);
 			olvTr.SetObjects(triggerTypes.Items);
+
+			olvLog.Items.Clear();
+			foreach (string s in logger) olvLog.AddObject(s);
+
+			if(logger.Count > 0)
+			{
+				MessageBox.Show("Encountered " + logger.Count + " error(s) while loading. See the Error Log tab for details.");
+			}
 		}
 
 		private void mnuLoad_Click(object sender, EventArgs e)
@@ -850,6 +859,11 @@ namespace AIEdit
 			string text = "C&C AI Editor v" + Application.ProductVersion + "\nDeveloped by Askeladd";
 			string title = "About";
 			MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void olvLog_FormatRow(object sender, BrightIdeasSoftware.FormatRowEventArgs e)
+		{
+			e.Item.SubItems[0].Text = e.Model.ToString();
 		}
 	}
 }

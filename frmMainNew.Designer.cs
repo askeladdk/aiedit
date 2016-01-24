@@ -110,6 +110,9 @@
 			this.mnuCtxTr = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuNewTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDeleteTr = new System.Windows.Forms.ToolStripMenuItem();
+			this.tabPageLog = new System.Windows.Forms.TabPage();
+			this.olvLog = new BrightIdeasSoftware.ObjectListView();
+			this.olvColLogMessage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
@@ -135,6 +138,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).BeginInit();
 			this.mnuCtxTr.SuspendLayout();
+			this.tabPageLog.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.olvLog)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -164,7 +169,7 @@
 			// 
 			this.mnuNew.Name = "mnuNew";
 			this.mnuNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.mnuNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuNew.Size = new System.Drawing.Size(146, 22);
 			this.mnuNew.Text = "&New";
 			this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
 			// 
@@ -172,7 +177,7 @@
 			// 
 			this.mnuLoad.Name = "mnuLoad";
 			this.mnuLoad.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.mnuLoad.Size = new System.Drawing.Size(152, 22);
+			this.mnuLoad.Size = new System.Drawing.Size(146, 22);
 			this.mnuLoad.Text = "&Open";
 			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
@@ -180,20 +185,20 @@
 			// 
 			this.saveAIToolStripMenuItem.Name = "saveAIToolStripMenuItem";
 			this.saveAIToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
 			this.saveAIToolStripMenuItem.Text = "&Save";
 			this.saveAIToolStripMenuItem.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
 			// 
 			// mnuExit
 			// 
 			this.mnuExit.Name = "mnuExit";
 			this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-			this.mnuExit.Size = new System.Drawing.Size(152, 22);
+			this.mnuExit.Size = new System.Drawing.Size(146, 22);
 			this.mnuExit.Text = "E&xit";
 			this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
 			// 
@@ -218,6 +223,7 @@
 			this.tabControl1.Controls.Add(this.tabPageST);
 			this.tabControl1.Controls.Add(this.tabPageTT);
 			this.tabControl1.Controls.Add(this.tabPageTr);
+			this.tabControl1.Controls.Add(this.tabPageLog);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 24);
 			this.tabControl1.Name = "tabControl1";
@@ -986,6 +992,44 @@
 			this.mnuDeleteTr.Text = "Delete";
 			this.mnuDeleteTr.Click += new System.EventHandler(this.mnuDeleteTr_Click);
 			// 
+			// tabPageLog
+			// 
+			this.tabPageLog.Controls.Add(this.olvLog);
+			this.tabPageLog.Location = new System.Drawing.Point(4, 22);
+			this.tabPageLog.Name = "tabPageLog";
+			this.tabPageLog.Size = new System.Drawing.Size(872, 608);
+			this.tabPageLog.TabIndex = 4;
+			this.tabPageLog.Text = "Error Log";
+			this.tabPageLog.UseVisualStyleBackColor = true;
+			// 
+			// olvLog
+			// 
+			this.olvLog.AllColumns.Add(this.olvColLogMessage);
+			this.olvLog.CellEditUseWholeCell = false;
+			this.olvLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvColLogMessage});
+			this.olvLog.Cursor = System.Windows.Forms.Cursors.Default;
+			this.olvLog.FullRowSelect = true;
+			this.olvLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+			this.olvLog.HideSelection = false;
+			this.olvLog.HighlightBackgroundColor = System.Drawing.Color.Empty;
+			this.olvLog.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvLog.Location = new System.Drawing.Point(8, 3);
+			this.olvLog.MultiSelect = false;
+			this.olvLog.Name = "olvLog";
+			this.olvLog.ShowGroups = false;
+			this.olvLog.Size = new System.Drawing.Size(856, 597);
+			this.olvLog.TabIndex = 0;
+			this.olvLog.UseCompatibleStateImageBehavior = false;
+			this.olvLog.View = System.Windows.Forms.View.Details;
+			this.olvLog.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.olvLog_FormatRow);
+			// 
+			// olvColLogMessage
+			// 
+			this.olvColLogMessage.AspectName = "";
+			this.olvColLogMessage.Text = "Message";
+			this.olvColLogMessage.Width = 600;
+			// 
 			// openFileDialog1
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
@@ -1035,6 +1079,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTrSettings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).EndInit();
 			this.mnuCtxTr.ResumeLayout(false);
+			this.tabPageLog.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.olvLog)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1124,5 +1170,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mnuAbout;
+		private System.Windows.Forms.TabPage tabPageLog;
+		private BrightIdeasSoftware.ObjectListView olvLog;
+		private BrightIdeasSoftware.OLVColumn olvColLogMessage;
 	}
 }
