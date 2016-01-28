@@ -47,8 +47,8 @@ namespace AIEdit
 				else if(section != null)
 				{
 					if ((index = line.IndexOf('=')) == -1) continue;
-					key = line.Substring(0, index);
-					val = line.Substring(index + 1);
+					key = line.Substring(0, index).Trim();
+					val = line.Substring(index + 1).Trim();
 					section[key] = val;
 				}
 			}

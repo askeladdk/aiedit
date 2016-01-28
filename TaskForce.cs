@@ -39,7 +39,7 @@ namespace AIEdit
 		private List<TaskForceEntry> units;
 		private int uses;
 
-		public string Name { get { return name; } set { name = value; } }
+		public string Name { get { return name; } set { name = value.Trim(); } }
 		public string ID { get { return id; } }
 		public int Uses { get { return uses; } }
 		public AITypeListEntry Group { get { return group; } set { group = value; } }

@@ -211,7 +211,7 @@ namespace AIEdit
 		private Dictionary<string, TriggerTypeEntry> entries;
 
 		public string ID { get { return id; } }
-		public string Name { get { return name; } set { name = value; } }
+		public string Name { get { return name; } set { name = value.Trim(); } }
 		public int Uses { get { return 0; } }
 		public void IncUses() { }
 		public void DecUses() { }

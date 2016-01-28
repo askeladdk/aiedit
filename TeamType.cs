@@ -197,7 +197,7 @@ namespace AIEdit
 
 		public uint ParamListIndex { get { return 0; } }
 
-		public string Name { get { return name; } set { name = value; } }
+		public string Name { get { return name; } set { name = value.Trim(); } }
 		public string ID { get { return id; } }
 		public int Uses { get { return uses; } }
 
