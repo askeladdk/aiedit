@@ -919,6 +919,7 @@ namespace AIEdit
 			}
 			else if(obj is TeamType)
 			{
+				if (obj == noneTeam) return;
 				olvTT.SelectedObject = obj;
 				olvTT.EnsureVisible();
 				tabControl1.SelectedIndex = 2;
