@@ -56,6 +56,7 @@ namespace AIEdit
 
 		public override TeamTypeEntry Parse(OrderedDictionary section)
 		{
+			if (!section.Contains(tag)) return DefaultValue;
 			return new TeamTypeEntry(this, section.GetUint(tag));
 		}
 
@@ -81,6 +82,7 @@ namespace AIEdit
 
 		public override TeamTypeEntry Parse(OrderedDictionary section)
 		{
+			if (!section.Contains(tag)) return DefaultValue;
 			int val = section.GetInt(tag);
 			foreach (AITypeListEntry listitem in dataList)
 			{
@@ -106,6 +108,7 @@ namespace AIEdit
 
 		public override TeamTypeEntry Parse(OrderedDictionary section)
 		{
+			if (!section.Contains(tag)) return DefaultValue;
 			string val = section.GetString(tag);
 			foreach (AITypeListEntry listitem in dataList)
 			{
@@ -130,6 +133,7 @@ namespace AIEdit
 
 		public override TeamTypeEntry Parse(OrderedDictionary section)
 		{
+			if (!section.Contains(tag)) return DefaultValue;
 			string id = section.GetString(tag);
 			foreach(IAIObject aiobj in dataList)
 			{
