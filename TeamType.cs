@@ -170,6 +170,12 @@ namespace AIEdit
 			}
 		}
 
+		public void Reset()
+		{
+			if (this.value is IAIObject) (this.value as IAIObject).DecUses();
+			this.value = null;
+		}
+
 		public TeamTypeEntry(TeamTypeOption option, object value)
 		{
 			this.option = option;
@@ -223,6 +229,12 @@ namespace AIEdit
 		public override string ToString()
 		{
 			return name;
+		}
+
+		public void Reset()
+		{
+			foreach(TeamTypeEntry e in this.entries) e.Reset();
+			entries.Clear();
 		}
 
 		public void Write(StreamWriter stream)

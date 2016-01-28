@@ -303,6 +303,11 @@ namespace AIEdit
 			actions.Remove(a);
 		}
 
+		public void Reset()
+		{
+
+		}
+
 		public void Write(StreamWriter stream)
 		{
 			int n = 0;

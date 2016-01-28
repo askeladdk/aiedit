@@ -136,6 +136,10 @@ namespace AIEdit
 			if (entry != null) this.units.Remove(entry);
 		}
 
+		public void Reset()
+		{
+		}
+
 		public void Write(StreamWriter stream)
 		{
 			int n = 0;
@@ -156,13 +160,21 @@ namespace AIEdit
 			Logger logger)
 		{
 			int starti = 1;
-			string name = section["Name"] as string;
+			string name = section.GetOrDefault("Name", null);
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
+			AITypeListEntry group = groupTypes[0];
 
-			int groupi = int.Parse(section["Group"] as string);
-			AITypeListEntry group = groupTypes.SingleOrDefault(g => g.Index == groupi);
-			if (group == null) group = groupTypes[0];
+			if (section.Contains("Group"))
+			{
+				int groupi = int.Parse(section["Group"] as string);
+				group = groupTypes.SingleOrDefault(g => g.Index == groupi);
+				if (group == null) group = groupTypes[0];
+			}
+			else
+			{
+				logger.Add("Task Force " + id + " does not have a Group. Defaulting to \"" + group.Name + "\"!");
+			}
 
 			if (name == null)
 			{
@@ -190,5 +202,4 @@ namespace AIEdit
 			return new TaskForce(id, name, group, units);
 		}
 	}
-
 }

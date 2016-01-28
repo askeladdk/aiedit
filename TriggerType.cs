@@ -182,6 +182,12 @@ namespace AIEdit
 			}
 		}
 
+		public void Reset()
+		{
+			if (this.value is IAIObject) (this.value as IAIObject).DecUses();
+			this.value = null;
+		}
+
 		public string Name { get { return option.Name; } }
 		public int SortOrder { get { return option.SortOrder; } }
 		public IList List { get { return option.List; } }
@@ -223,6 +229,12 @@ namespace AIEdit
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		public void Reset()
+		{
+			foreach (KeyValuePair<string, TriggerTypeEntry> e in entries) e.Value.Reset();
+			entries.Clear();
 		}
 
 		public TriggerType(string id, string name, Dictionary<string, TriggerTypeEntry> entries)

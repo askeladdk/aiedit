@@ -49,6 +49,7 @@ namespace AIEdit
 
 		public void Remove(T entry)
 		{
+			entry.Reset();
 			items.Remove(entry);
 		}
 

@@ -3,15 +3,6 @@ using System.IO;
 
 namespace AIEdit
 {
-	/// <summary>
-	/// Summary description for IAIObject.
-	/// </summary>
-	public interface IAIObjectOld
-	{
-        string Name { get; set; }
-        string ID { get; set; }
-	}
-
 	public interface IAIObject
 	{
 		string Name { get; set; }
@@ -20,6 +11,8 @@ namespace AIEdit
 
 		void IncUses();
 		void DecUses();
+
+		void Reset();
 
 		void Write(StreamWriter stream);
 	}

@@ -10,9 +10,9 @@ namespace AIEdit
 {
 	public static class Extensions
 	{
-		public static T Get<T>(this IOrderedDictionary dict, string key) where T:class
+		public static string GetOrDefault(this IOrderedDictionary dict, string key, string def)
 		{
-			return dict[key] as T;
+			return dict.Contains(key) ? (dict[key] as string) : def;
 		}
 
 		public static string GetString(this IOrderedDictionary dict, string key)
