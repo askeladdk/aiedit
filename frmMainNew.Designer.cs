@@ -112,13 +112,13 @@
 			this.olvColTrID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.mnuCtxTr = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuNewTr = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuCopyTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDeleteTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageLog = new System.Windows.Forms.TabPage();
 			this.olvLog = new BrightIdeasSoftware.ObjectListView();
 			this.olvColLogMessage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.mnuCopyTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
@@ -758,6 +758,7 @@
 			this.olvTTSettings.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvTTSettings_CellEditFinishing);
 			this.olvTTSettings.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvTTSettings_CellEditStarting);
 			this.olvTTSettings.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.olvTTSettings_FormatRow);
+			this.olvTTSettings.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvTTSettings_MouseDoubleClick);
 			// 
 			// olvColTTSort
 			// 
@@ -929,6 +930,7 @@
 			this.olvTrSettings.View = System.Windows.Forms.View.Details;
 			this.olvTrSettings.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvTrSettings_CellEditFinishing);
 			this.olvTrSettings.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvTrSettings_CellEditStarting);
+			this.olvTrSettings.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.olvTrSettings_MouseDoubleClick);
 			// 
 			// olvColTrSort
 			// 
@@ -1005,19 +1007,26 @@
             this.mnuCopyTr,
             this.mnuDeleteTr});
 			this.mnuCtxTr.Name = "mnuCtxTr";
-			this.mnuCtxTr.Size = new System.Drawing.Size(153, 92);
+			this.mnuCtxTr.Size = new System.Drawing.Size(108, 70);
 			// 
 			// mnuNewTr
 			// 
 			this.mnuNewTr.Name = "mnuNewTr";
-			this.mnuNewTr.Size = new System.Drawing.Size(152, 22);
+			this.mnuNewTr.Size = new System.Drawing.Size(107, 22);
 			this.mnuNewTr.Text = "New";
 			this.mnuNewTr.Click += new System.EventHandler(this.mnuNewTr_Click);
+			// 
+			// mnuCopyTr
+			// 
+			this.mnuCopyTr.Name = "mnuCopyTr";
+			this.mnuCopyTr.Size = new System.Drawing.Size(107, 22);
+			this.mnuCopyTr.Text = "Copy";
+			this.mnuCopyTr.Click += new System.EventHandler(this.mnuCopyTr_Click);
 			// 
 			// mnuDeleteTr
 			// 
 			this.mnuDeleteTr.Name = "mnuDeleteTr";
-			this.mnuDeleteTr.Size = new System.Drawing.Size(152, 22);
+			this.mnuDeleteTr.Size = new System.Drawing.Size(107, 22);
 			this.mnuDeleteTr.Text = "Delete";
 			this.mnuDeleteTr.Click += new System.EventHandler(this.mnuDeleteTr_Click);
 			// 
@@ -1067,13 +1076,6 @@
 			// saveFileDialog1
 			// 
 			this.saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
-			// 
-			// mnuCopyTr
-			// 
-			this.mnuCopyTr.Name = "mnuCopyTr";
-			this.mnuCopyTr.Size = new System.Drawing.Size(152, 22);
-			this.mnuCopyTr.Text = "Copy";
-			this.mnuCopyTr.Click += new System.EventHandler(this.mnuCopyTr_Click);
 			// 
 			// frmMainNew
 			// 

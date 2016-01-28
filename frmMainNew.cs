@@ -902,5 +902,39 @@ namespace AIEdit
 		{
 			CopyAIObject("Copy Trigger", SelectedTriggerType(), triggerTypes, olvTr);
 		}
+
+		public void JumpToAIObject(IAIObject obj)
+		{
+			if (obj is TaskForce)
+			{
+				olvTF.SelectedObject = obj;
+				olvTF.EnsureVisible();
+				tabControl1.SelectedIndex = 0;
+			}
+			else if (obj is ScriptType)
+			{
+				olvST.SelectedObject = obj;
+				olvST.EnsureVisible();
+				tabControl1.SelectedIndex = 1;
+			}
+			else if(obj is TeamType)
+			{
+				olvTT.SelectedObject = obj;
+				olvTT.EnsureVisible();
+				tabControl1.SelectedIndex = 2;
+			}
+		}
+
+		private void olvTTSettings_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			TeamTypeEntry entry = olvTTSettings.SelectedObject as TeamTypeEntry;
+			JumpToAIObject(entry.Value as IAIObject);
+		}
+
+		private void olvTrSettings_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			TriggerTypeEntry entry = olvTrSettings.SelectedObject as TriggerTypeEntry;
+			JumpToAIObject(entry.Value as IAIObject);
+		}
 	}
 }
