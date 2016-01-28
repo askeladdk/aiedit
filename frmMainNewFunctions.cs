@@ -439,7 +439,7 @@ namespace AIEdit
 				string id = entry.Key as string;
 				string data = entry.Value as string;
 				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam, technoTypes[0], logger);
-				items.Add(tr);
+				if(tr != null) items.Add(tr);
 			}
 
 			return new AITable<TriggerType>("AITriggerTypes", items);

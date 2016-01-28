@@ -295,6 +295,12 @@ namespace AIEdit
 
 			if (name == null) name = id;
 
+			if(split.Length < 18)
+			{
+				logger.Add("Trigger \"" + name + "\" cannot be parsed because it has an invalid number of parameters!");
+				return null;
+			}
+
 			// team 1
 			tag = "Team1";
 			option = triggerTypeOptions[tag];
