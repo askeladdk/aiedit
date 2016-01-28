@@ -30,6 +30,12 @@ namespace AIEdit
 			this.unit = unit;
 			this.count = count;
 		}
+
+		public TaskForceEntry(TaskForceEntry other)
+		{
+			this.unit  = other.unit;
+			this.count = other.count;
+		}
 	}
 
 	public class TaskForce : IAIObject, IEnumerable<TaskForceEntry>
@@ -96,6 +102,13 @@ namespace AIEdit
 			this.units = (units == null) ? new List<TaskForceEntry>() : units;
 		}
 
+		public IAIObject Copy(string newid, string newname)
+		{
+			List<TaskForceEntry> newunits = new List<TaskForceEntry>();
+			foreach (TaskForceEntry e in units) newunits.Add(new TaskForceEntry(e));
+			return new TaskForce(newid, newname, group, newunits);
+		}
+
 		public int Mod(TechnoType unit, int count)
 		{
 			TaskForceEntry entry = GetEntry(unit);
@@ -138,6 +151,7 @@ namespace AIEdit
 
 		public void Reset()
 		{
+			units.Clear();
 		}
 
 		public void Write(StreamWriter stream)

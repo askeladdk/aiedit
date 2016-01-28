@@ -183,7 +183,13 @@ namespace AIEdit
 		public TeamTypeEntry(TeamTypeOption option, object value)
 		{
 			this.option = option;
-			Value = value;
+			this.Value  = value;
+		}
+
+		public TeamTypeEntry(TeamTypeEntry other)
+		{
+			this.option = other.option;
+			this.Value  = other.Value;
 		}
 
 		public void Write(StreamWriter stream)
@@ -228,6 +234,13 @@ namespace AIEdit
 			this.id = id;
 			this.name = name;
 			this.entries = (entries != null) ? entries : new List<TeamTypeEntry>();
+		}
+
+		public IAIObject Copy(string newid, string newname)
+		{
+			List<TeamTypeEntry> newentries = new List<TeamTypeEntry>();
+			foreach (TeamTypeEntry e in this.entries) newentries.Add(new TeamTypeEntry(e));
+			return new TeamType(newid, newname, newentries);
 		}
 
 		public override string ToString()

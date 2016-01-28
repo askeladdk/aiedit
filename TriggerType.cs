@@ -196,7 +196,13 @@ namespace AIEdit
 		public TriggerTypeEntry(TriggerTypeOption option, object value)
 		{
 			this.option = option;
-			Value = value;
+			this.Value  = value;
+		}
+
+		public TriggerTypeEntry(TriggerTypeEntry other)
+		{
+			this.option = other.option;
+			this.Value  = other.Value;
 		}
 
 		public override string ToString()
@@ -254,6 +260,13 @@ namespace AIEdit
 			{
 				this.entries.Add(option.Key, option.Value.DefaultValue());
 			}
+		}
+
+		public IAIObject Copy(string newid, string newname)
+		{
+			Dictionary<string, TriggerTypeEntry> newentries = new Dictionary<string, TriggerTypeEntry>();
+			foreach (var e in this.entries) newentries[e.Key] = new TriggerTypeEntry(e.Value);
+			return new TriggerType(newid, newname, newentries);
 		}
 
 		public void Write(StreamWriter stream)

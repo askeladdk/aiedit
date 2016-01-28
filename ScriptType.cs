@@ -198,6 +198,13 @@ namespace AIEdit
 			GetOffset(param, out this.param, out offset);
 		}
 
+		public ScriptAction(ScriptAction other)
+		{
+			this.action = other.action;
+			this.param  = other.param;
+			this.offset = other.offset;
+		}
+
 		public void Write(StreamWriter stream, int index)
 		{
 			uint a = action.Code;
@@ -266,6 +273,13 @@ namespace AIEdit
 			this.id = id;
 			this.name = name;
 			this.actions = (actions == null) ? new List<ScriptAction>() : actions;
+		}
+
+		public IAIObject Copy(string newid, string newname)
+		{
+			List<ScriptAction> newactions = new List<ScriptAction>();
+			foreach (ScriptAction a in this.actions) newactions.Add(new ScriptAction(a));
+			return new ScriptType(newid, newname, newactions);
 		}
 
 		private int Swap(int a, int b)

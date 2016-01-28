@@ -865,5 +865,42 @@ namespace AIEdit
 		{
 			e.Item.SubItems[0].Text = e.Model.ToString();
 		}
+
+		public void CopyAIObject<T>(string title, T selected, AITable<T> aitable, BrightIdeasSoftware.ObjectListView olv)
+			where T:class, IAIObject
+		{
+			if (selected == null) return;
+			InputBox.InputResult res = InputBox.Show(title, "Enter name:", selected.Name);
+			if (res.ReturnCode == DialogResult.OK)
+			{
+				T newai = selected.Copy(nextID(), res.Text) as T;
+				aitable.Add(newai);
+				olv.BeginUpdate();
+				olv.AddObject(newai);
+				olv.EndUpdate();
+				olv.SelectedObject = newai;
+				olv.EnsureVisible();
+			}
+		}
+
+		private void mnuCopyTF_Click(object sender, EventArgs e)
+		{
+			CopyAIObject("Copy Task Force", SelectedTaskForce(), taskForces, olvTF);
+		}
+
+		private void mnuCopyST_Click(object sender, EventArgs e)
+		{
+			CopyAIObject("Copy Script", SelectedScriptType(), scriptTypes, olvST);
+		}
+
+		private void mnuCopyTT_Click(object sender, EventArgs e)
+		{
+			CopyAIObject("Copy Team", SelectedTeamType(), teamTypes, olvTT);
+		}
+
+		private void mnuCopyTr_Click(object sender, EventArgs e)
+		{
+			CopyAIObject("Copy Trigger", SelectedTriggerType(), triggerTypes, olvTr);
+		}
 	}
 }

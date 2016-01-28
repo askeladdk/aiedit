@@ -35,11 +35,12 @@ namespace AIEdit
             resulttext = "";
         }
 
-        public static InputResult Show(string title, string description)
+        public static InputResult Show(string title, string description, string initialText = "")
         {
             InputBox input = new InputBox();
             input.Text = title;
             input.textBox2.Text = description;
+			input.textBox1.Text = initialText;
             input.ShowDialog();
             return new InputResult(input.ResultCode, input.ResultText);
         }

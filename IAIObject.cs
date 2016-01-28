@@ -14,6 +14,8 @@ namespace AIEdit
 
 		void Reset();
 
+		IAIObject Copy(string newid, string newname);
+
 		void Write(StreamWriter stream);
 	}
 }
