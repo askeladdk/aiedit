@@ -369,7 +369,7 @@ namespace AIEdit
 
 				if(!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Task Force \"" + id + "\" does not exist!");
+					logger.Add("Listed Task Force " + id + " does not exist!");
 					continue;
 				}
 
@@ -393,7 +393,7 @@ namespace AIEdit
 
 				if (!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Script \"" + id + "\" does not exist!");
+					logger.Add("Listed Script " + id + " does not exist!");
 					continue;
 				}
 
@@ -417,7 +417,7 @@ namespace AIEdit
 
 				if (!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Team \"" + id + "\" does not exist!");
+					logger.Add("Listed Team " + id + " does not exist!");
 					continue;
 				}
 
