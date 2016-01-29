@@ -306,7 +306,8 @@ namespace AIEdit
 			Dictionary<string, TriggerTypeEntry> entries = new Dictionary<string, TriggerTypeEntry>();
 			object value;
 
-			if (name == null) name = id;
+			// no name given
+			if (name.Length == 0) name = id;
 
 			if(split.Length < 18)
 			{
