@@ -1040,11 +1040,12 @@
 			// 
 			// txtLog
 			// 
-			this.txtLog.Location = new System.Drawing.Point(8, 3);
+			this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtLog.Location = new System.Drawing.Point(0, 0);
 			this.txtLog.Multiline = true;
 			this.txtLog.Name = "txtLog";
 			this.txtLog.ReadOnly = true;
-			this.txtLog.Size = new System.Drawing.Size(856, 597);
+			this.txtLog.Size = new System.Drawing.Size(872, 608);
 			this.txtLog.TabIndex = 1;
 			// 
 			// openFileDialog1
