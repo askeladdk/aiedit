@@ -752,8 +752,8 @@ namespace AIEdit
 			olvTr.Sort(olvColTrName, SortOrder.Ascending);
 			olvTr.SetObjects(triggerTypes.Items);
 
-			olvLog.Items.Clear();
-			foreach (string s in logger) olvLog.AddObject(s);
+			txtLog.Clear();
+			foreach (string s in logger) txtLog.AppendText(s + "\n");
 
 			if(logger.Count > 0)
 			{

@@ -34,7 +34,7 @@
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuLoad = new System.Windows.Forms.ToolStripMenuItem();
-			this.saveAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mnuSave = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,8 +115,7 @@
 			this.mnuCopyTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDeleteTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageLog = new System.Windows.Forms.TabPage();
-			this.olvLog = new BrightIdeasSoftware.ObjectListView();
-			this.olvColLogMessage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.txtLog = new System.Windows.Forms.TextBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.menuStrip1.SuspendLayout();
@@ -143,7 +142,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).BeginInit();
 			this.mnuCtxTr.SuspendLayout();
 			this.tabPageLog.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.olvLog)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip1
@@ -162,7 +160,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuNew,
             this.mnuLoad,
-            this.saveAIToolStripMenuItem,
+            this.mnuSave,
             this.toolStripMenuItem3,
             this.mnuExit});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -185,13 +183,13 @@
 			this.mnuLoad.Text = "&Open";
 			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
-			// saveAIToolStripMenuItem
+			// mnuSave
 			// 
-			this.saveAIToolStripMenuItem.Name = "saveAIToolStripMenuItem";
-			this.saveAIToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveAIToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-			this.saveAIToolStripMenuItem.Text = "&Save";
-			this.saveAIToolStripMenuItem.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
+			this.mnuSave.Name = "mnuSave";
+			this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.mnuSave.Size = new System.Drawing.Size(146, 22);
+			this.mnuSave.Text = "&Save";
+			this.mnuSave.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem3
 			// 
@@ -1032,7 +1030,7 @@
 			// 
 			// tabPageLog
 			// 
-			this.tabPageLog.Controls.Add(this.olvLog);
+			this.tabPageLog.Controls.Add(this.txtLog);
 			this.tabPageLog.Location = new System.Drawing.Point(4, 22);
 			this.tabPageLog.Name = "tabPageLog";
 			this.tabPageLog.Size = new System.Drawing.Size(872, 608);
@@ -1040,33 +1038,14 @@
 			this.tabPageLog.Text = "Error Log";
 			this.tabPageLog.UseVisualStyleBackColor = true;
 			// 
-			// olvLog
+			// txtLog
 			// 
-			this.olvLog.AllColumns.Add(this.olvColLogMessage);
-			this.olvLog.CellEditUseWholeCell = false;
-			this.olvLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColLogMessage});
-			this.olvLog.Cursor = System.Windows.Forms.Cursors.Default;
-			this.olvLog.FullRowSelect = true;
-			this.olvLog.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-			this.olvLog.HideSelection = false;
-			this.olvLog.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvLog.HighlightForegroundColor = System.Drawing.Color.Empty;
-			this.olvLog.Location = new System.Drawing.Point(8, 3);
-			this.olvLog.MultiSelect = false;
-			this.olvLog.Name = "olvLog";
-			this.olvLog.ShowGroups = false;
-			this.olvLog.Size = new System.Drawing.Size(856, 597);
-			this.olvLog.TabIndex = 0;
-			this.olvLog.UseCompatibleStateImageBehavior = false;
-			this.olvLog.View = System.Windows.Forms.View.Details;
-			this.olvLog.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.olvLog_FormatRow);
-			// 
-			// olvColLogMessage
-			// 
-			this.olvColLogMessage.AspectName = "";
-			this.olvColLogMessage.Text = "Message";
-			this.olvColLogMessage.Width = 600;
+			this.txtLog.Location = new System.Drawing.Point(8, 3);
+			this.txtLog.Multiline = true;
+			this.txtLog.Name = "txtLog";
+			this.txtLog.ReadOnly = true;
+			this.txtLog.Size = new System.Drawing.Size(856, 597);
+			this.txtLog.TabIndex = 1;
 			// 
 			// openFileDialog1
 			// 
@@ -1118,7 +1097,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.olvTr)).EndInit();
 			this.mnuCtxTr.ResumeLayout(false);
 			this.tabPageLog.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.olvLog)).EndInit();
+			this.tabPageLog.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1131,7 +1110,7 @@
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPageTF;
 		private System.Windows.Forms.TabPage tabPageST;
-		private System.Windows.Forms.ToolStripMenuItem saveAIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mnuSave;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem mnuExit;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -1209,11 +1188,10 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mnuAbout;
 		private System.Windows.Forms.TabPage tabPageLog;
-		private BrightIdeasSoftware.ObjectListView olvLog;
-		private BrightIdeasSoftware.OLVColumn olvColLogMessage;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTF;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyST;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTT;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTr;
+		private System.Windows.Forms.TextBox txtLog;
 	}
 }
