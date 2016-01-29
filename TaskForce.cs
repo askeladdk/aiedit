@@ -177,18 +177,10 @@ namespace AIEdit
 			string name = section.GetOrDefault("Name", null);
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
-			AITypeListEntry group = groupTypes[0];
 
-			if (section.Contains("Group"))
-			{
-				int groupi = int.Parse(section["Group"] as string);
-				group = groupTypes.SingleOrDefault(g => g.Index == groupi);
-				if (group == null) group = groupTypes[0];
-			}
-			else
-			{
-				logger.Add("Task Force " + id + " does not have a Group. Defaulting to \"" + group.Name + "\"!");
-			}
+			int groupi = int.Parse(section.GetOrDefault("Group", "-1"));
+			AITypeListEntry group = groupTypes.SingleOrDefault(g => g.Index == groupi);
+			if (group == null) group = groupTypes[0];
 
 			if (name == null)
 			{
