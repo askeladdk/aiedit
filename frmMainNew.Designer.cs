@@ -171,7 +171,7 @@
 			// 
 			this.mnuNew.Name = "mnuNew";
 			this.mnuNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.mnuNew.Size = new System.Drawing.Size(146, 22);
+			this.mnuNew.Size = new System.Drawing.Size(152, 22);
 			this.mnuNew.Text = "&New";
 			this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
 			// 
@@ -179,7 +179,7 @@
 			// 
 			this.mnuLoad.Name = "mnuLoad";
 			this.mnuLoad.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.mnuLoad.Size = new System.Drawing.Size(146, 22);
+			this.mnuLoad.Size = new System.Drawing.Size(152, 22);
 			this.mnuLoad.Text = "&Open";
 			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
@@ -187,20 +187,20 @@
 			// 
 			this.mnuSave.Name = "mnuSave";
 			this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.mnuSave.Size = new System.Drawing.Size(146, 22);
+			this.mnuSave.Size = new System.Drawing.Size(152, 22);
 			this.mnuSave.Text = "&Save";
-			this.mnuSave.Click += new System.EventHandler(this.saveAIToolStripMenuItem_Click);
+			this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
 			// 
 			// mnuExit
 			// 
 			this.mnuExit.Name = "mnuExit";
 			this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-			this.mnuExit.Size = new System.Drawing.Size(146, 22);
+			this.mnuExit.Size = new System.Drawing.Size(152, 22);
 			this.mnuExit.Text = "E&xit";
 			this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
 			// 
@@ -696,7 +696,7 @@
 			// 
 			this.mnuSTActionNew.Name = "mnuSTActionNew";
 			this.mnuSTActionNew.Size = new System.Drawing.Size(107, 22);
-			this.mnuSTActionNew.Text = "New";
+			this.mnuSTActionNew.Text = "Insert";
 			this.mnuSTActionNew.Click += new System.EventHandler(this.mnuSTActionNew_Click);
 			// 
 			// mnuSTActionDelete

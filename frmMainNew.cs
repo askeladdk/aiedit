@@ -41,11 +41,6 @@ namespace AIEdit
 			return olvTr.SelectedObject as TriggerType;
 		}
 
-		private void mnuLoadRA_Click(object sender, EventArgs e)
-		{
-			
-		}
-
 		private void UpdateTFUnit(int mod)
 		{
 			TechnoType tt = cmbTFUnit.SelectedItem as TechnoType;
@@ -74,54 +69,15 @@ namespace AIEdit
 			UpdateTFUnit(-1);
 		}
 
-		private void saveAIToolStripMenuItem_Click(object sender, EventArgs e)
+		private void mnuSave_Click(object sender, EventArgs e)
 		{
-			saveFileDialog1.FileName = saveFilename;// "*.ini";
+			saveFileDialog1.FileName = saveFilename;
 			saveFileDialog1.Title = "Save AI";
 			if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 			saveFilename = saveFileDialog1.FileName;
 			WriteAI(saveFilename);
 			this.Text = "C&C AI Editor - " + saveFilename;
 		}
-
-		private void STActionMoveUp()
-		{
-			ScriptType st = SelectedScriptType();
-			int idx = st.MoveUp(olvSTActions.SelectedIndex);
-			olvSTActions.SetObjects(st.Actions);
-			olvSTActions.SelectedIndex = idx;
-		}
-
-		private void STActionMoveDown()
-		{
-			ScriptType st = SelectedScriptType();
-			ScriptAction a = olvSTActions.SelectedObject as ScriptAction;
-			int idx = st.MoveDown(olvSTActions.SelectedIndex);
-			olvSTActions.SetObjects(st.Actions);
-			olvSTActions.SelectedIndex = idx;
-		}
-
-		private void STActionNew()
-		{
-			ScriptAction sa = new ScriptAction(actionTypes[0], 0);
-			ScriptType st = SelectedScriptType();
-			int idx = olvSTActions.SelectedIndex + 1;
-			st.Insert(sa, idx);
-			olvSTActions.SetObjects(st.Actions);
-			olvSTActions.SelectedIndex = idx;
-		}
-
-		private void STActionDelete()
-		{
-			ScriptAction sa = olvSTActions.SelectedObject as ScriptAction;
-			ScriptType st = SelectedScriptType();
-			int idx = olvSTActions.SelectedIndex;
-			st.Remove(sa);
-			olvSTActions.SetObjects(st.Actions);
-			idx = Math.Min(idx, st.Count - 1);
-			olvSTActions.SelectedIndex = idx;
-		}
-
 
 		/**
 		 * Control Delegates.
@@ -465,24 +421,48 @@ namespace AIEdit
 
 		private void mnuSTActionUp_Click(object sender, EventArgs e)
 		{
-			STActionMoveUp();
+			ScriptType st = SelectedScriptType();
+			if (st == null) return;
+			int idx = st.MoveUp(olvSTActions.SelectedIndex);
+			olvSTActions.SetObjects(st.Actions);
+			olvSTActions.SelectedIndex = idx;
 		}
 		
 
 		private void mnuSTActionDown_Click(object sender, EventArgs e)
 		{
-			STActionMoveDown();
+			ScriptType st = SelectedScriptType();
+			if (st == null) return;
+			ScriptAction a = olvSTActions.SelectedObject as ScriptAction;
+			int idx = st.MoveDown(olvSTActions.SelectedIndex);
+			olvSTActions.SetObjects(st.Actions);
+			olvSTActions.SelectedIndex = idx;
 		}
 
 		private void mnuSTActionNew_Click(object sender, EventArgs e)
 		{
-			STActionNew();
+			ScriptType st = SelectedScriptType();
+			if (st == null) return;
+			ScriptAction sa = new ScriptAction(actionTypes[0], 0);
+			int idx = olvSTActions.SelectedIndex;
+			idx = idx == -1 ? st.Actions.Count : idx + 1;
+			st.Insert(sa, idx);
+			olvSTActions.SetObjects(st.Actions);
+			olvSTActions.SelectedIndex = idx;
 		}
 
 
 		private void mnuSTActionDelete_Click(object sender, EventArgs e)
 		{
-			STActionDelete();
+			ScriptType st = SelectedScriptType();
+			if (st == null) return;
+			ScriptAction sa = olvSTActions.SelectedObject as ScriptAction;
+			int idx = olvSTActions.SelectedIndex;
+			if (idx == -1) return;
+			st.Remove(sa);
+			olvSTActions.SetObjects(st.Actions);
+			idx = Math.Min(idx, st.Count - 1);
+			olvSTActions.SelectedIndex = idx;
 		}
 
 		private void olvSTActions_KeyDown(object sender, KeyEventArgs e)
@@ -490,19 +470,19 @@ namespace AIEdit
 			switch(e.KeyCode)
 			{
 				case Keys.PageUp:
-					STActionMoveUp();
+					mnuSTActionUp_Click(sender, e);
 					e.Handled = true;
 					break;
 				case Keys.PageDown:
-					STActionMoveDown();
+					mnuSTActionDown_Click(sender, e);
 					e.Handled = true;
 					break;
 				case Keys.Insert:
-					STActionNew();
+					mnuSTActionNew_Click(sender, e);
 					e.Handled = true;
 					break;
 				case Keys.Delete:
-					STActionDelete();
+					mnuSTActionDelete_Click(sender, e);
 					e.Handled = true;
 					break;
 			}
