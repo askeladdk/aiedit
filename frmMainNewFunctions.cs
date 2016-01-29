@@ -46,6 +46,7 @@ namespace AIEdit
 		private string digestString = null;
 
 		private Logger logger = new Logger();
+		private string saveFilename = null;
 
 		private string nextID()
 		{
@@ -308,9 +309,11 @@ namespace AIEdit
 			IniDictionary ai = IniParser.ParseToDictionary(aiPath);
 			IniDictionary config;
 			string configPath = "config/ts.ini";
-			
-			// autodetect ra2/ts
-			if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
+
+			// autodetect ra2
+			if (rules["General"].Contains("DominatorWarhead")) configPath = "config/yr.ini";
+			// autodetect yr
+			else if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
 			config = IniParser.ParseToDictionary(configPath);
 
 			idCounter = ID_BASE;

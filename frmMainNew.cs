@@ -76,11 +76,12 @@ namespace AIEdit
 
 		private void saveAIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			saveFileDialog1.FileName = "*.ini";
+			saveFileDialog1.FileName = saveFilename;// "*.ini";
 			saveFileDialog1.Title = "Save AI";
 			if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
-			WriteAI(saveFileDialog1.FileName);
-			this.Text = "C&C AI Editor - " + saveFileDialog1.FileName;
+			saveFilename = saveFileDialog1.FileName;
+			WriteAI(saveFilename);
+			this.Text = "C&C AI Editor - " + saveFilename;
 		}
 
 		private void STActionMoveUp()
@@ -770,6 +771,7 @@ namespace AIEdit
 
 			LoadAI(rulesfile, aifile);
 			this.Text = "C&C AI Editor - " + aifile;
+			saveFilename = aifile;
 		}
 
 		private void mnuNew_Click(object sender, EventArgs e)
@@ -779,6 +781,7 @@ namespace AIEdit
 
 			LoadAI(rulesfile, "config/default.ini");
 			this.Text = "C&C AI Editor";
+			saveFilename = null;
 		}
 
 		private void olvST_KeyDown(object sender, KeyEventArgs e)
