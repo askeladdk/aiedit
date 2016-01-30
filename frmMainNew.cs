@@ -752,6 +752,7 @@ namespace AIEdit
 			LoadAI(rulesfile, aifile);
 			this.Text = "C&C AI Editor - " + aifile;
 			saveFilename = aifile;
+			tabControl1.Enabled = true;
 		}
 
 		private void mnuNew_Click(object sender, EventArgs e)
@@ -762,6 +763,7 @@ namespace AIEdit
 			LoadAI(rulesfile, "config/default.ini");
 			this.Text = "C&C AI Editor";
 			saveFilename = null;
+			tabControl1.Enabled = true;
 		}
 
 		private void olvST_KeyDown(object sender, KeyEventArgs e)

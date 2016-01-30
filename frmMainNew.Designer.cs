@@ -171,7 +171,7 @@
 			// 
 			this.mnuNew.Name = "mnuNew";
 			this.mnuNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.mnuNew.Size = new System.Drawing.Size(152, 22);
+			this.mnuNew.Size = new System.Drawing.Size(146, 22);
 			this.mnuNew.Text = "&New";
 			this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
 			// 
@@ -179,7 +179,7 @@
 			// 
 			this.mnuLoad.Name = "mnuLoad";
 			this.mnuLoad.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.mnuLoad.Size = new System.Drawing.Size(152, 22);
+			this.mnuLoad.Size = new System.Drawing.Size(146, 22);
 			this.mnuLoad.Text = "&Open";
 			this.mnuLoad.Click += new System.EventHandler(this.mnuLoad_Click);
 			// 
@@ -187,20 +187,20 @@
 			// 
 			this.mnuSave.Name = "mnuSave";
 			this.mnuSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.mnuSave.Size = new System.Drawing.Size(152, 22);
+			this.mnuSave.Size = new System.Drawing.Size(146, 22);
 			this.mnuSave.Text = "&Save";
 			this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
 			// 
 			// mnuExit
 			// 
 			this.mnuExit.Name = "mnuExit";
 			this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-			this.mnuExit.Size = new System.Drawing.Size(152, 22);
+			this.mnuExit.Size = new System.Drawing.Size(146, 22);
 			this.mnuExit.Text = "E&xit";
 			this.mnuExit.Click += new System.EventHandler(this.mnuExit_Click);
 			// 
@@ -227,6 +227,7 @@
 			this.tabControl1.Controls.Add(this.tabPageTr);
 			this.tabControl1.Controls.Add(this.tabPageLog);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Enabled = false;
 			this.tabControl1.Location = new System.Drawing.Point(0, 24);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
