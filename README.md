@@ -14,6 +14,17 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.1 ###
+- Added error log.
+- Reference counts are decremented when an AI object is deleted.
+- Names and .ini key/value pairs are trimmed.
+- Default values for missing tags rather than crashing.
+- Can copy AI objects.
+- Can double click on AI object reference to jump to it's definition.
+- Seperate config for RA2 and YR.
+- Inserting script action when nothing is selected appends to end of list.
+- Bug fixes.
+
 ### v2.0.0 ###
 - Rewrote the entire program!
 - Cleaned up user interface.
