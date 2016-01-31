@@ -97,7 +97,7 @@ namespace AIEdit
 		public TaskForce(string id, string name, AITypeListEntry group, List<TaskForceEntry> units = null)
 		{
 			this.id = id;
-			this.name = name;
+			this.Name = name;
 			this.group = group;
 			this.units = (units == null) ? new List<TaskForceEntry>() : units;
 		}

@@ -246,14 +246,14 @@ namespace AIEdit
 		public TriggerType(string id, string name, Dictionary<string, TriggerTypeEntry> entries)
 		{
 			this.id = id;
-			this.name = name;
+			this.Name = name;
 			this.entries = entries;
 		}
 
 		public TriggerType(string id, string name, Dictionary<string, TriggerTypeOption> triggerTypeOptions)
 		{
 			this.id = id;
-			this.name = name;
+			this.Name = name;
 			this.entries = new Dictionary<string, TriggerTypeEntry>();
 
 			foreach(KeyValuePair<string, TriggerTypeOption> option in triggerTypeOptions)

@@ -232,7 +232,7 @@ namespace AIEdit
 		public TeamType(string id, string name, List<TeamTypeEntry> entries)
 		{
 			this.id = id;
-			this.name = name;
+			this.Name = name;
 			this.entries = (entries != null) ? entries : new List<TeamTypeEntry>();
 		}
 

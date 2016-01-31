@@ -271,7 +271,7 @@ namespace AIEdit
 		public ScriptType(string id, string name, List<ScriptAction> actions=null)
 		{
 			this.id = id;
-			this.name = name;
+			this.Name = name;
 			this.actions = (actions == null) ? new List<ScriptAction>() : actions;
 		}
 
