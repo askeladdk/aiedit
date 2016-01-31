@@ -14,6 +14,12 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.2 ###
+- Fixed bug where the last Task Force entry would be swallowed if the Group tag was missing.
+- Names are trimmed when new object is created.
+- Duplicate AI object entries will be logged (they are harmless).
+- Larger text field for renaming.
+
 ### v2.0.1 ###
 - Added error log.
 - Reference counts are decremented when an AI object is deleted.

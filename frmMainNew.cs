@@ -930,7 +930,8 @@ namespace AIEdit
 			TextBox txt = new TextBox();
 			txt.Text    = e.Value as string;
 			txt.Bounds  = e.CellBounds;
-			e.Control   = txt;
+			txt.SelectAll();
+			e.Control = txt;
 		}
 
 		private void olvNameCol_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
