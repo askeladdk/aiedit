@@ -138,6 +138,7 @@ namespace AIEdit
 		private void olvTF_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
 		{
 			olvTF.Sort();
+			olvTF.EnsureVisible();
 		}
 
 		private void olvTFUnits_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
@@ -249,6 +250,7 @@ namespace AIEdit
 		private void olvST_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
 		{
 			olvST.Sort();
+			olvST.EnsureVisible();
 		}
 
 
@@ -921,6 +923,32 @@ namespace AIEdit
 		{
 			TriggerTypeEntry entry = olvTrSettings.SelectedObject as TriggerTypeEntry;
 			JumpToAIObject(entry.Value as IAIObject);
+		}
+
+		private void olvNameCol_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			TextBox txt = new TextBox();
+			txt.Text    = e.Value as string;
+			txt.Bounds  = e.CellBounds;
+			e.Control   = txt;
+		}
+
+		private void olvNameCol_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			TextBox txt = e.Control as TextBox;
+			e.NewValue  = txt.Text;
+		}
+
+		private void olvTT_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			olvTT.Sort();
+			olvTT.EnsureVisible();
+		}
+
+		private void olvTr_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+		{
+			olvTr.Sort();
+			olvTr.EnsureVisible();
 		}
 	}
 }

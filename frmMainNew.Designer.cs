@@ -275,6 +275,8 @@
 			this.olvTF.UseCompatibleStateImageBehavior = false;
 			this.olvTF.View = System.Windows.Forms.View.Details;
 			this.olvTF.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvTF_CellEditFinished);
+			this.olvTF.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditFinishing);
+			this.olvTF.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditStarting);
 			this.olvTF.SelectedIndexChanged += new System.EventHandler(this.olvTF_SelectedIndexChanged);
 			this.olvTF.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvTF_KeyDown);
 			// 
@@ -506,6 +508,8 @@
 			this.olvST.UseCompatibleStateImageBehavior = false;
 			this.olvST.View = System.Windows.Forms.View.Details;
 			this.olvST.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvST_CellEditFinished);
+			this.olvST.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditFinishing);
+			this.olvST.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditStarting);
 			this.olvST.SelectedIndexChanged += new System.EventHandler(this.olvST_SelectedIndexChanged);
 			this.olvST.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvST_KeyDown);
 			// 
@@ -811,6 +815,9 @@
 			this.olvTT.TabIndex = 0;
 			this.olvTT.UseCompatibleStateImageBehavior = false;
 			this.olvTT.View = System.Windows.Forms.View.Details;
+			this.olvTT.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvTT_CellEditFinished);
+			this.olvTT.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditFinishing);
+			this.olvTT.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditStarting);
 			this.olvTT.SelectedIndexChanged += new System.EventHandler(this.olvTT_SelectedIndexChanged);
 			this.olvTT.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvTT_KeyDown);
 			// 
@@ -981,6 +988,9 @@
 			this.olvTr.TabIndex = 0;
 			this.olvTr.UseCompatibleStateImageBehavior = false;
 			this.olvTr.View = System.Windows.Forms.View.Details;
+			this.olvTr.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvTr_CellEditFinished);
+			this.olvTr.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditFinishing);
+			this.olvTr.CellEditStarting += new BrightIdeasSoftware.CellEditEventHandler(this.olvNameCol_CellEditStarting);
 			this.olvTr.SelectedIndexChanged += new System.EventHandler(this.olvTr_SelectedIndexChanged);
 			this.olvTr.KeyDown += new System.Windows.Forms.KeyEventHandler(this.olvTr_KeyDown);
 			// 
@@ -1046,6 +1056,7 @@
 			this.txtLog.Multiline = true;
 			this.txtLog.Name = "txtLog";
 			this.txtLog.ReadOnly = true;
+			this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtLog.Size = new System.Drawing.Size(872, 608);
 			this.txtLog.TabIndex = 1;
 			// 
