@@ -174,6 +174,7 @@ namespace AIEdit
 			Logger logger)
 		{
 			int starti = 1;
+			int endi = section.Count - 1;
 			string name = section.GetOrDefault("Name", null);
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 			TechnoType deftt = technoTypes[0] as TechnoType;
@@ -188,7 +189,9 @@ namespace AIEdit
 				name = id;
 			}
 
-			for (int i = starti; i < section.Count - 1; i++)
+			if (!section.Contains("Group")) endi = section.Count;
+
+			for (int i = starti; i < endi; i++)
 			{
 				string[] split = (section[i] as string).Split(',');
 				uint count = uint.Parse(split[0] as string);
