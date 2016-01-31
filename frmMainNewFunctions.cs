@@ -310,9 +310,9 @@ namespace AIEdit
 			IniDictionary config;
 			string configPath = "config/ts.ini";
 
-			// autodetect ra2
-			if (rules["General"].Contains("DominatorWarhead")) configPath = "config/yr.ini";
 			// autodetect yr
+			if (rules["General"].Contains("DominatorWarhead")) configPath = "config/yr.ini";
+			// autodetect ra2
 			else if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
 			config = IniParser.ParseToDictionary(configPath);
 
@@ -351,10 +351,10 @@ namespace AIEdit
 
 			taskForces = LoadTaskForces(ai, technoTypes, groupTypes);
 
-			scriptTypes = LoadScriptTypes(scriptTypes, ai, actionTypes);
+			scriptTypes = LoadScriptTypes(ai, actionTypes);
 
 			teamTypeOptions = LoadTeamTypeOptions(config);
-			teamTypes = LoadTeamTypes(teamTypes, ai, teamTypeOptions);
+			teamTypes = LoadTeamTypes(ai, teamTypeOptions);
 
 			triggerTypeOptions = LoadTriggerTypeOptions(config);
 			triggerTypes = LoadTriggerTypes(ai);
@@ -363,12 +363,19 @@ namespace AIEdit
 		private AITable<TaskForce> LoadTaskForces(IniDictionary ai,
 			List<TechnoType> technoTypes, List<AITypeListEntry> groupTypes)
 		{
+			HashSet<string> ids = new HashSet<string>();
 			List<TaskForce> items = new List<TaskForce>();
 			OrderedDictionary aiTaskForces = ai["TaskForces"] as OrderedDictionary;
 
 			foreach (DictionaryEntry entry in aiTaskForces)
 			{
 				string id = entry.Value as string;
+
+				if(ids.Contains(id))
+				{
+					logger.Add("Duplicate Task Force entry " + id + " found!");
+					continue;
+				}
 
 				if(!ai.ContainsKey(id))
 				{
@@ -379,20 +386,28 @@ namespace AIEdit
 				OrderedDictionary section = ai[id];
 				TaskForce tf = TaskForce.Parse(id, section, unitTypes, groupTypes, logger);
 				items.Add(tf);
+				ids.Add(id);
 			}
 
 			return new AITable<TaskForce>("TaskForces", items);
 		}
 
-		private AITable<ScriptType> LoadScriptTypes(AITable<ScriptType> table, IniDictionary ai,
+		private AITable<ScriptType> LoadScriptTypes(IniDictionary ai,
 			List<IActionType> actionTypes)
 		{
-			List<ScriptType> items = table.Items;// new List<ScriptType>();
+			HashSet<string> ids = new HashSet<string>();
+			List<ScriptType> items = new List<ScriptType>();
 			OrderedDictionary aiScriptTypes = ai["ScriptTypes"] as OrderedDictionary;
 
 			foreach(DictionaryEntry entry in aiScriptTypes)
 			{
 				string id = entry.Value as string;
+
+				if (ids.Contains(id))
+				{
+					logger.Add("Duplicate Script entry " + id + " found!");
+					continue;
+				}
 
 				if (!ai.ContainsKey(id))
 				{
@@ -403,20 +418,28 @@ namespace AIEdit
 				OrderedDictionary section = ai[id];
 				ScriptType tf = ScriptType.Parse(id, section, actionTypes);
 				items.Add(tf);
+				ids.Add(id);
 			}
 
-			return table;// new AITable<ScriptType>("ScriptTypes", items);
+			return new AITable<ScriptType>("ScriptTypes", items);
 		}
 
-		private AITable<TeamType> LoadTeamTypes(AITable<TeamType> table, IniDictionary ai,
+		private AITable<TeamType> LoadTeamTypes(IniDictionary ai,
 			List<TeamTypeOption> teamTypeOptions)
 		{
-			List<TeamType> items = table.Items;// new List<TeamType>();
+			HashSet<string> ids = new HashSet<string>();
+			List<TeamType> items = new List<TeamType>();
 			OrderedDictionary aiTeamTypes = ai["TeamTypes"] as OrderedDictionary;
 
 			foreach(DictionaryEntry entry in aiTeamTypes)
 			{
 				string id = entry.Value as string;
+
+				if (ids.Contains(id))
+				{
+					logger.Add("Duplicate Team entry " + id + " found!");
+					continue;
+				}
 
 				if (!ai.ContainsKey(id))
 				{
@@ -427,13 +450,15 @@ namespace AIEdit
 				OrderedDictionary section = ai[id];
 				TeamType tt = TeamType.Parse(id, section, teamTypeOptions);
 				items.Add(tt);
+				ids.Add(id);
 			}
 
-			return table;// new AITable<TeamType>("TeamTypes", items);
+			return new AITable<TeamType>("TeamTypes", items);
 		}
 
 		private AITable<TriggerType> LoadTriggerTypes(IniDictionary ai)
 		{
+			HashSet<string> ids = new HashSet<string>();
 			List<TriggerType> items = new List<TriggerType>();
 			OrderedDictionary aiTriggerTypes = ai["AITriggerTypes"] as OrderedDictionary;
 
@@ -441,8 +466,20 @@ namespace AIEdit
 			{
 				string id = entry.Key as string;
 				string data = entry.Value as string;
+
+				if (ids.Contains(id))
+				{
+					logger.Add("Duplicate Trigger entry " + id + " found!");
+					continue;
+				}
+
 				TriggerType tr = TriggerType.Parse(id, data, triggerTypeOptions, noneTeam, technoTypes[0], logger);
-				if(tr != null) items.Add(tr);
+
+				if (tr != null)
+				{
+					items.Add(tr);
+					ids.Add(id);
+				}
 			}
 
 			return new AITable<TriggerType>("AITriggerTypes", items);
