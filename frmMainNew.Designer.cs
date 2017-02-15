@@ -1076,7 +1076,7 @@
 			this.ClientSize = new System.Drawing.Size(880, 658);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.menuStrip1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
 			this.MaximizeBox = false;

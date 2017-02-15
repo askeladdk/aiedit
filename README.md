@@ -14,6 +14,22 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.3 ###
+- Changed the wording of the error log messages to be more consistent.
+- Updated to ObjectListView 2.9.10.
+
+### v2.0.2.2 (by E1 Elite) ###
+- Crash fix, Script Type/Task Force need not have entries in sequence like Name first or Group last.
+- Crash fix, Techno Types can have negative cost in rules.
+- Bug fix, AITrigger Techno Type <none> entries won't be replaced with another technotype ID
+if any Techno Type Name falls before <none> in sorting.
+- More log info for possible errors, also duplicate cases logged from rules to certain extent.
+- Additional side placeholder entries in config files, just in case user forgets to edit them when
+having additional sides.
+
+### v2.0.2.1 (by E1 Elite) ###
+- Techno Type name is appended with its ID.
+
 ### v2.0.2 ###
 - Fixed bug where the last Task Force entry would be swallowed if the Group tag was missing.
 - Names are trimmed when new object is created.

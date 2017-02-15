@@ -740,7 +740,7 @@ namespace AIEdit
 
 			if(logger.Count > 0)
 			{
-				MessageBox.Show("Encountered " + logger.Count + " error(s) while loading. See the Error Log tab for details.");
+				MessageBox.Show("Possibly " + logger.Count + " error(s) while loading. See the Error Log tab for details.");
 			}
 		}
 

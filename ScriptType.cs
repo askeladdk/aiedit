@@ -331,27 +331,36 @@ namespace AIEdit
 			stream.WriteLine();
 		}
 
-		public static ScriptType Parse(string id, OrderedDictionary section, List<IActionType> types)
+		public static ScriptType Parse(string id, OrderedDictionary section, List<IActionType> types,
+			Logger logger)
 		{
-			int starti = 1;
-			string name = section["Name"] as string;		
+			string name = id;		
 			List<ScriptAction> actions = new List<ScriptAction>();
 
-			if (name == null)
+			foreach(DictionaryEntry entry in section)
 			{
-				starti = 0;
-				name = id;
-			}
+				if ((entry.Key as string) == "Name")
+				{
+					name = entry.Value as string;
+				}
+				else
+				{
+					string[] split = (entry.Value as string).Split(',');
 
-			for (int i = starti; i < section.Count; i++)
-			{
-				string[] split = (section[i] as string).Split(',');
-				int a  = int.Parse(split[0]);
-				uint p = uint.Parse(split[1]);
-				IActionType actionType = types[a];
+					if (split.Length < 2)
+					{
+						logger.Add("ScriptType " + id + ": Entry not in format: <Index>=<Action>,<Parameter>");
+					}
+					else
+					{
+						int a  = int.Parse(split[0]);
+						uint p = uint.Parse(split[1]);
+						IActionType actionType = types[a];
 
-				ScriptAction action = new ScriptAction(actionType, p);
-				actions.Add(action);
+						ScriptAction action = new ScriptAction(actionType, p);
+						actions.Add(action);
+					}
+				}
 			}
 
 			return new ScriptType(id, name, actions);

@@ -311,7 +311,7 @@ namespace AIEdit
 
 			if(split.Length < 18)
 			{
-				logger.Add("Trigger \"" + name + "\" cannot be parsed because it has an invalid number of parameters!");
+				logger.Add("Trigger [" + name + "] cannot be parsed because it has an invalid number of parameters!");
 				return null;
 			}
 
@@ -350,7 +350,7 @@ namespace AIEdit
 				value = option.FindByString(unitid);
 				if (value == null)
 				{
-					logger.Add("TechnoType " + split[5] + " referenced by Trigger " + id + " does not exist!");
+					logger.Add("TechnoType [" + split[5] + "] referenced by Trigger [" + id + "] does not exist!");
 					value = new TechnoType(unitid, unitid, 0, 0);
 					option.List.Add(value);
 				}

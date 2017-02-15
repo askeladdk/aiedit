@@ -17,11 +17,11 @@ namespace AIEdit
 		public string Name { get { return unit.Name; } }
 		public uint Count { get { return count; } set { count = value; } }
 
-		public uint Cost
+		public int Cost
 		{
 			get
 			{
-				return unit.Cost * count;
+				return unit.Cost * (int)count;
 			}
 		}
 
@@ -84,9 +84,9 @@ namespace AIEdit
 			return entry;
 		}
 
-		public uint TotalCost()
+		public int TotalCost()
 		{
-			uint cost = 0;
+			int cost = 0;
 			foreach(TaskForceEntry entry in this.units)
 			{
 				cost += entry.Cost;
@@ -173,40 +173,56 @@ namespace AIEdit
 			List<TechnoType> technoTypes, List<AITypeListEntry> groupTypes,
 			Logger logger)
 		{
-			int starti = 1;
-			int endi = section.Count - 1;
-			string name = section.GetOrDefault("Name", null);
+			string name = id;
+			int groupi = -1;
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
-			TechnoType deftt = technoTypes[0] as TechnoType;
 
-			int groupi = int.Parse(section.GetOrDefault("Group", "-1"));
+			foreach(DictionaryEntry entry in section)
+			{
+				string currKey = entry.Key as string;
+				string currValue = entry.Value as string;
+
+				if (currKey == "Name")
+				{
+					name = currValue;
+				}
+				else if (currKey == "Group")
+				{
+					groupi = int.Parse(currValue);
+				}
+				else 
+				{
+					string[] split = currValue.Split(',');
+
+					if (split.Length < 2)
+					{
+						logger.Add("Task Force [" + id + "] not in format: <Index>=<Unit Count>,<Unit Id>");
+					}
+					else
+					{
+						uint count = uint.Parse(split[0] as string);
+						string unitid = split[1] as string;
+						TechnoType tt =  technoTypes.SingleOrDefault(t => t.ID == unitid);
+
+						if (tt == null)
+						{
+							logger.Add("TechnoType [" + unitid + "] referenced by Task Force [" + id + "] does not exist!");
+							tt = new TechnoType(unitid, unitid, 0, 0);
+							technoTypes.Add(tt);
+						}
+	
+						if (int.Parse(currKey) > 5)
+						{
+							logger.Add("Task Force [" + id + "]: Game ignores unit entry index greater than 5.");
+						}
+
+						units.Add(new TaskForceEntry(tt, count));
+					}
+				}
+			}
+
 			AITypeListEntry group = groupTypes.SingleOrDefault(g => g.Index == groupi);
 			if (group == null) group = groupTypes[0];
-
-			if (name == null)
-			{
-				starti = 0;
-				name = id;
-			}
-
-			if (!section.Contains("Group")) endi = section.Count;
-
-			for (int i = starti; i < endi; i++)
-			{
-				string[] split = (section[i] as string).Split(',');
-				uint count = uint.Parse(split[0] as string);
-				string unitid = split[1] as string;
-				TechnoType tt = technoTypes.SingleOrDefault(t => t.ID == unitid);
-
-				if (tt == null)
-				{
-					logger.Add("TechnoType " + unitid + " referenced by Task Force " + id + " does not exist!");
-					tt = new TechnoType(unitid, unitid, 0, 0);
-					technoTypes.Add(tt);
-				}
-
-				units.Add(new TaskForceEntry(tt, count));
-			}
 
 			return new TaskForce(id, name, group, units);
 		}

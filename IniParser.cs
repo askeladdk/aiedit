@@ -12,13 +12,14 @@ namespace AIEdit
 		/**
 		 *  New parser reads .ini into dictionary.
 		 */
-		public static IniDictionary ParseToDictionary(StreamReader stream)
+		public static IniDictionary ParseToDictionary(StreamReader stream, string filename, Logger logger)
 		{
 			IniDictionary ini = new IniDictionary();
 			OrderedDictionary section = null;
 			string key, val, line;
 			int index;
 			int linenr = 0;
+			string sectionKey = "";
 
 			while( (line = stream.ReadLine()) != null )
 			{
@@ -39,9 +40,16 @@ namespace AIEdit
 				else if(line[0] == '[')
 				{
 					if( (index = line.IndexOf(']')) == -1 ) continue;
-					key = line.Substring(1, index - 1);
+					sectionKey = line.Substring(1, index - 1);
 					section = new OrderedDictionary();
-					if( !ini.ContainsKey(key) ) ini.Add(key, section);
+					if (!ini.ContainsKey(sectionKey))
+					{
+						ini.Add(sectionKey, section);
+					}
+					else
+					{
+                        logger.Add("Duplicate section [" + sectionKey + "] in " + filename + "!");
+					}
 				}
 				// key=value pair
 				else if(section != null)
@@ -49,6 +57,12 @@ namespace AIEdit
 					if ((index = line.IndexOf('=')) == -1) continue;
 					key = line.Substring(0, index).Trim();
 					val = line.Substring(index + 1).Trim();
+
+					if (section.Contains(key))
+					{
+                        logger.Add("Duplicate tag/index [" + sectionKey + "] => " + key + " in " + filename + "!");
+					}
+
 					section[key] = val;
 				}
 			}
@@ -56,10 +70,12 @@ namespace AIEdit
 			return ini;
 		}
 
-		public static IniDictionary ParseToDictionary(string path)
+		public static IniDictionary ParseToDictionary(string path, Logger logger)
 		{
 			StreamReader reader = new StreamReader(path);
-			IniDictionary d = ParseToDictionary(reader);
+			string[] fullname = path.Split('\\');
+
+			IniDictionary d = ParseToDictionary(reader, fullname[fullname.Length - 1], logger);
 			reader.Close();
 			return d;
 		}

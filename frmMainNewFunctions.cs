@@ -20,7 +20,7 @@ namespace AIEdit
 		// TECHNOTYPE TABLES
 		private List<TechnoType> unitTypes;     // sorted by name
 		private List<TechnoType> buildingTypes; // sorted by [BuildingTypes] index (very important)
-		private List<TechnoType> technoTypes;   // sorted by name
+		private List<TechnoType> technoTypes;   // sorted by name except <none>
 
 		// AI CONFIG TABLES
 		private List<AITypeListEntry> groupTypes;
@@ -65,10 +65,12 @@ namespace AIEdit
 				{
 					OrderedDictionary section = ini[id];
 					string name = id;
-					uint cost = (section.Contains("Cost")) ? uint.Parse(section["Cost"] as string) : 0;
+					int cost = (section.Contains("Cost")) ? int.Parse(section["Cost"] as string) : 0;
 
 					if (section.Contains(editorName)) name = section[editorName] as string;
 					else if (section.Contains("Name")) name = section["Name"] as string;
+					
+					name = name + " [" + id + "]";
 
 					TechnoType tt = technos.SingleOrDefault(t => t.ID == id);
 
@@ -76,6 +78,10 @@ namespace AIEdit
 					{
 						tt = new TechnoType(id, name, cost, tableIndex++);
 						technos.Add(tt);
+					}
+					else
+					{
+						logger.Add("Duplicate " + type + " [" + id + "] in rules!");
 					}
 				}
 				else
@@ -283,6 +289,8 @@ namespace AIEdit
 
 		private void LoadTechnoTypes(IniDictionary rules, string editorName)
 		{
+			List<TechnoType> sortTechnoTypes = new List<TechnoType>();
+
 			// load units
 			unitTypes = new List<TechnoType>();
 			ParseTechnoTypes(unitTypes, rules, "AircraftTypes", editorName);
@@ -297,16 +305,18 @@ namespace AIEdit
 
 			// combine technotypes
 			technoTypes = new List<TechnoType>();
+			sortTechnoTypes.AddRange(unitTypes);
+			sortTechnoTypes.AddRange(buildingTypes);
+			sortTechnoTypes.Sort();
+
 			technoTypes.Add(new TechnoType("<none>", "<none>", 0, 0));
-			technoTypes.AddRange(unitTypes);
-			technoTypes.AddRange(buildingTypes);
-			technoTypes.Sort();
+			technoTypes.AddRange(sortTechnoTypes);
 		}
 
 		private void LoadData(string rulesPath, string aiPath)
 		{
-			IniDictionary rules = IniParser.ParseToDictionary(rulesPath);
-			IniDictionary ai = IniParser.ParseToDictionary(aiPath);
+			IniDictionary rules = IniParser.ParseToDictionary(rulesPath, logger);
+			IniDictionary ai = IniParser.ParseToDictionary(aiPath, logger);
 			IniDictionary config;
 			string configPath = "config/ts.ini";
 
@@ -314,7 +324,7 @@ namespace AIEdit
 			if (rules["General"].Contains("DominatorWarhead")) configPath = "config/yr.ini";
 			// autodetect ra2
 			else if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
-			config = IniParser.ParseToDictionary(configPath);
+			config = IniParser.ParseToDictionary(configPath, logger);
 
 			idCounter = ID_BASE;
 			if (ai.ContainsKey("AIEdit"))
@@ -373,13 +383,13 @@ namespace AIEdit
 
 				if(ids.Contains(id))
 				{
-					logger.Add("Duplicate Task Force entry " + id + " found!");
+					logger.Add("Duplicate Task Force [" + id + "] found!");
 					continue;
 				}
 
 				if(!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Task Force " + id + " does not exist!");
+					logger.Add("Listed Task Force [" + id + "] does not exist!");
 					continue;
 				}
 
@@ -405,18 +415,18 @@ namespace AIEdit
 
 				if (ids.Contains(id))
 				{
-					logger.Add("Duplicate Script entry " + id + " found!");
+					logger.Add("Duplicate Script [" + id + "] found!");
 					continue;
 				}
 
 				if (!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Script " + id + " does not exist!");
+					logger.Add("Listed Script [" + id + "] does not exist!");
 					continue;
 				}
 
 				OrderedDictionary section = ai[id];
-				ScriptType tf = ScriptType.Parse(id, section, actionTypes);
+				ScriptType tf = ScriptType.Parse(id, section, actionTypes, logger);
 				items.Add(tf);
 				ids.Add(id);
 			}
@@ -437,13 +447,13 @@ namespace AIEdit
 
 				if (ids.Contains(id))
 				{
-					logger.Add("Duplicate Team entry " + id + " found!");
+					logger.Add("Duplicate Team [" + id + "] found!");
 					continue;
 				}
 
 				if (!ai.ContainsKey(id))
 				{
-					logger.Add("Listed Team " + id + " does not exist!");
+					logger.Add("Listed Team [" + id + "] does not exist!");
 					continue;
 				}
 
@@ -469,7 +479,7 @@ namespace AIEdit
 
 				if (ids.Contains(id))
 				{
-					logger.Add("Duplicate Trigger entry " + id + " found!");
+					logger.Add("Duplicate Trigger [" + id + "] found!");
 					continue;
 				}
 
