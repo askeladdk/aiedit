@@ -118,6 +118,7 @@
 			this.txtLog = new System.Windows.Forms.TextBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.aIGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
@@ -207,6 +208,7 @@
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aIGuideToolStripMenuItem,
             this.mnuAbout});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -263,8 +265,8 @@
 			this.olvTF.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTF.FullRowSelect = true;
 			this.olvTF.HideSelection = false;
-			this.olvTF.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTF.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTF.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTF.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTF.Location = new System.Drawing.Point(6, 6);
 			this.olvTF.MultiSelect = false;
 			this.olvTF.Name = "olvTF";
@@ -376,8 +378,8 @@
 			this.olvTFUnits.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTFUnits.FullRowSelect = true;
 			this.olvTFUnits.HideSelection = false;
-			this.olvTFUnits.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTFUnits.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTFUnits.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTFUnits.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTFUnits.Location = new System.Drawing.Point(6, 19);
 			this.olvTFUnits.MultiSelect = false;
 			this.olvTFUnits.Name = "olvTFUnits";
@@ -496,8 +498,8 @@
 			this.olvST.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvST.FullRowSelect = true;
 			this.olvST.HideSelection = false;
-			this.olvST.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvST.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvST.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvST.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvST.Location = new System.Drawing.Point(6, 6);
 			this.olvST.MultiSelect = false;
 			this.olvST.Name = "olvST";
@@ -618,8 +620,8 @@
 			this.olvSTActions.FullRowSelect = true;
 			this.olvSTActions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvSTActions.HideSelection = false;
-			this.olvSTActions.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvSTActions.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvSTActions.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvSTActions.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvSTActions.Location = new System.Drawing.Point(6, 19);
 			this.olvSTActions.MultiSelect = false;
 			this.olvSTActions.Name = "olvSTActions";
@@ -747,8 +749,8 @@
 			this.olvTTSettings.FullRowSelect = true;
 			this.olvTTSettings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvTTSettings.HideSelection = false;
-			this.olvTTSettings.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTTSettings.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTTSettings.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTTSettings.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTTSettings.Location = new System.Drawing.Point(6, 19);
 			this.olvTTSettings.MultiSelect = false;
 			this.olvTTSettings.Name = "olvTTSettings";
@@ -804,8 +806,8 @@
 			this.olvTT.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTT.FullRowSelect = true;
 			this.olvTT.HideSelection = false;
-			this.olvTT.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTT.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTT.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTT.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTT.Location = new System.Drawing.Point(6, 6);
 			this.olvTT.MultiSelect = false;
 			this.olvTT.Name = "olvTT";
@@ -924,8 +926,8 @@
 			this.olvTrSettings.FullRowSelect = true;
 			this.olvTrSettings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvTrSettings.HideSelection = false;
-			this.olvTrSettings.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTrSettings.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTrSettings.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTrSettings.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTrSettings.Location = new System.Drawing.Point(6, 19);
 			this.olvTrSettings.MultiSelect = false;
 			this.olvTrSettings.Name = "olvTrSettings";
@@ -977,8 +979,8 @@
 			this.olvTr.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTr.FullRowSelect = true;
 			this.olvTr.HideSelection = false;
-			this.olvTr.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvTr.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvTr.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvTr.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTr.Location = new System.Drawing.Point(6, 6);
 			this.olvTr.MultiSelect = false;
 			this.olvTr.Name = "olvTr";
@@ -1069,6 +1071,12 @@
 			// 
 			this.saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
 			// 
+            // aIGuideToolStripMenuItem
+            // 
+            this.aIGuideToolStripMenuItem.Name = "aIGuideToolStripMenuItem";
+            this.aIGuideToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.aIGuideToolStripMenuItem.Text = "AI Guide";
+            this.aIGuideToolStripMenuItem.Click += new System.EventHandler(this.aIGuideToolStripMenuItem_Click);
 			// frmMainNew
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1082,7 +1090,7 @@
 			this.MaximizeBox = false;
 			this.Name = "frmMainNew";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "C&C AI Editor";
+			this.Text = "C&C AI Editor " + System.Windows.Forms.Application.ProductVersion;
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
@@ -1206,5 +1214,6 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTT;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTr;
 		private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.ToolStripMenuItem aIGuideToolStripMenuItem;
 	}
 }

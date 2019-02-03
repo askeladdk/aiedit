@@ -6,7 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace AIEdit
 {
@@ -16,6 +17,9 @@ namespace AIEdit
 	{
 		private static uint ID_BASE = 0x01000000;
 		private uint idCounter = ID_BASE;
+		private string idPrefix = null;
+		private string idSuffix = null;
+		private HashSet<string> iniIDs;
 
 		// TECHNOTYPE TABLES
 		private List<TechnoType> unitTypes;     // sorted by name
@@ -50,8 +54,16 @@ namespace AIEdit
 
 		private string nextID()
 		{
-			uint id = idCounter++;
-			return id.ToString("X8") + "-G";
+			uint id;
+			string newID;
+
+			do
+			{
+				id = idCounter++;
+				newID = idPrefix + id.ToString("X8") + idSuffix;
+			} while (iniIDs.Contains(newID));
+
+			return newID;
 		}
 
 		private void ParseTechnoTypes(List<TechnoType> technos, IniDictionary ini, string type, string editorName)
@@ -136,6 +148,10 @@ namespace AIEdit
 				if(type.CompareTo("Number") == 0)
 				{
 					actionType = new ActionTypeNumber(code, name, desc);
+				}
+				else if(type.CompareTo("NumPlusMinus") == 0)
+				{
+					actionType = new ActionTypeNumPlusMinus(code, name, desc);
 				}
 					/*
 				else if (type.CompareTo("ScriptTypes") == 0)
@@ -318,18 +334,51 @@ namespace AIEdit
 			IniDictionary rules = IniParser.ParseToDictionary(rulesPath, logger);
 			IniDictionary ai = IniParser.ParseToDictionary(aiPath, logger);
 			IniDictionary config;
-			string configPath = "config/ts.ini";
+			string appPath = "";
+			string configPath = "";
+
+			appPath = System.AppDomain.CurrentDomain.BaseDirectory;
+			configPath = appPath + "config\\ts.ini";
 
 			// autodetect yr
-			if (rules["General"].Contains("DominatorWarhead")) configPath = "config/yr.ini";
+			if (rules["General"].Contains("DominatorWarhead")) configPath = appPath + "config\\yr.ini";
 			// autodetect ra2
-			else if( rules["General"].Contains("PrismType") ) configPath = "config/ra2.ini";
+			else if( rules["General"].Contains("PrismType") ) configPath = appPath + "config\\ra2.ini";
+
 			config = IniParser.ParseToDictionary(configPath, logger);
 
 			idCounter = ID_BASE;
-			if (ai.ContainsKey("AIEdit"))
+			if (config.ContainsKey("General"))
 			{
-				idCounter = uint.Parse(ai["AIEdit"]["Index"] as string);
+				if (config["General"].Contains("StartIndex"))
+				{
+					try
+					{
+						idCounter = uint.Parse(config["General"].GetString("StartIndex"), NumberStyles.AllowHexSpecifier);
+					}
+					catch (Exception )
+					{
+						idCounter = ID_BASE;
+					}
+				}
+				
+				string idPrefixTemp = "";
+				string idSuffixTemp = "";
+				idPrefix = "";
+				idSuffix = "-G";
+
+				if (config["General"].Contains("IDPrefix")) idPrefixTemp = config["General"].GetString("IDPrefix");
+				if (config["General"].Contains("IDSuffix")) idSuffixTemp = config["General"].GetString("IDSuffix");
+				if (!String.IsNullOrEmpty(idPrefixTemp))
+				{
+					if (Regex.IsMatch(idPrefixTemp, @"^[a-zA-Z0-9_-]+$") && idPrefixTemp.Length < 16)
+						idPrefix = idPrefixTemp.ToUpper();
+				}
+				if (!String.IsNullOrEmpty(idSuffixTemp))
+				{
+					if (Regex.IsMatch(idSuffixTemp, @"^[a-zA-Z0-9_-]+$"))
+						idSuffix = idSuffixTemp.ToUpper();
+				}
 			}
 
 			if (ai.ContainsKey("Digest")) digestString = ai["Digest"].GetString("1");
@@ -359,7 +408,8 @@ namespace AIEdit
 			conditionTypes = LoadAITypeList(config, "Conditions");
 			operatorTypes = LoadAITypeList(config, "Operators");
 
-			taskForces = LoadTaskForces(ai, technoTypes, groupTypes);
+			// TaskForces being 1st of the 4 types, ID duplicates accross ai(md).ini is not checked.
+			taskForces = LoadTaskForces(ai, technoTypes, groupTypes); 
 
 			scriptTypes = LoadScriptTypes(ai, actionTypes);
 
@@ -381,6 +431,8 @@ namespace AIEdit
 			{
 				string id = entry.Value as string;
 
+				if (id == "") continue;
+
 				if(ids.Contains(id))
 				{
 					logger.Add("Duplicate Task Force [" + id + "] found!");
@@ -399,6 +451,8 @@ namespace AIEdit
 				ids.Add(id);
 			}
 
+			iniIDs = new HashSet<string>();
+			iniIDs.UnionWith(ids);
 			return new AITable<TaskForce>("TaskForces", items);
 		}
 
@@ -413,9 +467,14 @@ namespace AIEdit
 			{
 				string id = entry.Value as string;
 
-				if (ids.Contains(id))
+				if (id == "") continue;
+
+				if (ids.Contains(id) || iniIDs.Contains(id))
 				{
-					logger.Add("Duplicate Script [" + id + "] found!");
+					if (iniIDs.Contains(id))
+						logger.Add("Duplicate Script [" + id + "] found in other list(s)!");
+					else
+						logger.Add("Duplicate Script [" + id + "] found!");
 					continue;
 				}
 
@@ -430,7 +489,7 @@ namespace AIEdit
 				items.Add(tf);
 				ids.Add(id);
 			}
-
+			iniIDs.UnionWith(ids);
 			return new AITable<ScriptType>("ScriptTypes", items);
 		}
 
@@ -445,9 +504,14 @@ namespace AIEdit
 			{
 				string id = entry.Value as string;
 
-				if (ids.Contains(id))
+				if (id == "") continue;
+
+				if (ids.Contains(id) || iniIDs.Contains(id))
 				{
-					logger.Add("Duplicate Team [" + id + "] found!");
+					if (iniIDs.Contains(id))
+						logger.Add("Duplicate Team [" + id + "] found in other list(s)!");
+					else
+						logger.Add("Duplicate Team [" + id + "] found!");
 					continue;
 				}
 
@@ -462,7 +526,7 @@ namespace AIEdit
 				items.Add(tt);
 				ids.Add(id);
 			}
-
+			iniIDs.UnionWith(ids);
 			return new AITable<TeamType>("TeamTypes", items);
 		}
 
@@ -477,6 +541,7 @@ namespace AIEdit
 				string id = entry.Key as string;
 				string data = entry.Value as string;
 
+				// Vanilla TS AITrigger already contains 2 IDs same as TeamType IDs, so skipping other list check here.
 				if (ids.Contains(id))
 				{
 					logger.Add("Duplicate Trigger [" + id + "] found!");
@@ -491,7 +556,7 @@ namespace AIEdit
 					ids.Add(id);
 				}
 			}
-
+			iniIDs.UnionWith(ids);
 			return new AITable<TriggerType>("AITriggerTypes", items);
 		}
 
@@ -508,9 +573,6 @@ namespace AIEdit
 			stream.WriteLine("[Digest]");
 			stream.WriteLine("1=" + digestString);
 			stream.WriteLine();
-
-			stream.WriteLine("[AIEdit]");
-			stream.WriteLine("Index=" + idCounter);
 
 			stream.Close();
 		}

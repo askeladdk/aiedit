@@ -14,6 +14,42 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.3.9 ###
+- TS config file fix of veteran level and removed unused AITrigger condition choices
+- Skipped across list duplicate ID check for AITrigger IDs as vanilla TS has such
+- Added version number to application title text
+- Updated the AIGuide for script action Attack TargetType (0,n)
+
+### v2.0.3.8 ###
+- Reverted back non-essential changes in the form designer file.
+
+### v2.0.3.7 ###
+- Fixed additional number of duplicate messages on reloading INI files.
+
+### v2.0.3.6 ###
+- Added AI Guide for offline reference.
+- Removed the usage of [AIEdit] section for ID generation.
+- Provided StartIndex, IDPrefix and IDSuffix fields in config file for customizing IDs.
+- Config files updated for corrections and for ID related fields.
+- Added duplicate ID check across lists in AI ini.
+- Parsing exception message box will now close the application.
+
+### v2.0.3.5 ###
+- Avoid creating duplicate IDs even if [AIEdit] section is deleted from AI ini.
+
+### v2.0.3.4 ###
+- TeamType fields of Max/Priority/Techlevel now allows negative numbers.
+
+### v2.0.3.3 ###
+- Script action's parameters now allow negative numbers wherever needed.
+- Script actions 53, 54 and 55 now has editable parameters for YR (config\yr.ini).
+
+### v2.0.3.2 ###
+- Added an error message with faulty ID before throwing an exception while parsing AI ini.
+
+### v2.0.3.1 ###
+- Application path is used to compute the full path of config files.
+
 ### v2.0.3 ###
 - Changed the wording of the error log messages to be more consistent.
 - Updated to ObjectListView 2.9.10.

@@ -177,53 +177,62 @@ namespace AIEdit
 			int groupi = -1;
 			List<TaskForceEntry> units = new List<TaskForceEntry>();
 
-			foreach(DictionaryEntry entry in section)
+			try
 			{
-				string currKey = entry.Key as string;
-				string currValue = entry.Value as string;
+				foreach(DictionaryEntry entry in section)
+				{
+					string currKey = entry.Key as string;
+					string currValue = entry.Value as string;
 
-				if (currKey == "Name")
-				{
-					name = currValue;
-				}
-				else if (currKey == "Group")
-				{
-					groupi = int.Parse(currValue);
-				}
-				else 
-				{
-					string[] split = currValue.Split(',');
-
-					if (split.Length < 2)
+					if (currKey == "Name")
 					{
-						logger.Add("Task Force [" + id + "] not in format: <Index>=<Unit Count>,<Unit Id>");
+						name = currValue;
 					}
-					else
+					else if (currKey == "Group")
 					{
-						uint count = uint.Parse(split[0] as string);
-						string unitid = split[1] as string;
-						TechnoType tt =  technoTypes.SingleOrDefault(t => t.ID == unitid);
+						groupi = int.Parse(currValue);
+					}
+					else 
+					{
+						string[] split = currValue.Split(',');
 
-						if (tt == null)
+						if (split.Length < 2)
 						{
-							logger.Add("TechnoType [" + unitid + "] referenced by Task Force [" + id + "] does not exist!");
-							tt = new TechnoType(unitid, unitid, 0, 0);
-							technoTypes.Add(tt);
+							logger.Add("Task Force [" + id + "] not in format: <Index>=<Unit Count>,<Unit Id>");
 						}
-	
-						if (int.Parse(currKey) > 5)
+						else
 						{
-							logger.Add("Task Force [" + id + "]: Game ignores unit entry index greater than 5.");
-						}
+							uint count = uint.Parse(split[0] as string);
+							string unitid = split[1] as string;
+							TechnoType tt =  technoTypes.SingleOrDefault(t => t.ID == unitid);
 
-						units.Add(new TaskForceEntry(tt, count));
+							if (tt == null)
+							{
+								logger.Add("TechnoType [" + unitid + "] referenced by Task Force [" + id + "] does not exist!");
+								tt = new TechnoType(unitid, unitid, 0, 0);
+								technoTypes.Add(tt);
+							}
+		
+							if (int.Parse(currKey) > 5)
+							{
+								logger.Add("Task Force [" + id + "]: Game ignores unit entry index greater than 5.");
+							}
+
+							units.Add(new TaskForceEntry(tt, count));
+						}
 					}
 				}
+			}
+			catch (Exception )
+			{
+				string msg = "Error occured at TaskForce: [" + id + "]" + "\nPlease verify its format. Application will now close.";
+				MessageBox.Show(msg, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1); 
+				Application.Exit();
 			}
 
 			AITypeListEntry group = groupTypes.SingleOrDefault(g => g.Index == groupi);
 			if (group == null) group = groupTypes[0];
-
+	
 			return new TaskForce(id, name, group, units);
 		}
 	}

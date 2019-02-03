@@ -315,124 +315,134 @@ namespace AIEdit
 				return null;
 			}
 
-			// team 1
-			tag = "Team1";
-			option = triggerTypeOptions[tag];
-			value = option.FindByString(split[1], noneTeam);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// owner
-			tag = "Owner";
-			option = triggerTypeOptions[tag];
-			value = option.FindByString(split[2]);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// techlevel
-			tag = "TechLevel";
-			option = triggerTypeOptions[tag];
-			value = uint.Parse(split[3]);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// condition
-			tag = "Condition";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[4]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// techtype
-			tag = "TechType";
-			option = triggerTypeOptions[tag];
-			string unitid = split[5];
-			value = noneTechno;
-
-			if (unitid != "<none>")
+			try
 			{
-				value = option.FindByString(unitid);
-				if (value == null)
+				// team 1
+				tag = "Team1";
+				option = triggerTypeOptions[tag];
+				value = option.FindByString(split[1], noneTeam);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// owner
+				tag = "Owner";
+				option = triggerTypeOptions[tag];
+				value = option.FindByString(split[2]);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// techlevel
+				tag = "TechLevel";
+				option = triggerTypeOptions[tag];
+				value = uint.Parse(split[3]);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// condition
+				tag = "Condition";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse(split[4]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// techtype
+				tag = "TechType";
+				option = triggerTypeOptions[tag];
+				string unitid = split[5];
+				value = noneTechno;
+
+				if (unitid != "<none>")
 				{
-					logger.Add("TechnoType [" + split[5] + "] referenced by Trigger [" + id + "] does not exist!");
-					value = new TechnoType(unitid, unitid, 0, 0);
-					option.List.Add(value);
+					value = option.FindByString(unitid);
+					if (value == null)
+					{
+						logger.Add("TechnoType [" + split[5] + "] referenced by Trigger [" + id + "] does not exist!");
+						value = new TechnoType(unitid, unitid, 0, 0);
+						option.List.Add(value);
+					}
 				}
+
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// amount
+				tag = "Amount";
+				option = triggerTypeOptions[tag];
+				value = Convert.ToUInt32(split[6].Substring(0, 8), 16).SwapEndianness();
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// operator
+				tag = "Operator";
+				option = triggerTypeOptions[tag];
+				value = uint.Parse(split[6].Substring(9, 1));
+				value = option.FindByIndex((int)(uint)value);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// starting probability
+				tag = "Prob";
+				option = triggerTypeOptions[tag];
+				value = (uint)float.Parse(split[7], CultureInfo.InvariantCulture);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// minimum probability
+				tag = "ProbMin";
+				option = triggerTypeOptions[tag];
+				value = (uint)float.Parse(split[8], CultureInfo.InvariantCulture);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// maximum probability
+				tag = "ProbMax";
+				option = triggerTypeOptions[tag];
+				value = (uint)float.Parse(split[9], CultureInfo.InvariantCulture);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// skirmish
+				tag = "Skirmish";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse("0" + split[10]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// [11] is unknown and always zero
+
+				// side
+				tag = "Side";
+				option = triggerTypeOptions[tag];
+				int side = int.Parse(split[12]);
+				value = option.FindByIndex(side);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// base defense
+				tag = "BaseDefense";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse(split[13]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// team 2
+				tag = "Team2";
+				option = triggerTypeOptions[tag];
+				value = option.FindByString(split[14], noneTeam);
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// easy
+				tag = "Easy";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse(split[15]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// medium
+				tag = "Medium";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse(split[16]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
+				// hard
+				tag = "Hard";
+				option = triggerTypeOptions[tag];
+				value = option.FindByIndex(int.Parse(split[17]));
+				entries.Add(tag, new TriggerTypeEntry(option, value));
+
 			}
-
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// amount
-			tag = "Amount";
-			option = triggerTypeOptions[tag];
-			value = Convert.ToUInt32(split[6].Substring(0, 8), 16).SwapEndianness();
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// operator
-			tag = "Operator";
-			option = triggerTypeOptions[tag];
-			value = uint.Parse(split[6].Substring(9, 1));
-			value = option.FindByIndex((int)(uint)value);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// starting probability
-			tag = "Prob";
-			option = triggerTypeOptions[tag];
-			value = (uint)float.Parse(split[7], CultureInfo.InvariantCulture);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// minimum probability
-			tag = "ProbMin";
-			option = triggerTypeOptions[tag];
-			value = (uint)float.Parse(split[8], CultureInfo.InvariantCulture);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// maximum probability
-			tag = "ProbMax";
-			option = triggerTypeOptions[tag];
-			value = (uint)float.Parse(split[9], CultureInfo.InvariantCulture);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// skirmish
-			tag = "Skirmish";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse("0" + split[10]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// [11] is unknown and always zero
-
-			// side
-			tag = "Side";
-			option = triggerTypeOptions[tag];
-			int side = int.Parse(split[12]);
-			value = option.FindByIndex(side);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// base defense
-			tag = "BaseDefense";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[13]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// team 2
-			tag = "Team2";
-			option = triggerTypeOptions[tag];
-			value = option.FindByString(split[14], noneTeam);
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// easy
-			tag = "Easy";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[15]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// medium
-			tag = "Medium";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[16]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
-
-			// hard
-			tag = "Hard";
-			option = triggerTypeOptions[tag];
-			value = option.FindByIndex(int.Parse(split[17]));
-			entries.Add(tag, new TriggerTypeEntry(option, value));
+			catch (Exception )
+			{
+				string msg = "Error occured at AITriggerType: " + id + "\nPlease verify its format. Application will now close.";
+				MessageBox.Show(msg, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1); 
+				Application.Exit();
+			}
 
 			return new TriggerType(id, name, entries);
 		}

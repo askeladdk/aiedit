@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace AIEdit
 {
@@ -51,18 +52,18 @@ namespace AIEdit
 		}
 
 		public override IList List { get { return null; } }
-		public override TeamTypeEntry DefaultValue { get { return new TeamTypeEntry(this, (object)0U); } }
+		public override TeamTypeEntry DefaultValue { get { return new TeamTypeEntry(this, (object)0); } }
 		public override int SortOrder { get { return 2; } }
 
 		public override TeamTypeEntry Parse(OrderedDictionary section)
 		{
 			if (!section.Contains(tag)) return DefaultValue;
-			return new TeamTypeEntry(this, section.GetUint(tag));
+			return new TeamTypeEntry(this, section.GetInt(tag));
 		}
 
 		public override void Write(StreamWriter stream, object value)
 		{
-			stream.WriteLine(tag + "=" + ((uint)value));
+			stream.WriteLine(tag + "=" + ((int)value));
 		}
 	}
 
@@ -268,9 +269,18 @@ namespace AIEdit
 			string name = section.GetString("Name");
 			if (name == null) name = id;
 
-			foreach(TeamTypeOption option in options)
+			try
 			{
-				entries.Add(option.Parse(section));
+				foreach(TeamTypeOption option in options)
+				{
+					entries.Add(option.Parse(section));
+				}
+			}
+			catch (Exception )
+			{
+				string msg = "Error occured at TeamType: [" + id + "]" + "\nPlease verify its format. Application will now close.";
+				MessageBox.Show(msg, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1); 
+				Application.Exit();
 			}
 
 			return new TeamType(id, name, entries);

@@ -45,8 +45,8 @@
             this.olvColID});
 			this.olvUses.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvUses.FullRowSelect = true;
-			this.olvUses.HighlightBackgroundColor = System.Drawing.Color.Empty;
-			this.olvUses.HighlightForegroundColor = System.Drawing.Color.Empty;
+			this.olvUses.SelectedBackColor = System.Drawing.Color.Empty;
+			this.olvUses.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvUses.Location = new System.Drawing.Point(12, 12);
 			this.olvUses.MultiSelect = false;
 			this.olvUses.Name = "olvUses";

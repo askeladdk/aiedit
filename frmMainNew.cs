@@ -9,6 +9,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace AIEdit
 {
@@ -76,7 +78,7 @@ namespace AIEdit
 			if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
 			saveFilename = saveFileDialog1.FileName;
 			WriteAI(saveFilename);
-			this.Text = "C&C AI Editor - " + saveFilename;
+			this.Text = "C&C AI Editor " + System.Windows.Forms.Application.ProductVersion + " - " + saveFilename;
 		}
 
 		/**
@@ -281,10 +283,17 @@ namespace AIEdit
 			// parameter
 			else if(e.SubItemIndex == 2)
 			{
-				if(action.Action.ParamType == ScriptParamType.Number)
+				if((action.Action.ParamType == ScriptParamType.Number) || (action.Action.ParamType == ScriptParamType.NumPlusMinus))
 				{
 					NumericUpDown nud = new NumericUpDown();
-					nud.Minimum = 0;
+					if(action.Action.ParamType == ScriptParamType.Number)
+					{
+						nud.Minimum = 0;
+					}
+					else
+					{
+						nud.Minimum = -999999;
+					}
 					nud.Value = action.Param;
 					nud.Bounds = e.CellBounds;
 					e.Control = nud;
@@ -335,10 +344,10 @@ namespace AIEdit
 			// parameter
 			else if(e.SubItemIndex == 2)
 			{
-				if(action.Action.ParamType == ScriptParamType.Number)
+				if((action.Action.ParamType == ScriptParamType.Number) || (action.Action.ParamType == ScriptParamType.NumPlusMinus))
 				{
 					NumericUpDown nud = e.Control as NumericUpDown;
-					action.Param = (uint)nud.Value;
+					action.Param = (int)nud.Value;
 				}
 				else if(action.Action.ParamType == ScriptParamType.AIObject)
 				{
@@ -347,7 +356,7 @@ namespace AIEdit
 				else
 				{
 					ComboBox cmb = e.Control as ComboBox;
-					action.Param = (cmb.SelectedItem as IParamListEntry).ParamListIndex;
+					action.Param = (int)(cmb.SelectedItem as IParamListEntry).ParamListIndex;
 				}
 
 				e.Cancel = true;
@@ -357,7 +366,7 @@ namespace AIEdit
 			else if(e.SubItemIndex == 3)
 			{
 				ComboBox cmb = e.Control as ComboBox;
-				action.Offset = (uint)cmb.SelectedIndex;
+				action.Offset = cmb.SelectedIndex;
 				e.Cancel = true;
 				olvSTActions.RefreshItem(e.ListViewItem);
 			}
@@ -752,7 +761,7 @@ namespace AIEdit
 			if (aifile == null) return;
 
 			LoadAI(rulesfile, aifile);
-			this.Text = "C&C AI Editor - " + aifile;
+			this.Text = "C&C AI Editor " + System.Windows.Forms.Application.ProductVersion + " - " + aifile;
 			saveFilename = aifile;
 			tabControl1.Enabled = true;
 		}
@@ -763,7 +772,7 @@ namespace AIEdit
 			if (rulesfile == null) return;
 
 			LoadAI(rulesfile, "config/default.ini");
-			this.Text = "C&C AI Editor";
+			this.Text = "C&C AI Editor " + System.Windows.Forms.Application.ProductVersion;
 			saveFilename = null;
 			tabControl1.Enabled = true;
 		}
@@ -951,5 +960,25 @@ namespace AIEdit
 			olvTr.Sort();
 			olvTr.EnsureVisible();
 		}
-	}
+
+        private void aIGuideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+			string key = @"HTTP\shell\open\command";
+			string browser = "";
+			string appPath = System.AppDomain.CurrentDomain.BaseDirectory;
+			string helpfile = appPath + "help\\aiguide.html";
+
+			using(RegistryKey regkey = Registry.ClassesRoot.OpenSubKey(key, false))
+			{
+				browser = ((string)regkey.GetValue(null, null)).Split('"')[1];
+			}
+            try
+		    {
+				Uri uriFromPath = new System.Uri(helpfile);
+				string urlLocal = uriFromPath.AbsoluteUri;
+			    Process.Start(browser, urlLocal);
+		    }
+		    catch (Exception ) {   }
+        }
+    }
 }

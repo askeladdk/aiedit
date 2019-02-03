@@ -5,6 +5,7 @@ using System.Collections;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace AIEdit
 {
@@ -40,6 +41,7 @@ namespace AIEdit
 	public enum ScriptParamType
 	{
 		Number,
+		NumPlusMinus,
 		List,
 		TechnoType,
 		AIObject
@@ -52,8 +54,8 @@ namespace AIEdit
 		string Description { get; }
 		IList List { get; }
 		ScriptParamType ParamType { get; }
-		string ParamToString(uint param);
-		IParamListEntry ParamEntry(uint param);
+		string ParamToString(int param);
+		IParamListEntry ParamEntry(int param);
 	}
 
 	public class ActionTypeNumber : IActionType, IComparable
@@ -67,17 +69,56 @@ namespace AIEdit
 		public IList List { get { return null; } }
 		public ScriptParamType ParamType { get { return ScriptParamType.Number; } }
 
-		public string ParamToString(uint param)
+		public string ParamToString(int param)
 		{
 			return param.ToString();
 		}
 
-		public IParamListEntry ParamEntry(uint param)
+		public IParamListEntry ParamEntry(int param)
 		{
 			return null;
 		}
 
 		public ActionTypeNumber(uint code, string name, string desc)
+		{
+			this.code = code;
+			this.name = name;
+			this.desc = desc;
+		}
+
+		public override string ToString()
+		{
+			return name;
+		}
+
+		public int CompareTo(object other)
+		{
+			return name.CompareTo((other as IActionType).Name);
+		}
+	}
+
+	public class ActionTypeNumPlusMinus : IActionType, IComparable
+	{
+		private uint code;
+		private string name, desc;
+
+		public uint Code { get { return code; } }
+		public string Name { get { return name; } }
+		public string Description { get { return desc; } }
+		public IList List { get { return null; } }
+		public ScriptParamType ParamType { get { return ScriptParamType.NumPlusMinus; } }
+
+		public string ParamToString(int param)
+		{
+			return param.ToString();
+		}
+
+		public IParamListEntry ParamEntry(int param)
+		{
+			return null;
+		}
+
+		public ActionTypeNumPlusMinus(uint code, string name, string desc)
 		{
 			this.code = code;
 			this.name = name;
@@ -108,16 +149,16 @@ namespace AIEdit
 		public IList List { get { return list; } }
 		public ScriptParamType ParamType { get { return paramType; } }
 
-		public IParamListEntry ParamEntry(uint param)
+		public IParamListEntry ParamEntry(int param)
 		{
 			foreach (IParamListEntry entry in list)
 			{
-				if (entry.ParamListIndex == param) return entry;
+				if (entry.ParamListIndex == (uint)param) return entry;
 			}
 			return null;
 		}
 
-		public string ParamToString(uint param)
+		public string ParamToString(int param)
 		{
 			IParamListEntry entry = ParamEntry(param);
 			return entry != null ? entry.ToString() : "<error>";
@@ -148,10 +189,10 @@ namespace AIEdit
 	/// </summary>
 	public class ScriptAction
 	{
-		private static uint[] offsets = { 0, 65536, 131072, 196608 };
+		private static int[] offsets = { 0, 65536, 131072, 196608 };
 		private static string[] offsetsDesc = { "Least Threat", "Most Threat", "Closest", "Farthest" };
 		private IActionType action;
-		private uint param, offset;
+		private int param, offset;
 
 		public IActionType Action
 		{
@@ -170,8 +211,8 @@ namespace AIEdit
 			}
 		}
 
-		public uint Param { get { return param; } set { param = value; } }
-		public uint Offset { get { return offset; } set { offset = value; } }
+		public int Param { get { return param; } set { param = value; } }
+		public int Offset { get { return offset; } set { offset = value; } }
 
 		public string ParamString { get { return action.ParamToString(param); } }
 
@@ -192,7 +233,7 @@ namespace AIEdit
 			}
 		}
 
-		public ScriptAction(IActionType action, uint param)
+		public ScriptAction(IActionType action, int param)
 		{
 			this.action = action;
 			GetOffset(param, out this.param, out offset);
@@ -208,18 +249,18 @@ namespace AIEdit
 		public void Write(StreamWriter stream, int index)
 		{
 			uint a = action.Code;
-			uint p = param + offsets[offset];
+			int p = param + offsets[offset];
 			stream.WriteLine(index.ToString() + "=" + a.ToString() + "," + p.ToString());
 		}
 
-		private static void GetOffset(uint index, out uint param, out uint offset)
+		private static void GetOffset(int index, out int param, out int offset)
 		{
 			for (int i = offsets.Length - 1; i >= 0; i--)
 			{
 				if (index >= offsets[i])
 				{
 					param = index - offsets[i];
-					offset = (uint)i;
+					offset = i;
 					return;
 				}
 			}
@@ -337,30 +378,39 @@ namespace AIEdit
 			string name = id;		
 			List<ScriptAction> actions = new List<ScriptAction>();
 
-			foreach(DictionaryEntry entry in section)
+			try
 			{
-				if ((entry.Key as string) == "Name")
+				foreach(DictionaryEntry entry in section)
 				{
-					name = entry.Value as string;
-				}
-				else
-				{
-					string[] split = (entry.Value as string).Split(',');
-
-					if (split.Length < 2)
+					if ((entry.Key as string) == "Name")
 					{
-						logger.Add("ScriptType " + id + ": Entry not in format: <Index>=<Action>,<Parameter>");
+						name = entry.Value as string;
 					}
 					else
 					{
-						int a  = int.Parse(split[0]);
-						uint p = uint.Parse(split[1]);
-						IActionType actionType = types[a];
+						string[] split = (entry.Value as string).Split(',');
 
-						ScriptAction action = new ScriptAction(actionType, p);
-						actions.Add(action);
+						if (split.Length < 2)
+						{
+							logger.Add("ScriptType " + id + ": Entry not in format: <Index>=<Action>,<Parameter>");
+						}
+						else
+						{
+							int a  = int.Parse(split[0]);
+							int p = int.Parse(split[1]);
+							IActionType actionType = types[a];
+
+							ScriptAction action = new ScriptAction(actionType, p);
+							actions.Add(action);
+						}
 					}
 				}
+			}
+			catch (Exception )
+			{
+				string msg = "Error occured at ScriptType: [" + id + "]" + "\nPlease verify its format. Application will now close.";
+				MessageBox.Show(msg, "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1); 
+				Application.Exit();
 			}
 
 			return new ScriptType(id, name, actions);

@@ -1,0 +1,1532 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>AI Guide</title>
+ </head>
+ <body bgcolor=#ffd9b3 text=#800000>
+<center><h1>AI Guide</h1></center>
+
+<h3>Index</h3>
+<ul>
+	<li><a href="#aiedtips">AIEditor Tips</a></li>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#taskforces">TaskForces</a></li>
+	<li><a href="#scripttypes">ScriptTypes</a></li>
+	<ul>
+		<li><a href="#scriptactions">Script Actions :</a><br>
+		<a href="#sa0">0 - Attack Target Type</a>, <a href="#sa1">1 - Attack Waypoint</a>, <a href="#sa2">2 - Go Berzerk</a>, <a href="#sa3">3 - Move To Waypoint</a>, <br>
+		<a href="#sa4">4 - Move Into Celltag</a>, <a href="#sa5">5 - Guard Area</a>, <a href="#sa6">6 - Jump To Script Action</a>, <a href="#sa7">7 - Force Player Win</a>, <br>
+		<a href="#sa8">8 - Unload</a>, <a href="#sa9">9 - Deploy</a>, <a href="#sa10">10 - Follow friendlies</a>, <a href="#sa11">11 - Assign New Mission (RA2)</a> <a href="#sa11ts">(TS)</a>, <br>
+		<a href="#sa12">12 - Set Global</a>, <a href="#sa13">13 - Play Idle Anim</a>, <a href="#sa14">14 - Load Onto Transport</a>, <a href="#sa15">15 - Enter Structure At Waypoint</a>, <br>
+		<a href="#sa16">16 - Patrol To Waypoint</a>, <a href="#sa17">17 - Change Script</a>, <a href="#sa18">18 - Change Team</a>, <a href="#sa19">19 - Panic</a>, <br>
+		<a href="#sa20">20 - Change House Ownership</a>, <a href="#sa21">21 - Scatter</a>, <a href="#sa22">22 - Afraid & Run To Shroud</a>, <a href="#sa23">23 - Force Player Loss</a>, <br>
+		<a href="#sa24">24 - Play Speech</a>, <a href="#sa25">25 - Play Sound</a>, <a href="#sa26">26 - Play Movie</a>, <a href="#sa27">27 - Play Theme/Music</a>, <br>
+		<a href="#sa28">28 - Reduce Ore</a>, <a href="#sa29">29 - Begin Production</a>, <a href="#sa30">30 - Force Sale</a>, <a href="#sa31">31 - Suicide</a>, <br>
+		<a href="#sa32">32 - Start Weather/Ion Storm</a>, <a href="#sa33">33 - End Weather/Ion Storm</a>, <a href="#sa34">34 - Center Map On Team</a>,<br>
+		<a href="#sa35">35 - Shroud Map For Time</a>, 		<a href="#sa36">36 -  Reveal Map For Time</a>, <a href="#sa37">37 - Delete Team Members</a>, <br>
+		<a href="#sa38">38 - Clear Global</a>, <a href="#sa39">39 - Set Local</a>, 
+		<a href="#sa40">40 - Clear Local</a>, <a href="#sa41">41 - Unpanic</a>, <a href="#sa42">42 - Change Facing</a>, <br>
+		<a href="#sa43">43 - Wait Until Fully Loaded</a>, 		<a href="#sa44">44 - Unload TRUCKB to TRUCKA</a>, <a href="#sa45">45 - Load TRUCKA to TRUCKB</a>, <br>
+		<a href="#sa46">46 - Attack Enemy Structure</a>, <a href="#sa47">47 - Move To Enemy Structure</a>, 
+		<a href="#sa48">48 - Scout</a>, <a href="#sa49">49 - Register Success</a>, <br>
+		<a href="#sa50">50 - Flash</a>, <a href="#sa51">51 - Play Animation</a>, <a href="#sa52">52 - Display Talk Bubble</a>, <a href="#sa53">53 - Gather At Enemy Base</a>, <br>
+		<a href="#sa54">54 - Regroup At Friendly Base</a>, <a href="#sa55">55 - Activate Iron Curtain</a>, <a href="#sa56">56 - ChronoSphere TaskForce</a>, <br>
+		<a href="#sa57">57 - ChronoWarp TaskForce</a>, <a href="#sa58">58 - Move To Friendly Structure</a>, <a href="#sa59">59 - Attack Structure At Waypoint</a>, <br>
+		<a href="#sa60">60 - Enter Grinder</a>, <a href="#sa61">61 - Occupy Tank Bunker</a>, <a href="#sa62">62 - Enter Bio Reactor</a>, <a href="#sa63">63 - Occupy Battle Bunker</a>, <br>
+		<a href="#sa64">64 - Garrison Structure</a><br>
+		</li>
+		<li><a href="#structnumber">Note On Structure Number</a></li>
+	</ul>
+	<li><a href="#teamtypes">TeamTypes</a></li>
+	<ul>
+		<li><a href="#generic">Generic</a>: <a href="#nameattr">Name</a>, <a href="#veteranlevel">VeteranLevel</a>, <a href="#techlevel">TechLevel</a>, <a href="#house">House</a>, <a href="#maxattr">Max</a>, <a href="#prebuild">Prebuild</a>, <a href="#reinforce">Reinforce</a>,<br>
+		<a href="#guardslower">GuardSlower</a>, <a href="#annoyance">Annoyance</a>, <a href="#isbasedefense">IsBaseDefense</a>, <a href="#whiner">Whiner</a>, <a href="#mindcontroldecision">MindControlDecision</a>, <a href="#ionimmune">IonImmune</a></li>
+		<li><a href="#essential">Essential</a>: <a href="#script">Script</a>, <a href="#taskforce">TaskForce</a></li>
+		<li><a href="#recruitmentattr">Recruitment</a>: <a href="#areteammembersrecruitable">AreTeamMembersRecruitable</a>, <a href="#priority">Priority</a>, <a href="#recruiter">Recruiter</a>, <a href="#group">Group</a>, <a href="#autocreate">Autocreate</a>, <a href="#looserecruits">LooseRecruits</a></li>
+		<li><a href="#engagementattr">Enroute/Engagement</a>: <a href="#avoidthreats">AvoidThreats</a>, <a href="#onlytargethouseenemy">OnlyTargetHouseEnemy</a>, <a href="#aggressive">Aggressive and Suicide</a></li>
+		<li><a href="#transportattr">Transport</a>: <a href="#loadable">Loadable</a>, <a href="#full">Full</a>, <a href="#droppod">Droppod</a>, <a href="#transportwaypoint">TransportWaypoint</a>, <a href="#usetransportorigin">UseTransportOrigin</a>, <br><a href="#transportsreturnonunload">TransportsReturnOnUnload</a>, <a href="#ontransonly">OnTransOnly</a></li>
+		<li><a href="#mapattr">Map related</a>: <a href="#tag">Tag</a>, <a href="#waypoint">Waypoint</a></li>
+	</ul>
+	<li><a href="#aitriggertypes">AITriggerTypes</a></li>
+	<ul>
+		<li><a href="#aitriggertype">Description</a></li>
+		<li><a href="#conditioncheck">Condition Check Segment Examples</a></li>
+		<li><a href="#weights">AITrigger Weights</a></li>
+	</ul>
+</ul>
+
+<hr width="75%">
+
+<h3 id=aiedtips>AIEditor Tips:</h3>
+<ul>
+	<li>AIEditor sorts the entries and removes duplicates, it is safer to make a copy of AI(md).ini before saving and comparing the saved file for differences.</li>
+	<li>Instead of making new TaskForce/Script/TeamType/AITrigger, it is easier to select a similar entry on the left panel and make a copy of it. This will have the values from the copy, so need only change the desired ones on the right panel.</li>
+	<li>Use F2 key or left mouse button double click to rename an entry on the left panel.</li>
+</ul>
+ <hr width="75%">
+<h3 id=intro>Introduction</h3>
+
+<p>Games of Tiberian Sun, Red Alert 2 and Yuri's Revenge use scripted AI for the computer controlled players. While the rules(md).ini defines three difficulty based flags which influences the AI, the ai(md).ini defines the programming of what teams to form and what action it will perform. To do this, the ai(md).ini consists of 4 sections of TaskForces, ScriptTypes, TeamTypes and AITriggerTypes. TaskForces, ScriptTypes and TeamTypes consists of the list of their respective section IDs, where the IDs have their own sections to define individual TaskForce, ScriptType and TeamTypes. AITriggerTypes section consists of AITriggers defined in single lines. Entries in ai(md).ini are considered global which can be used in maps and maps can also have their own local TaskForces, ScriptTypes, TeamTypes and AITriggerTypes.</p>
+<hr width="75%">
+<h3 id=taskforces>TaskForces</h3>
+
+<p>A TaskForce consists of a set of units to be created to form a team. Each TaskForce can have a maximum of 6 unit definitions which can consist of same or different types of units. Indices for these are fixed from 0 to 5. Game reads the lines indexed from 0 to 5 in ascending order and units defined in lower index are queued first for production. TaskForce section also consists of Name flag which holds a string for readable reference. Group flag can hold a number, which is used by the game only when the TeamType referencing this TaskForce has set its Group value set to -1. In ai(md).ini, it is advised to set this value to -1 only.</p>
+
+Example :
+
+<pre>
+[TaskForces]
+0=05C60C4C-G
+1=0D082CFC-G
+
+[05C60C4C-G]
+Name=3 GIs, 3 Guards
+0=3,E1
+1=3,GGI
+Group=-1
+</pre>
+
+<p>Unit list format is defined as 
+<pre>Index=UnitCount,UnitID</pre>
+Index can have values 0 to 5. UnitCount specifies the number of units of type denoted by UnitID. Valid UnitID are from the AircraftTypes, InfantryTypes and VehicleTypes list in rules(md).ini. The -G appended at the end of indices is for readability only, it doesn't have any affect or logic associated with it. Vanilla game's ai(md).ini has -G to consider it as global and entries in maps are considered as local which don't have -G appended.</p>
+
+<hr width="75%">
+<h3 id=scripttypes>ScriptTypes</h3>
+
+<p>A ScriptType consists of a set of script actions for the team to perform. Game uses only a max of first 50 script actions, the index is 0-based and is limited with 0 to 49. Script actions perform actions like attack enemy structure or move to a building or load onto transport etc. Script actions apply to all units in the team, they perform their task individually (usually units occupy different cells, so they may take different path to its target and may also choose different target) but when a script action is completed, it is synchrinized so that all units in the team move together on to execute the next script action. In cases where a target that the team is seeking for, is not found in the map, that script action is assumed as completed and the team moves on to execute its next script action. On completion of all the script actions defined in a script, the team is disbanded and units assume their default stance of guard mode.</p>
+
+Exanple :
+
+<pre>
+[ScriptTypes]
+0=0C9C878C-G
+1=0CE4CC8C-G
+
+[0C9C878C-G]
+Name=Allied Refinery Guard
+0=58,1
+1=5,10
+2=58,196609
+3=5,10
+4=58,196609
+5=5,10
+6=6,1
+</pre>
+
+<p>Script action format is
+<pre>Index=ScriptAction,Parameter</pre>
+Index can have values from 0 to 49 in ascending order. Game is coded with various tasks to perform, those are referred here as ScriptAction. A list detailing the script action types and its parameter follows.</p>
+
+<h3 id=scriptactions>Script Actions</h3>
+Individual script actions are programmed to do specific action in the game. Whichever script/option is not available in Tiberian Sun is marked as (not in TS), these are available in RA2 and YR. If it is mentioned as (YR only, not in TS/RA2), then it is not available in Tiberian Sun or Red Alert 2, but is available in Yuri's Revenge only.
+
+<p id=sa0>0,n = Attack Target Type, n = target type to attack<br>
+This instructs the TeamType to use the TaskForce to approach and attack the target specified by the second parameter. These attack script actions are inherently self repeating. For example, when executing script action attack structure (0,2), the task force will attack the next structure when the current structure being attacked is destroyed and will continue to destroy enemy buildings until there are no more left. When no more target is left to attack, the script action is complete and the task force moves on to execute its next script action. The completion of this script action could get cut-short in cases the task force gets destroyed or runs out of ammo.<br><br>
+
+These script actions use TargetDistanceCoefficientDefault (or overriden by TechnoType's TargetDistanceCoefficient) to determine the threat rating scan range for target selection. Vanilla value of -10 in this flag gives a range of approximately 39 cells whereas a value of -1 covers almost the entire map. When the enemy objects are within the scan range, nearest object is selected as target. When enemy objects are outside this scan range, the first object of that TargetType built by the enemy becomes the target. For Attack Anything (0,1), when the enemy objects are outside the scan range, the precedence for target selection of first built object by the enemy is given by units first, then aircrafts, then infantry and the last for buildings.<br><br>
+
+The following are the target types which can be used: </p>
+
+<table border="1">
+<tr>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Target Type</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td><center>0</center></td>
+	<td>n/a</td>
+	<td>Cancel attack mission</td>
+</tr>
+<tr>
+	<td><center>1</center></td>
+	<td>Anything</td>
+	<td>Anything [VehicleTypes], [AircraftTypes], [InfantryTypes] and [BuildingTypes]</td>
+</tr>
+<tr>
+	<td><center>2</center></td>
+	<td>Structures</td>
+	<td>Any enemy [BuildingTypes]</td>
+</tr>
+<tr>
+	<td><center>3</center></td>
+	<td>Ore Miners / Harvesters</td>
+	<td>Any enemy [VehicleTypes] with Harvester=yes set</td>
+</tr>
+<tr>
+	<td><center>4</center></td>
+	<td>Infantry</td>
+	<td>Any enemy [InfantryTypes]</td>
+</tr>
+<tr>
+	<td><center>5</center></td>
+	<td>Vehicles</td>
+	<td>Any enemy [VehicleTypes]</td>
+</tr>
+<tr>
+	<td><center>6</center></td>
+	<td>Factories</td>
+	<td>Any enemy [BuildingTypes] with a Factory= setting</td>
+</tr>
+<tr>
+	<td><center>7</center></td>
+	<td>Base Defenses</td>
+	<td>Any enemy [BuildingTypes] with IsBaseDefense=yes set. In YR, also buildings defined in AlliedBaseDefenses, SovietBaseDefenses and ThirdBaseDefenses</td>
+</tr>
+<tr>
+	<td><center>8</center></td>
+	<td>Base Threats</td>
+	<td>Any enemy objects approaching (or already in) its base and which are in an attack mission</td>
+</tr>
+<tr>
+	<td><center>9</center></td>
+	<td>Power Plants</td>
+	<td>Any enemy [BuildingTypes] with positive Power= values set</td>
+</tr>
+<tr>
+	<td><center>10</center></td>
+	<td>Occupiable</td>
+	<td>Any [BuildingTypes] with CanBeOccupied=yes set (usually neutral structures) (not in TS)</td>
+</tr>
+<tr>
+	<td><center>11</center></td>
+	<td>Tech Buildings</td>
+	<td>Any [BuildingTypes] with NeedsEngineer=yes set (usually NeutralTechBuildings=) (not in TS)</td>
+</tr>
+</table>
+
+<p>NOTE: in Yuri's Revenge, Occupiable structures are defined by having CanOccupyFire=yes set instead of CanBeOccupied=yes.</p> 
+
+<p id=sa1>1,n = Attack Waypoint, n = waypoint number to attack<br>
+This instructs the TeamType to use the TaskForce to attack the waypoint number specified by the second parameter. If any members have Infiltrate=yes set they will enter the structure at the waypoint. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set. If there is no building at the specified waypoint, the TaskForce will attack the ground when reaching in range of the waypoint. Refer Waypoints for details on waypoint. </p>
+
+<p id=sa2>2,0 = Go Berzerk<br>
+Forces infantry units with Cyborg=yes set to go berserk (they consider all objects, including friendly units, equally in their threat scan).(Doesn't seem to work). </p>
+
+<p id=sa3>3,n = Move To Waypoint, n = waypoint number to move to<br>
+This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the second parameter. Refer Waypoints for details on waypoint. TIP: you could use this script action to get a TeamType to move to Waypoint= number 99 (just about every map has this defined as the center point) - that will mean it will always strive to get to the center of the map, providing a good vantage point from which to perform further script actions and giving the impression that the computer is scouting for enemies. </p>
+
+<p id=sa4>4,n = Move Into Specific Celltag, n = celltag to move into <br>
+This instructs the TeamType to use the TaskForce to move into the CellTag specified by the second parameter. This is used when you want the TeamType to trigger a specific Action (when the game tests for the CellTag being entered). CellTags are attached to cells and are used to trigger Events and thus fire Actions when that cell is entered by a unit (or any unit from the TaskForce). The CellTag parameter should be the waypoint parameter for that CellTag from the [CellTags]listing in the map file, hence this script action is only of use on specific map files. Refer CellTags for details on celltag.</p> 
+
+<p id=sa5>5,n = Guard Area, n = time to guard area in tenths of a minute (multiples of 6 seconds) <br>
+This instructs the TeamType to put the TaskForce into Guard Mode (same effect as selecting a group of units and pressing the Guard Mode key as defined in KEYBOARD.INI or clicking the relevant button on the Advanced Command Bar). Units will move to attack enemy units that fall within their Sight= range. </p>
+
+<p id=sa6>6,n = Jump To Script Action, n = line number of script action to jump to.<br>
+ This is used to repeat actions within the ScriptType. The second parameter is the action line number of the ScriptType that you want to jump to. Script Action index starts at 0 whereas the line number starts at 1. So, to jump to the first Script Action whose index is 0, use n=6,1 for this script. Jump to line number could be specified to any of the preceding line numbers, not just to the first Script Action to create a loop of Script Actions.</p> 
+
+<p id=sa7>7,0 = Force Player Win<br>
+ Forces a game win condition for the owner of the TeamType (they win the game).</p> 
+
+<p id=sa8>8,n = Unload, n = type of unloading<br>
+ If the TaskForce contains a unit or units that have a valid Passengers= value set, and those units contain passengers, this command will make the units inside the transport(s) disembark. Note that once the passengers have disembarked, the transport itself is suspended until given a new mission and is therefore no longer considered a part of this TaskForce - this means that you cannot, for example, get units to disembark, do something, then get back into the transport in the same script. The second parameter can be used to control what happens to the transport after it 'deploys' its cargo:</p> 
+
+<table border="1">
+<tr>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td><center>0</center></td>
+	<td>Keep transports and units - all remain in the team and execute the remainder of the script</td>
+</tr>
+<tr>
+	<td><center>1</center></td>
+	<td>Keep transport and lose the units - only the transport will execute the remainder of the script</td>
+</tr>
+<tr>
+	<td><center>2</center></td>
+	<td>Lose transport and keep units - only the units will execute the remainder of the script</td>
+</tr>
+<tr>
+	<td><center>3</center></td>
+	<td>Lose transports and lose units - nothing executes the remainder of the script</td>
+</tr>
+</table>
+
+<p id=sa9>9,0 = Deploy<br>
+If the TaskForce contains a unit or units that are able to deploy (for example a unit which DeploysInto= a [BuildingType] or has any of Deployer=yes, DeployFire=yes, DeployToFire=yes set) then this action causes them to deploy at the current cell they are occupying (same effect as selecting a unit and pressing the Deploy key as defined in KEYBOARD.INI or clicking the relevant button on the Advanced Command Bar). Units that deploy into buildings doesn't remain units, so can't execute any more script actions.</p>
+
+<p id=sa10>10,0 = Follow friendlies<br>
+This command causes the TaskForce to follow the nearest friendly unit when it moves although it will not function as if it is 'guarding' the unit. The following is not permanent, when the TaskForce is assigned another mission it abandons the following. TIP: If the support TeamType has this as the first line in its ScriptType, then it will escort the first TeamType. </p>
+
+<p id=sa11>11,n = Assign New Mission, n = new mission type <br>
+The objects in the TaskForce are all assigned the new mission defined by the second parameter. The actions such as Sleep/Sticky/Guard/Area Guard/Hunt etc. changes the state/mission in which the units are and those remain in that state until those units are destroyed or recruited into another team and given a different command. Such actions are never completed so as to move on to execute the next script action, so these are given as the last script action in their scripts. The following are valid settings for the second parameter: </p>
+
+<strong>For Red Alert 2/Yuri's Revenge</strong>
+<table border="1">
+<tr>
+	<td><strong>Game</strong></td>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Action</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>0</center></td>
+	<td>Sleep</td>
+	<td>object sits around and plays dead, will not acquire targets</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>1</center></td>
+	<td>Attack</td>
+	<td>special attack mission used by AI team types (utilizes threat rating logic)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>2</center></td>
+	<td>Move</td>
+	<td>simply moving to destination</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>3</center></td>
+	<td>QMove</td>
+	<td>special move to destination after other queued moves occur</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>4</center></td>
+	<td>Retreat</td>
+	<td>object runs away (may even leave the map)</td>
+</tr>
+<tr> 
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>5</center></td>
+	<td>Guard</td>
+	<td>object sits around and will engage an enemy that falls within its weapon range</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>6</center></td>
+	<td>Sticky</td>
+	<td>just like guard mode, except the object will engage enemies but not pursue them</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>7</center></td>
+	<td>Enter</td>
+	<td>enter building or transport</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>8</center></td>
+	<td>Capture</td>
+	<td>engineer entry logic used by MultiEngineer</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+ 	<td><center>9</center></td>
+	<td>Eaten</td>
+	<td>when object is being repaired (applies only to structures)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>10</center></td>
+	<td>Harvest</td>
+	<td>the loop controlling harvesting of Ore and dumping at a Refinery</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>11</center></td>
+	<td>Area Guard</td>
+	<td>guard the general area where the object starts at</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>12</center></td>
+	<td>Return</td>
+	<td>return to co-ordinating object (e.g. spawned object returns to the spawner)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>13</center></td>
+	<td>Stop</td>
+	<td>stop moving or firing at the first available opportunity</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>14</center></td>
+	<td>Ambush</td>
+	<td>force fire (units with Infiltrate=yes will enter target if possible)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>15</center></td>
+	<td>Hunt</td>
+	<td>scan for and attack enemies wherever they may be on the map</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>16</center></td>
+	<td>Unload</td>
+	<td>while dropping off cargo (e.g. Landing Craft unloading passengers)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>17</center></td>
+	<td>Sabotage</td>
+	<td>unit runs to place C4 on a building or Ivan goes to place bomb on object</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>18</center></td>
+	<td>Construction</td>
+	<td>structures use this when building up after initial placement</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>19</center></td>
+	<td>Selling</td>
+	<td>structures use this for deconstruction after being sold</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>20</center></td>
+	<td>Repair</td>
+	<td>used when repairing an object (e.g. Service Depot)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>21</center></td>
+	<td>Rescue</td>
+	<td>special team over-ride mission</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>22</center></td>
+	<td>Missile</td>
+	<td>Nuke Silo special launch missile mission</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>23</center></td>
+	<td>Harmless</td>
+	<td>object doesn't fire and is not considered in any threat scan</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>24</center></td>
+	<td>Open</td>
+	<td>while opening or closing a gate to allow passage</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>25</center></td>
+	<td>Patrol</td>
+	<td>patrol a series of waypoints</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>26</center></td>
+	<td>Paradrop Approach</td>
+	<td>object is approaching the paradrop site</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>27</center></td>
+	<td>Paradrop Overfly</td>
+	<td>object is flying over the paradrop site (i.e. dropping the paratroopers)</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>28</center></td>
+	<td>Wait</td>
+	<td>paused and awaiting next mission</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>29</center></td>
+	<td>Move</td>
+	<td>(special duplicate) used when Chrono units are moving to destination</td>
+</tr>
+<tr>
+	<td>RA2/YR&nbsp;&nbsp;</td>
+	<td><center>30</center></td>
+	<td>Attack</td>
+	<td>(special duplicate) used when units are deployed to fire (e.g. weapons with an area fire effect)</td>
+</tr>
+<tr>
+	<td>YR</td>
+	<td><center>31</center></td>
+	<td>Spyplane Approach</td>
+	<td>object is flying towards target</td>
+</tr>
+<tr>
+	<td>YR</td>
+	<td><center>32</center></td>
+	<td>Spyplane Overfly</td>
+	<td>object is flying over the target</td>
+</tr>
+</table>
+<br>
+<strong id=sa11ts>For Tiberian Sun</strong>
+<table border="1">
+<tr>
+	<td><strong>Game</strong></td>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Action</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>0</center></td>
+	<td>Sleep</td>
+	<td>object sits around and plays dead, will not acquire targets</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>1</center></td>
+	<td>Attack</td>
+	<td>special attack mission used by AI team types (utilizes threat rating logic)</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>2</center></td>
+	<td>Move</td>
+	<td>simply moving to destination</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>3</center></td>
+	<td>QMove</td>
+	<td>special move to destination after other queued moves occur</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>4</center></td>
+	<td>Retreat</td>
+	<td>object runs away (may even leave the map)</td>
+</tr>
+<tr> 
+	<td>TS</td>
+	<td><center>5</center></td>
+	<td>Guard</td>
+	<td>object sits around and will engage an enemy that falls within its weapon range</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>6</center></td>
+	<td>Sticky</td>
+	<td>just like guard mode, except the object will engage enemies but not pursue them</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>7</center></td>
+	<td>Enter</td>
+	<td>enter building or transport</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>8</center></td>
+	<td>Capture</td>
+	<td>engineer entry logic used by MultiEngineer</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>9</center></td>
+	<td>Harvest</td>
+	<td>the loop controlling harvesting of tiberium and dumping at a Refinery</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>10</center></td>
+	<td>Area Guard</td>
+	<td>guard the general area where the object starts at</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>11</center></td>
+	<td>Return</td>
+	<td>return to co-ordinating object (e.g. spawned object returns to the spawner)</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>12</center></td>
+	<td>Stop</td>
+	<td>stop moving or firing at the first available opportunity</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>13</center></td>
+	<td>Ambush</td>
+	<td>force fire (units with Infiltrate=yes will enter target if possible)</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>14</center></td>
+	<td>Hunt</td>
+	<td>scan for and attack enemies wherever they may be on the map</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>15</center></td>
+	<td>Unload</td>
+	<td>while dropping off cargo</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>16</center></td>
+	<td>Sabotage</td>
+	<td>unit runs to place C4 on a building</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>17</center></td>
+	<td>Construction</td>
+	<td>structures use this when building up after initial placement</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>18</center></td>
+	<td>Selling</td>
+	<td>structures use this for deconstruction after being sold</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>19</center></td>
+	<td>Repair</td>
+	<td>used when repairing an object (e.g. Service Depot)</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>20</center></td>
+	<td>Rescue</td>
+	<td>special team over-ride mission</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>21</center></td>
+	<td>Missile</td>
+	<td>Nuke Silo special launch missile mission</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>22</center></td>
+	<td>Harmless</td>
+	<td>object doesn't fire and is not considered in any threat scan</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>23</center></td>
+	<td>Open</td>
+	<td>while opening or closing a gate to allow passage</td>
+</tr>
+<tr>
+	<td>TS</td>
+	<td><center>24</center></td>
+	<td>Patrol</td>
+	<td>patrol a series of waypoints</td>
+</tr>
+</table>
+
+<p id=sa12>12,n = Set Global, n = global number to be set <br>
+The global number specified in the second parameter is defined as being 'set' (it is allocated a value of '1' or 'true'). This should be employed in specific map files only. This is part of the boolean logic employed by the global variables system in the game engine. </p>
+
+<p id=sa13>13,n = Play Idle Anim Sequence, n = sequence number <br>
+If the TaskForce contains a unit or units that are SHPs (i.e. infantry) then the relevant idle SHP sequence is displayed as defined by the frame numbering system in ART.INI. </p>
+
+<p id=sa14>14,0 = Load Onto Transport <br>
+If the TaskForce contains a unit or units that have a valid Passengers= value set, and units whose Size= and PhysicalSize= settings allow them to be carried by that transport, this command will make the units enter the transport. </p>
+
+<p id=sa15>15,n = Enter Structure At Waypoint, n = waypoint number <br>
+This instructs the TaskForce to enter the structure at the waypoint number specified by the second parameter. In RA2/YR, could be used for units with Infiltrate=yes and Agent=yes set and spy on the structure if it has Spyable=yes set. In TS, this is used for entering a building at waypoint, like engineer to enter a bridge repair hut at a given waypoint to repair that bridge.</p>
+
+<p id=sa16>16,n = Patrol To Waypoint, n = waypoint number <br>
+This is similar to Move to waypoint. This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the second parameter. The difference is that the units in the TaskForce will move out of their patrol route to actively go and engage any enemy objects that are within their Sight= as they move to the waypoint. NOTE: this action eats up processor time, because the TaskForce will scan for enemy objects with each movement. If you have a lot of TaskForces (or lots of units in them) engaged in this action, you will experience slowdown in the game - this is one reason why the single player missions are comparatively slow, they use this action a lot. The rate at which the scanning for targets whilst in this mission is controlled by the PatrolScan= statement in the [AI]section of RULES.INI.</p>
+
+<p id=sa17>17,n = Change Script, n = script number to execute <br>
+This instructs the TaskForce to execute another ScriptType. The second parameter specifies the number of the ScriptType to execute as listed in the [ScriptTypes] table (consider the table as being numbered starting at 0 for this purpose). </p>
+
+<p id=sa18>18,n = Change Team, n = team number to join <br>
+This instructs the TaskForce to join another TeamType. The second parameter specifies the number of the TeamType to join as listed in the [TeamTypes] table (consider the table as being numbered starting at 0 for this purpose). In TS, vanilla FS expansion single player maps use this a lot, so any change in the number in the list of TeamTypes, affects those mission maps.</p>
+
+<p id=sa19>19,0 = Panic <br>
+If the TaskForce contains a unit or units that have Fraidycat=yes set then they will run around aimlessly, using the Panic animation from their sequence as defined in ART.INI. Normally used for the civilian units. Units that do not fulfil this criteria lie down and act as if prone. </p>
+
+<p id=sa20>20,n = Change House Ownership, n = house number of new owner <br>
+Used in single player missions on specific map files only, this changes ownership of the entire TeamType to the house number specified by the second parameter. </p>
+
+<p id=sa21>21,0 = Scatter <br>
+This instructs the TaskForce to scatter (same effect as selecting a group of units and pressing the Scatter key as defined in KEYBOARD.INI). </p>
+
+<p id=sa22>22,0 = Afraid & Run To Shroud <br>
+This instructs the TaskForce to behave in a scared manner and it will run to the nearest shrouded cell. The TaskForce will not actively engage in combat, will not acquire targets and will not retaliate (it will scatter instead if attacked). </p>
+
+<p id=sa23>23,0 = Force Player Loss <br>
+Forces a game loss condition for the owner of the TeamType (they lose the game). </p>
+
+<p id=sa24>24,n = Play Speech, n = number of speech to play <br>
+This instructs the TaskForce to play one of the Sofia or EVA voices from EVA.INI (depending upon the ParentCountry= or the owner of this TaskForce). The second parameter is the number of the sound to be played from the [DialogList] in the EVA.INI file (note that you should consider this list as being numbered from 0 instead of 1 to get the correct numbering convention). In TS, it the voice clips from SPEECH.INI.</p>
+
+<p id=sa25>25,n = Play Sound, n = number of sound to play <br>
+This instructs the TaskForce to play one of the generic in game sounds from the [SoundList] in the SOUND.INI file (note that for all in game Action and Trigger purposes this number is from an internal table. </p>
+
+<p id=sa26>26,n = Play Movie, n = number of movie to play <br>
+This instructs the TaskForce to play one of the movies from the [Movies] list in the ART.INI file (note that for all in game Action and Trigger purposes this number is from an internal table. </p>
+
+<p id=sa27>27,n = Play Theme, n = number of theme to play <br>
+This instructs the TaskForce to play one of the game soundtracks from the [Themes] list in the THEME.INI file (note that for all in game Action and Trigger purposes this number is from an internal table. </p>
+
+<p id=sa28>28,0 = Reduce Ore <br>
+Reduces the amount of Ore in the cell that the TeamType is occupying. Used by the special 'weapon' that is inherent with Ore Miners. </p>
+
+<p id=sa29>29,0 = Begin Production <br>
+Forces the owner of the TeamType to begin the auto-production process (the AI's behaviour in skirmish games). Should only be used on AI controlled houses. </p>
+
+<p id=sa30>30,0 = Force Sale <br>
+Forces the 'fire sale' of all remaining structures owned by the House= to which the TeamType belongs. </p>
+
+<p id=sa31>31,0 = Suicide <br>
+This instructs the TaskForce to destroy itself. In effect it commits suicide, usually accompanied by an explosion. </p>
+
+<p id=sa32>32,n = Start Weather Storm In (in TS, Ion Storm), n = number of seconds <br>
+This initiates the Weather Storm intro effect (when the screen goes dark prior to the clouds appearing) and is set to be delayed by the number of seconds specified by parameter 2. </p>
+
+<p id=sa33>33,0 = End Weather Storm (in TS, Ion Storm) <br>
+This forces an end to the Weather Storm intro effect (when the screen goes dark prior to the clouds appearing). </p>
+
+<p id=sa34>34,n = Center Map On Team <br>
+This will center the screen on the TeamType. The same effect as hitting the Home key as defined in KEYBOARD.INI when the screen centers on your MCV (or the unit defined by the BaseUnit= statement in RULES.INI). The second parameter determines the speed at which the 'camera' switches view to the TaskForce with 0 being instant. </p>
+
+<p id=sa35>35,n = Shroud Map For Time Interval, n = time to remain shrouded <br>
+This action will shroud the entire map except for the area around the players MCV's (if they have one). The second parameter determines the number of frames for which the map should remain shrouded (1 second = approximately 15 frames) after which the explored areas are revealed again. </p>
+
+<p id=sa36>36,n = Reveal Map For Time Interval, n = time to remain revealed <br>
+This action will reveal the entire map. The second parameter determines the number of frames for which the map should remain revealed (1 second = approximately 15 frames) after which the map is shrouded again. </p>
+
+<p id=sa37>37,0 = Delete Team Members <br>
+This forces dissolved members of the TaskForce to leave the map after which they are deleted (for example aerial transports after their passengers have disembarked). </p>
+
+<p id=sa38>38,n = Clear Global, n = Global number to be cleared <br>
+The global number specified in the second parameter is defined as being 'clear' (it is allocated a value of '0' or 'false'). This should be employed in specific map files only in which the global variable has been defined. This is part of the boolean logic employed by the global variables system in the game engine. </p>
+
+<p id=sa39>39,n = Set Local, n = Local number to be set <br>
+The local variable number specified in the second parameter is defined as being 'set' (it is allocated a value of '1' or 'true'). This should be employed in specific map files only in which the local variable has been defined. This is part of the boolean logic employed by the local variables system in the game engine. </p>
+
+<p id=sa40>40,n = Clear Local, n = Local number to be cleared <br>
+The local variable number specified in the second parameter is defined as being 'cleared' (it is allocated a value of '0' or 'false'). This should be employed in specific map files only in which the local variable has been defined. This is part of the boolean logic employed by the local variables system in the game engine. </p>
+
+<p id=sa41>41,n = Unpanic <br>
+If the TaskForce contains a unit or units that have Fraidycat=yes set which are currently assigned the Panic= sequence then this action nullifies that effect and the unit(s) adopt their default behaviour. </p>
+
+<p id=sa42>42,n = Change Facing, n = new direction to face <br>
+This instructs the TaskForce to turn and face the new direction specified by the second parameter. The facings are as follows: </p>
+<table border="1">
+<tr>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Facing</strong></td>
+</tr>
+<tr>
+	<td><center>0</center></td>
+	<td>North</td>
+</tr>
+<tr>
+	<td><center>1</center></td>
+	<td>North East</td>
+</tr>
+<tr>
+	<td><center>2</center></td>
+	<td>East</td>
+</tr>
+<tr>
+	<td><center>3</center></td>
+	<td>South East</td>
+</tr>
+<tr>
+	<td><center>4</center></td>
+	<td>South</td>
+</tr>
+<tr>
+	<td><center>5</center></td>
+	<td>South West</td>
+</tr>
+<tr>
+	<td><center>6</center></td>
+	<td>West</td>
+</tr>
+<tr>
+	<td><center>7</center></td>
+	<td>North West</td>
+</tr>
+</table>
+
+<p id=sa43>43,0 = Wait Until Fully Loaded <br>
+This is always used after members of the TaskForce have entered a transport in the same TaskForce and serves two purposes. The effect of this is that the transport will be used to carry out any subsequent movement or deploy actions but after that it is no longer considered a part of this TaskForce and as such is available to be recruited into new TeamTypes. It is this action which enables use of the TransportsReturnOnUnload=yes statement in the corresponding TeamType entry. The second purpose is to flag the transport as being 'loaded' with passengers and thus is considered in the AI's targeting logic as a potential threat (see the ContentScan= entry in the RULES.INI). This action also orders the transport to wait until it is fully loaded before executing any subsequent script actions. </p>
+
+<p id=sa44>44,0 = Unload TRUCKB > TRUCKA <br>
+Used purely for a graphical effect and applicable uniquely to the [TRUCKB] unit, this has the effect of converting [TRUCKB] into [TRUCKA] to give the impression that the unit has unloaded its cargo. NOTE: this is residual from Tiberian Sun and as such may not work correctly since [TRUCKA] refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image. Changing the image for the Demo Truck and assigning new units to [TRUCKA] and [TRUCKB] enables use of this logic. </p>
+
+<p id=sa45>45,0 = Load TRUCKA > TRUCKB <br>
+Used purely for a graphical effect and applicable uniquely to the [TRUCKA] unit, this has the effect of converting [TRUCKA] into [TRUCKB]to give the impression that the unit has been loaded with cargo. NOTE: this is residual from Tiberian Sun and as such may not work correctly since [TRUCKA] refers to the Demo Truck image in Red Alert 2 which has no 'unloaded' image. Changing the image for the Demo Truck and assigning new units to [TRUCKA] and [TRUCKB] enables use of this logic. </p>
+
+<p id=sa46>46,n = Attack Enemy Structure, n = structure number (<a href="#structnumber">see note below</a>) <br>
+Members of this TaskForce attack the enemy structure specified by the second parameter. This action depends upon the type of units in the TaskForce and if certain members have Infiltrate=yes set. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set. </p>
+
+<p id=sa47>47,n = Move To Enemy Structure, n = structure number (<a href="#structnumber">see note below</a>) <br>
+Members of this TaskForce move and stay adjacent to the enemy structure specified by the second parameter. </p>
+
+<p id=sa48>48,0 = Scout <br>
+Causes members of this TaskForce to move to a pre-determined point on the map in an attempt to scout an area. The effect is that the TaskForce will move in one randomly chosen direction until it is no longer able to do so which can make it very useful or a waste of time depending on the direction chosen. If you want to continually scout the map, you should loop this script action. </p>
+
+<p id=sa49>49,0 = Register Success For AITrigger Weight Adjustment. <br>
+Executing this script action even once in a script by its task force is considered as a success. A script not containing this script action is a fail for its task force. A script containing this script action but the task force being unable to reach and execute this script action even once is a fail. These success and failure are used to adjust the current weight defined in AITriggers. Refer <a href="#weights">AITriggerType's weights</a>. </p>
+
+<p id=sa50>50,n = Flash (visual effect), n = number of flashes <br>
+This causes the TaskForce to 'flash', the visual effect you get on an object when you order something to attack it. The second parameter is the number of times to flash the unit 'white'. </p>
+
+<p id=sa51>51,n= Play Animation, n = animation number <br>
+This instructs the TaskForce to play one of the animations from the [Animations] in the RULES.INI.INI file (note that for all in game Action and Trigger purposes this number is from an internal table). </p>
+
+<p id=sa52>52,n = Display Talk Bubble, n = talk bubble number <br>
+Should be used for single-unit TaskForces only, this causes a 'talk bubble' to appear above the unit. The second parameter determines which type of talk bubble to display: </p>
+<table border="1">
+<tr>
+	<td><strong>Parameter</strong></td>
+	<td><strong>Symbol</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td><center>1</center></td>
+	<td><center>*</center></td>
+	<td>general speech</td>
+</tr>
+<tr>
+	<td><center>2</center></td>
+	<td><center>?</center></td>
+	<td>question</td>
+</tr>
+<tr>
+	<td><center>3</center></td>
+	<td><center>!</center></td>
+	<td>shouting or statement</td>
+</tr>
+</table>
+
+<p>Note that the length of time for which the talk bubble is displayed is controlled through the TalkBubbleTime= statement in RULES.INI - refer to the RULES.INI Guide for details of this and the steps to take to enable its inclusion in Red Alert 2 as this remains residual from Tiberian Sun:Firestorm. </p>
+
+<p id=sa53>53,0 = Gather (at enemy base) (not in TS)<br>
+This causes the TaskForce to gather together (sometimes used when members of the TaskForce move at different speeds and you want the faster ones to stop while the slower ones catch up) after the previous action has been executed. If the TaskForce is in an attack mission and moving towards an enemy base, this command is usually executed when the first member of the TaskForce reaches the distance from that base defined by the AISafeDistance= statement in RULES.INI. </p>
+
+<p id=sa54>54,0 = Regroup (at friendly base) (not in TS)<br>
+This causes the TaskForce to regroup, if for example any of its members have become engaged in a base defense mission or strayed away whilst in guard mode, or even the TeamType itself has been suspended for whatever reason. The members regroup directly next to each other leaving no 'gaps' at the nearest available point with sufficient space, and is used, for example, prior to activating the Iron Curtain so that all applicable members are affected (i.e. they fall within its range of effect). </p>
+
+<p id=sa55>55,0 = Activate Iron Curtain on TaskForce (not in TS)<br>
+If the owner of the TaskForce to which this ScriptType is attached also has the Iron Curtain fully charged then it will be fired at this TaskForce. Note that the use of the Iron Curtain in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
+
+<p id=sa56>56,n = ChronoSphere TaskForce (not in TS), n = structure number to be Chronoshifted to (<a href="#structnumber">see note below</a>) <br>
+If the owner of the TaskForce to which this ScriptType is attached also has the Chronosphere fully charged then it will be used on the TaskForce before moving on to the next action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
+
+<p id=sa57>57,n = ChronoWarp TaskForce (not in TS), n = target number to be Chronoshifted to (<a href="#structnumber">see note below</a>) <br>
+If the owner of the TaskForce to which this ScriptType is attached has been Chronosphered then it will be used on the same TaskForce to shift them to the enemy structure number specified in the second parameter before moving on to the next action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
+
+<p id=sa58>58,n = Move To Friendly Structure (not in TS), n = structure number (<a href="#structnumber">see note below</a>) <br>
+Members of this TaskForce move and stay adjacent to the friendly structure specified by the second parameter. The structure can be one owned by the owner of the TaskForce or any of its allies. </p>
+
+<p id=sa59>59,n = Attack Structure At Waypoint (YR only, not in TS/RA2)<br>
+Members of this TaskForce attack the structure at the waypoint specified by the second parameter. This action is very similar to action number 43 although this action does not test for ownership of the structure itself - thus the inclusion of this action allows, for example, InfantryTypes with Engineer=yes set to enter structures owned by the same side for the purposes of repair. This would be the most appropriate action to use to get the AI to repair bridges. Use of this also means that the TaskForce will attack the structure with one of its weapons meaning, for example, that units with C4=yes set will not C4 the building but shoot at it instead. This is useful if you want to get a TaskForce to destroy a nearby occupiable structure instead of entering it in a bid to prevent the enemy getting hold of it - a tactic used in the Yuri's Revenge AI. 
+</p>
+
+<p id=sa60>60,0 = Enter Grinder (YR only, not in TS/RA2)  <br>
+Members of this TaskForce will enter the nearest structure with Grinding=yes set if it is owned by the owner of the TaskForce or any of its allies. </p>
+
+<p id=sa61>61,0 = Occupy Tank Bunker (YR only, not in TS/RA2) <br>
+Any VehicleType members of this TaskForce which do not have Bunkerable=no set will enter the nearest vacant structure with Bunker=yes set if it is owned by the owner of the TaskForce or any of its allies. </p>
+
+<p id=sa62>62,0 = Enter Bio Reactor (YR only, not in TS/RA2)  <br>
+Any InfantryType members of this TaskForce will enter the nearest structure with InfantryAbsorb=yes set if it is owned by the owner of the TaskForce or any of its allies and has space available. </p>
+
+<p id=sa63>63,0 = Occupy Battle Bunker (YR only, not in TS/RA2)  <br>
+Any InfantryType members of this TaskForce with Occupier=yes set will enter the nearest structure (which they own) with CanOccupyFire=yes set. </p>
+
+<p id=sa64>64,0 = Garrison Structure (YR only, not in TS/RA2) <br>
+Any InfantryType members of this TaskForce with Occupier=yes set will enter the nearest (neutral) structure with CanOccupyFire=yes set. This action is used specifically for this purpose due to action #59 (see above) since the logic in Yuri's Revenge has changed so that the units weapon is transferred to the structure. Use of this action also allows the computer to repair those structures by sending an InfantryType with Engineer=yes set into them and also allows the AI to differentiate between attacking such a structure and entering it, which is useful if you want the AI to use infantry to destroy an occupiable structure thus preventing its enemy from using it. </p>
+
+<h3 id=structnumber>Note On Structure Number</h3>
+
+<p>Structure number allows the AI to target a specific instance of a building. For example, if there are 5 instances of a power plant in enemy base, AI can choose one of them as target depending on its distance or threat value. By itself several instances of the same building doesn't have different threat value, but threat is cumulative. For example, if there are some units nearby a specific building, its threat rating becomes higher with the additional threat values of the nearby units. </p>
+
+<p>Building index used in computation is the position of that building in the [BuildingTypes] list, counting from 0. </p>
+
+Logic for target selection:<br><br> 
+
+0 + index = select building with least threat <br>
+65536 + index = select building with highest threat <br>
+131072 + index = select nearest building <br>
+196608 + index = select farthest building<br>
+
+<p>Reference to 262144 or higher number makes it a do nothing script action and the next action in the script, if it exists is executed. </p>
+
+<p>In cases where there is only one instance of a specific building then all the four options would result in selecting the same target. </p>
+
+<p>In cases where multiple instances of the building have equal threat, AI will choose the one which was constructed first by the target side. If the first was destroyed/sold etc., then next constructed building becomes target. Friendlies doesn't pose threat, so it becomes a case of equal threat. </p>
+
+<p>Even though the script is specified for a team/task force, every unit in the team executes it individually. This may result in team members choosing a different building as target in cases where multiple instances of a building seem to be equidistant. </p>
+
+<hr width="75%">
+
+<h3 id="teamtypes">TeamTypes</h3>
+<p>TeamTypes section lists all the TeamType IDs available in the ai(md).ini. Maps can have their own local TeamTypes. Each TeamType is a set of attributes of a team which includes the <a href="#taskforces">TaskForce</a> it forms and the <a href="#scripttypes">ScriptType</a> it will execute.</p>
+
+Example :
+
+<pre>
+[TeamTypes]
+0=06175EFC-G
+1=0CE4CEFC-G
+
+[06175EFC-G]
+Name=Allied Base Guard - Refine
+VeteranLevel=1
+MindControlDecision=0
+Loadable=no
+Full=no
+Annoyance=no
+GuardSlower=no
+House=&lt;none&gt;
+Recruiter=no
+Autocreate=yes
+Prebuild=no
+Reinforce=yes
+Droppod=no
+UseTransportOrigin=no
+Whiner=yes
+LooseRecruit=no
+Aggressive=yes
+Suicide=no
+Priority=5
+Max=2
+TechLevel=0
+Group=-1
+OnTransOnly=no
+AvoidThreats=no
+IonImmune=no
+TransportsReturnOnUnload=no
+AreTeamMembersRecruitable=no
+IsBaseDefense=yes
+OnlyTargetHouseEnemy=no
+Script=0C9C878C-G
+TaskForce=05C60C4C-G
+</pre>
+
+<strong id=generic>Generic:</strong><br>
+
+<p id=nameattr><strong>Name</strong><br>
+Name flag which holds a string for readable reference. Name strings are truncated to 23 characters maximum regardless of how long of a string you enter.</p>
+
+<p id=veteranlevel><strong>VeteranLevel</strong><br>
+Specifies the rank that all units in this team should have when the team is created. Only works for reinforcement-type teams (created by map trigger action #7 or #80). Accepted values are 1 for Rookie, 2 for Veteran and 3 for 	Elite.</p>
+
+<p id=techlevel><strong>TechLevel</strong><br>
+Minimum TechLevel needed for this team to be built. 0 is used to make it available for all tech levels.
+</p>
+
+<p id=house><strong>House</strong><br>
+The House this team belongs to. &lt;none&gt; is used to make it available to all.
+</p>
+
+<p id=maxattr><strong>Max</strong><br>
+Maximum count of teams of a TeamType produced through AITriggers. -1 is unlimited. Usually when all members of a team are either destroyed or recruited into other teams then the total count of that team is decreased. Game still maintains the total count of a team even when that team has finished its script actions but the units are not yet recruited into other teams or not yet destroyed. Max count is subject to TotalAITeamCap restrictions. When teams are created through Create Team map action, Max count is not considered.</p>
+
+<p id=prebuild><strong>Prebuild</strong><br>
+Set with yes/no. If a copy of a taskforce be created before it is actually requested. (need testing)</p>
+
+<p id=reinforce><strong>Reinforce</strong><br>
+Set with yes/no. For if this team type is formed as reinforcement. Used in single player maps. The team is created and given to the house free of cost.</p>
+
+<p id=guardslower><strong>GuardSlower</strong><br>
+With yes, it increases the value of BaseDefenseDelay= (in the rules(md).ini) for this team. The team will respond slower to attacks in its base. (need testing)</p>
+
+<p id=annoyance><strong>Annoyance</strong><br>
+Set with yes/no. AI will replace any destroyed team members. (need testing)
+</p>
+
+<p id=isbasedefense><strong>IsBaseDefense</strong><br>
+IsBaseDefense=yes on a TeamType makes it a base defense team which responds to attacks on its base. These type of teams could be produced even without AI choosing an enemy. Total of such teams is subject to the limits set by MinimumAIDefensiveTeams and MaximumAIDefensiveTeams under [General] section. This team could be chosen along with free units to protect the units with ToProtect=yes when those are under attack.</p>
+
+<p id=whiner><strong>Whiner</strong><br>
+Set with yes/no. Used on base defense teams, to replace any destroyed team members. If Whiner=yes is set, members of the team taking any damage are treated as an attack on the AI's base and base defense operations kick in.</p>
+
+<p id=mindcontroldecision><strong>MindControlDecision</strong><br>
+Specifies what this team should do with mind-controlled enemy units. The team must have at least one unit capable of mind-controlling for this to have any effect.</p>
+
+<table border="1">
+<tr>
+	<td><strong>Value</strong></td>
+	<td><strong>Description</strong></td>
+</tr>
+<tr>
+	<td><center>0</center></td>
+	<td>Don't use this logic</td>
+</tr>
+<tr>
+	<td><center>1</center></td>
+	<td>Recruit</td>
+</tr>
+<tr>
+	<td><center>2</center></td>
+	<td>Send to Grinder</td>
+</tr>
+<tr>
+	<td><center>3</center></td>
+	<td>Send to Bio Reactor</td>
+</tr>
+<tr>
+	<td><center>4</center></td>
+	<td>Assign to hunt</td>
+</tr>
+<tr>
+	<td><center>5</center></td>
+	<td>Do nothing</td>
+</tr>
+</table>
+
+<p id=ionimmune><strong>IonImmune</strong><br>
+Set with yes/no. On yes, team is immune to Ion Storm.</p>
+
+<p><strong id=essential>Essential:</strong><br>
+Script and TaskForce are essential to defining a team.</p>
+
+<p id=script><strong>Script</strong><br>
+The associated ScritpType from the ScriptTypes list which gives the script actions to perform for this team.</p>
+
+<p id=taskforce><strong>TaskForce</strong><br>
+The associated TaskForce from the TaskForces list to create this team.</p>
+
+<strong id=recruitmentattr>Recruitment related:</strong>
+
+<p>During team formation the units could be recruited from the available units on the map or could be produced from factories or a combination of these two. Teams formed through AITriggers or by Create Team Map Action etc. use recruitment. Reinforcement teams are formed on the spot, so those don't use recruitment.</p>
+
+<p>Game doesn't recruit units that are busy in system generated activities. Like when unit comes out of factory it still is running around and hasn't yet settled into a cell. Or unit automatically tries to regroup with its team members (not the regroup script action) before performing a script action but is still running around and hasn't yet reached its regroup destination.</p>
+
+<p>When a unit belongs to a team its behavior is according to its TeamType attributes. TeamType attributes involved in recruitment are AreTeamMembersRecruitable Priority Recruiter Group and Autocreate.</p>
+
+<p id=areteammembersrecruitable><strong>AreTeamMembersRecruitable</strong><br>
+AreTeamMembersRecruitable=yes means that the units in this team can be recruited into other teams. When set to no the team members are not available for recruitment. When the team members finish their script actions they loose their AreTeamMembersRecruitable value and become available for recruitment into other teams.</p>
+
+<p id=priority><strong>Priority</strong><br>
+A TeamType with higher Priority value can recruit team members from a TeamType with lower Priority value even if the lower Priority value team hasn't yet completed its script actions. A lower Priority TeamType cannot recruit from a TeamType with higher Priority value. TeamTypes with equal Priority values cannot recruit from one another. When the team members finish their script actions they loose their Priority value and can be recruited into teams with any Priority value.</p>
+
+<p>Because of the equal Priority mechanism, similar teams with same Priority don't recruit from one another and also if Max count is more than 1, the next team won't recruit from its previous team. Teams with low Priority are used as pool teams, typically doing base defense jobs and when attack teams are formed which has a higher Priority value then units get recruited from the pool teams to form the attack teams quickly.</p>
+
+<p>Vanilla AI INI uses values in multiples of 4 (in TS) or 5/7 (in RA2/YR). In-between and other numbers (in 0-50) are used in single player maps which gives granular recruitment control  based on the priority status.</p>
+
+<p id=recruiter><strong>Recruiter</strong><br>
+A TeamType with Recruiter=yes disregards the unit's Group value when recruiting which makes inter-Group recruitment possible. When set to no the TeamType cannot recruit units that have different group value than itself (Group=-2 teamtypes are exception).</p>
+
+<p>As global AI can be enabled in maps, Recruiter=yes and Group numbers 0 to 9, -2 and -40094 (-40094 is used in TS only) which are used in vanilla SP maps should be avoided in AI INI so that unknowingly the hero units in SP maps don't get recruited into generic/global AI teams.</p>
+
+<p id=group><strong>Group</strong><br>
+A unit always has a Group value whether it is in a team or not. Produced units are assigned to the group defined in its TeamType/TaskForce. Units get their Group value from its TeamType except when it has Group=-1 where they get their Group value from its task force's group. When the team members finish their script actions they still retain their group value. Group value of a unit only changes when it gets recruited into a TeamType with a different Group value. Pre-placed units on maps have their Group defined as part of their format.</p>
+
+<p>Group=-1 is No Group case. Pre-placed units with Group set to -1 and units in its TeamType/TaskForce's Group set to -1 get assigned to Group=-1. Starting units Freeunits that come with buildings droppod/paradrop units units from crates escaping units from destroyed buildings etc. have their Group set to -1. AI auto-produced units like harvesters which doesn't have a TeamType/TaskForce are also assigned with Group -1. </p>
+
+<p>Group=-2 is Any Group case. TeamType having Group=-2 can recruit units of any Group value even with Recruiter=no set on the recruiting team. Units with Group=-2 are like any other group other than -1.</p>
+
+<p>Main usage of Group is for recruiting specific pre-placed units on maps for specific missions we call those as hero/RPG/mission units. Vanilla SP maps uses Group numbers like 0 to 9-2 and -40094 (-40094 is used in TS only) in conjunction with Recruiter=no to recruit specific pre-placed units into the specific teams.</p>
+
+<p>TeamTypes produced from factories with Groups other than -1/-2 whether in SP or MP maps fail to execeute their script when Recruiter=no is used. For example vanilla TS using -40094 in AI INI are such cases. It is not clear how it is coded in the game. After coming out of the factory these units are kind of busy doing nothing and cannot be recruited further. When TeamTypes produced from factories with Group other than -1/-2 are using Recruiter=yes then such teams are able to execute its script actions and can be recruited further into other TeamTypes with same Group and are able to execute their script actions with Recruiter=no also.</p>
+
+<p>Unexpected job queuing happen in some cases. Like when a first TeamType with Group other than -1 and Recruiter=no produce units from factory it fails to execute its script. A next TeamType with Group other than -1 and Recruiter=yes produces units from factory the game is unable to recruit the first team units but uses those units for the 2nd team and gives replacement for the first teams units. In such case if the 2nd team units finishes their script it executes the first team's script also after that.</p>
+
+<p id=autocreate><strong>Autocreate</strong><br>
+Autocreate in TeamTypes is used to check whether a unit should be recruited from the pre-placed unit on the map or it should be produced from a factory. This has less relevance on multiplayer/skirmish maps as it is not expected to have pre-placed units in the maps belonging to the playing house. It becomes relevant in single player maps when either the global AI is enabled or local TeamTypes are defined and there are pre-placed units on the map which can be recruited into teams for the same house.</p>
+
+Pre-Placed unit formats on the map:
+
+<pre>
+[Infantry] 
+Index=Owner,ID,Health,X,Y,Sub_Cell,Mission,Facing,Tag,Veterancy,Group,High,Autocreate_no_recruitable,Autocreate_yes_recruitable 
+
+[Units] 
+Index=Owner,ID,Health,X,Y,Facing,Mission,Tag,Veterancy,Group,High,Follows_Index,Autocreate_no_recruitable,Autocreate_yes_recruitable 
+
+[Aircraft] 
+Index=Owner,ID,Health,X,Y,Facing,Mission,Tag,Veterancy,Group,Autocreate_no_recruitable,Autocreate_yes_recruitable
+</pre>
+
+<p>When a TeamType has Autocreate=no then the units with Autocreate_no_recruitable as 0 are not considered for recruitment. If there are units with Autocreate_no_recruitable as 1 then recruit those and form the team. If it falls short to form the team then produce remaining units from the factory to complete the team. If it fails to recruit the units on the map with Autocreate_no_recruitable as 1 because of any reason like Group mismatch along with Recruiter=no then it cannot produce replacement for such units from the factory so the team formation is interrupted.</p>
+
+<p>When a TeamType has Autocreate=yes then the units with Autocreate_yes_recruitable as 0 are not considered for recruitment. If there are units with Autocreate_yes_recruitable as 1 then recruit those and form the team. If it fails to recruit available units on the map because of any reason like Group mismatch along with Recruiter=no then produce those units from the factory only when Autocreate_no_recruitable is 0 and complete the team; if in this case Autocreate_no_recruitable is 1 then can't produce from factory so team formation is interrupted.  If it falls short to form the team then produce remaining units from the factory to complete the team.</p>
+
+<p>Example: Consider that the concerned house has required factory (barracks/war factory etc.) and has credits to produce units. Map has 2 pre-placed units with same relevant parameters and a TeamType to be formed also requires those 2 units only. Combinations are listed as follows:</p>
+
+<table border="1">
+<tr>
+	<td><strong>Pre-placed Unit's Group</strong></td>
+	<td><strong>Autocreate_no_recruitable</strong></td>
+	<td><strong>Autocreate_yes_recruitable</strong></td>
+	<td><strong>TeamType's Group</strong></td>
+	<td><strong>Autocreate</strong></td>
+	<td><strong>Recruiter</strong></td>
+	<td><strong>Outcome</strong></td>
+</tr>
+<tr align=center>
+	<td>No needed units on map</td>
+	<td>n/a</td>
+	<td>n/a</td>
+	<td>any number</td>
+	<td>yes/no</td>
+	<td>no</td>
+	<td align=left>Produce from factory</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>0</td>
+	<td>0</td>
+	<td>any number</td>
+	<td>yes/no</td>
+	<td>no</td>
+	<td align=left>Produce from factory</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>0</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>yes</td>
+	<td>no</td>
+	<td align=left>Recruit the pre-placed units</td>
+</tr>
+<tr align=center>
+	<td>-3</td>
+	<td>0</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>yes</td>
+	<td>no</td>
+	<td align=left>Recruitment fails, produce from factory</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>0</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>no</td>
+	<td>no</td>
+	<td align=left>Produce from factory</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>1</td>
+	<td>0</td>
+	<td>-1</td>
+	<td>yes</td>
+	<td>no</td>
+	<td align=left>Can't produce from factory, can't recruit, team not formed</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>1</td>
+	<td>0</td>
+	<td>-1</td>
+	<td>no</td>
+	<td>no</td>
+	<td align=left>Recruit the pre-placed units </td>
+</tr>
+<tr align=center>
+	<td>-3</td>
+	<td>1</td>
+	<td>0</td>
+	<td>-1</td>
+	<td>no</td>
+	<td>no</td>
+	<td align=left>Can't produce from factory, recruitment fails, team not formed</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>1</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>yes</td>
+	<td>no</td>
+	<td align=left>Recruit the pre-placed units</td>
+</tr>
+<tr align=center>
+	<td>-3</td>
+	<td>1</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>yes</td>
+	<td>no</td>
+	<td align=left>Can't produce from factory, recruitment fails, team not formed</td>
+</tr>
+<tr align=center>
+	<td>-1</td>
+	<td>1</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>no</td>
+	<td>no</td>
+	<td align=left>Recruit the pre-placed units</td>
+</tr>
+<tr align=center>
+	<td>-3</td>
+	<td>1</td>
+	<td>1</td>
+	<td>-1</td>
+	<td>no</td>
+	<td>no</td>
+	<td align=left>Can't produce from factory, recruitment fails, team not formed</td>
+</tr>
+</table>
+
+<p>In the above example with a team of 2 units, if the map has one additional pre-placed unit that can be recruited into the team successfully then also the team cannot be formed completely, so the above combinations apply. If there are 2 or more of the additional pre-placed units which can be recruited successfully then if the team formation fails in the above combinations then the team will be formed with the additional units.</p>
+
+<p>FA2/FinalSun creates units with Autocreate_no_recruitable (1), Autocreate_yes_recruitable (0) by default and in TeamTypes with Autocreate=yes. When you find that the pre-placed units are not getting recruited into the expected TeamType, then uncheck the Autocreate checkbox to make it Autocreate=no.</p> 
+
+<p id=looserecruits><strong>LooseRecruits</strong><br>
+It doesn't seem to have any effect so don't know what it does. When the team members finish their script actions those units could be recruited immediately into other teams regardless of LooseRecruits being yes or no.</p>
+
+<strong id=engagementattr>Enroute/Engagement related:</strong><br>
+Behaviour associated with a team when a team travels towards its destination.
+
+<p id=avoidthreats><strong>AvoidThreats</strong><br>
+Set with yes/no. When set to yes, the units of this team chooses a path with least threat. This is done by re-evaluating the cumulative threat posed on the paths from its current cell to its destination and then choosing the path with least threat. The re-evaluation is not done on every cell the unit travels but at regular time intervals, so faster units may travel for a few cells with old intel.
+</p>
+
+<p id=onlytargethouseenemy><strong>OnlyTargetHouseEnemy</strong><br>
+Set with yes/no. When set to yes, the team will not attack neutral side objects.</p>
+
+<p id=aggressive><strong>Aggressive and Suicide</strong><br>
+Aggressive entry in TeamTypes pertains to initiating an attack when a threat posing enemy comes in range. Suicide entry in TeamTypes pertains to response to an attack. These can be set to yes/no. Depending on the current script action being executed and the combination of these two entries, the behavior differs. For some script actions, these two flags don't have any relevance. Variation are seen in the script actions where movement is involved. Typically, attack script actions are not affected by Aggressive entry and the team does not initiate attack while on the move to its target when the threat-posing enemy comes in range. In move script actions, Aggressive=yes favors attacking when the threat-posing enemy comes in range which results in the team losing its current script action, and when the team resumes it executes the next script action in its script. Suicide=yes tries to suppress the retaliation when attacked in favor of completing the current script action.</p>
+
+Movement-related script action cases
+
+<table border="1">
+<tr>
+	<td rowspan=2><strong>ScriptAction</strong></td>
+	<td rowspan=2><strong>Aggressive</strong></td>
+	<td rowspan=2><strong>Suicide</strong></td>
+	<td colspan=2><center><strong>Response when...</strong></center></td>
+</tr>
+<tr>
+	<td><center><strong>...enemy in range</strong></center></td>
+	<td><center><strong>...under attack</strong></center></td>
+</tr>
+<tr>
+	<td rowspan=4>0 Attack target type<br>
+		1 Attack waypoint<br>
+		46 Attack enemy structure<br>
+		59 Attack structure at waypoint</td>
+	<td><center>yes</center></td>
+	<td><center>yes</center></td>
+	<td rowspan=4>Does not initiate attack; continues its script action.</td>
+	<td>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>yes</center></td>
+	<td><center>no</center></td>
+	<td>Responds to attack and continues the script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>yes</center></td>
+	<td>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>no</center></td>
+	<td>Responds to attack and continues the script action.</td>
+</tr>
+<tr>
+	<td rowspan=4>3 Move to waypoint<br>
+		47 Move to enemy structure<br>
+		53 Gather at enemy base</td>
+	<td><center>yes</center></td>
+	<td><center>yes</center></td>
+	<td>Does not initiate attack; continues its script action.</td>
+	<td>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>yes</center></td>
+	<td><center>no</center></td>
+	<td>Abandons the current script action and attacks the enemy. Once attack is over, executes the next script action.</td>
+	<td>Responds to attack. If the engagement is only response or if the enemy moves out of range, continues the current script action. If the engagement turns into an attack, it abandons the current script action. Once the attack is over, executes the next script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>yes</center></td>
+	<td rowspan=2>Does not initiate attack when enemy comes in range; continues its script action.</td>
+	<td rowspan=2>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>no</center></td>
+</tr>
+<tr>
+	<td rowspan=4>16 Patrol to waypoint</td>
+	<td><center>yes</center></td>
+	<td><center>yes</center></td>
+	<td>Attacks the enemy, then resumes the script action.</td>
+	<td>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>yes</center></td>
+	<td><center>no</center></td>
+	<td>Abandons the current script action and attacks the enemy. Once attack is over, executes the next script action.</td>
+	<td>Responds to attack. If the engagement is only response or if the enemy moves out of range, continues the current script action. If the engagement turns into an attack, it abandons the current script action. Once the attack is over, executes the next script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>yes</center></td>
+	<td>Attacks the enemy, then resumes the script action.</td>
+	<td>Does not respond to attack; continues the script action.</td>
+</tr>
+<tr>
+	<td><center>no</center></td>
+	<td><center>no</center></td>
+	<td>Attacks the enemy while moving to given waypoint.</td>
+	<td>Moves back to retaliate. Attacks if in range, otherwise ignores the enemy. Continues the script action.</td>
+</tr>
+</table>
+<br>
+
+<strong id=transportattr>Transport related:</strong><br>
+Transport related behaviour of the team.
+
+<p id=loadable><strong>Loadable</strong><br>
+Typically set to no. Used if the team members need to reload by docking when units run out of Ammo=. (need testing)</p>
+
+<p id=full><strong>Full</strong><br>
+For use in map files with yes/no. Should any units with PipScale in the team initially be full. Applies to harvesters/weed eaters/ore miners/transport units. If the teams contains a transport and other units, the other units are placed in the transport for reinforcement purposes. (need testing)</p>
+
+<p id=droppod><strong>Droppod</strong><br>
+Set with yes/no. Typically set to no. Whether the team arrives in droppod. (need testing).</p>
+
+<p id=transportwaypoint><strong>TransportWaypoint</strong><br>
+Specifies the waypoint where a team type with transport and UseTransportOrigin=yes will spawn at. This tag expects a waypoint in the notation known from map actions: A = 0, B = 1, .. AA = 26. The maximum value is ZZ = 701.</p>
+
+<p id=usetransportorigin><strong>UseTransportOrigin</strong><br>
+Specifies whether a team type with transport will spawn at the waypoint specified by TransportWaypoint. Otherwise the transport will spawn on a random cell on the owning player's edge of the map.</p>
+
+<p id=transportsreturnonunload><strong>TransportsReturnOnUnload</strong><br>
+When set to yes, after the first unload script action is completed, it will send away units in the team with Passengers= value.</p>
+
+<p id=ontransonly><strong>OnTransOnly</strong><br>
+Set with yes/no. Check when executing its script if it has transport load/unload script actions, otherwise end the script. When OnTransOnly=yes is used, the units won't get associated with the Tag attributes of this TeamType. (need testing)</p>
+
+<p><strong id=mapattr>Map related:</strong><br>
+Pertains to map definitions.</p>
+
+<p id=tag><strong>Tag</strong><br>
+Tags can be attached to many objects in maps including TeamType. Here each team member gets tagged with the associated Tag value, unless team is set with OnTransOnly=yes.
+</p>
+
+<p id=waypoint><strong>Waypoint</strong><br>
+This associates the team with the given waypoint. Used in creating team at waypoint location, also used in other flags like TransportWaypoint and UseTransportOrigin. It is also considered as home cell when looking for units to recruit.
+</p>
+
+<hr width="75%">
+
+<h3 id=aitriggertypes>AITriggerTypes</h3>
+As with other sections of ai(md).ini, entries in ai(md).ini are considered as global and the entries defined in maps are considered as local to the map. AITriggerTypes doesn't have separate section for list and details, but defines its AITrigger entries in single lines. AITriggers when triggered, forms the associated TeamType(s) which in turn has the TaskForce to form the team and Script to executes its activities. These AITriggers have fields for which side it belongs to, difficulty settings, conditions in which this is available for triggering. It also has weight computation to give some randomness in firing the triggers based on the previous performance of the associated teams.<br><br>
+
+Example:<br><br>
+[AITriggerTypes]<br>
+0CAD0DCC-G=Allied Anti-Nuke 1 ,08DA125C-G,&lt;all&gt;,9,0,NAMISL,0100000003000000000000000000000000000000000000000000000000000000,70.000000,10.000000,70.000000,1,0,1,0,0CB246CC-G,0,1,1<br>
+
+<p id=aitriggertype>Description of the individual fields are as follows: </p>
+
+<table border="1">
+<tr>
+	<td><strong><center>Sub-string</center></strong></td>
+	<td><strong><center>Meaning</center></strong></td>
+</tr>
+<tr>
+	<td>ID</td>
+	<td>This AITrigger's ID.</td>
+</tr>
+<tr>
+	<td>Name</td>
+	<td>A plain string used as a name. Must not contain commas, will be truncated to 47 characters for internal representation. </td>
+</tr>
+<tr>
+	<td>Team1</td>
+	<td>The first TeamType that will be created when this AI Trigger gets triggered.</td>
+</tr>
+<tr>
+	<td>OwnerHouse</td>
+	<td>The Country(RA2)/House(TS) that should use this AI Trigger. Defaults to &lt;none&gt;, can be set to an individual country's/house's name or to &lt;all&gt; indicating that all countries/houses of the appropriate Side can use this AI Trigger.</td>
+</tr>
+<tr>
+	<td>TechLevel</td>
+	<td>Minimum TechLevel required for this AI Trigger. It is recalculated internally to be the minimum TechLevel required to build all the units in this AI Trigger's first and second TeamTypes.</td>
+</tr>
+<tr>
+	<td>ConditionType</td>
+	<td>Specifies a number to use as a Condition. This ConditionType along with ComparisonObject and Comparator desribed below, defines a logical comparison like "enemy house has more than 0 rhino tanks". In this example, "enemy house has this technotype" is the ConditionType, "rhino tanks" is the ComparisonObject and "more than 0" is the Comparator. See below for <a href="#conditioncheck">Condition check segment examples</a>.<br><br>
+	<table border="1">
+	<tr>
+		<td><strong>Value</strong></td>
+		<td><strong>Meaning</strong></td>
+	</tr>
+	<tr>
+		<td><center>-1</center></td>
+		<td>No condition check, always true. </td>
+	</tr>
+	<tr>
+		<td><center>0</center></td>
+		<td>Enemy house owns (the technotype given in ComparisonObject)</td>
+	</tr>
+	<tr>
+		<td><center>1</center></td>
+		<td>Self house owns (the technotype given in ComparisonObject)</td>
+	</tr>
+	<tr>
+		<td><center>2</center></td>
+		<td>Enemy house in low power in yellow</td>
+	</tr>
+	<tr>
+		<td><center>3</center></td>
+		<td>Enemy house in low power in red</td>
+	</tr>
+	<tr>
+		<td><center>4</center></td>
+		<td>Enemy house has (amount of given in Comparator) credits</td>
+	</tr>
+	<tr>
+		<td><center>5</center></td>
+		<td>OwnerHouse has an Iron Curtain charged to at least [General] AIMinorSuperReadyPercent= percentage. (not in TS)</td>
+	</tr>
+	<tr>
+		<td><center>6</center></td>
+		<td>OwnerHouse has a ChronoSphere charged to at least [General] AIMinorSuperReadyPercent= percentage. (not in TS)</td>
+	</tr>
+	<tr>
+		<td><center>7</center></td>
+		<td>Neutral/civilian house owns (the technotype given in ComparisonObject). (The first Side with Side=Civilian set in the Countries list) (not in TS)</td>
+	</tr>
+	</table>
+	</td>
+</tr>
+<tr>
+	<td>ComparisonObject</td>
+	<td>Specifies the object that will be used as the Comparison Object. IDs of BuildingTypes, AircraftTypes, InfantryTypes and VehicleTypes are accepted here. See below for <a href="#conditioncheck">Condition check segment examples</a>.</td>
+</tr>
+<tr>
+	<td>Comparator</td>
+	<td>Defines the comparator for the ConditionType. This sub-string is composed of eight chunks of eight hexadecimal characters each (64 characters in total). Each octet contains a textual representation of a little-endian hexadecimal number. The first operand/octet is dependant on the ConditionType (typically amount of objects owned, or credits owned). The second operand/octet is the comparison operator. The next six octets are unused. See below for <a href="#conditioncheck">Condition check segment examples</a>.<br><br>
+	<table border="1">
+	<tr>
+		<td><strong>Second Octet</strong></td>
+		<td><strong>Meaning</strong></td>
+	</tr>
+	<tr>
+		<td><center>00000000</center></td>
+		<td>Less than</td>
+	</tr>
+	<tr>
+		<td><center>01000000</center></td>
+		<td>Less than or equal to</td>
+	</tr>
+	<tr>
+		<td><center>02000000</center></td>
+		<td>Equal to</td>
+	</tr>
+	<tr>
+		<td><center>03000000</center></td>
+		<td>Greater than or equal to</td>
+	</tr>
+	<tr>
+		<td><center>04000000</center></td>
+		<td>Greater than</td>
+	</tr>
+	<tr>
+		<td><center>05000000</center></td>
+		<td>Not equal to</td>
+	</tr>
+	</table>
+	</td>
+</tr>
+<tr>
+	<td>StartingWeight</td>
+	<td>Specifies a floating point value that will be set as this AI Trigger's Starting Weight when the game starts. See the section on <a href="#weights">Trigger Weights</a> for more info.</td>
+</tr>
+<tr>
+	<td>MinimumWeight</td>
+	<td>Specifies a floating point value that will be interpreted as this AI Trigger's Minimum Weight. See the section on <a href="#weights">Trigger Weights</a> for more info.</td>
+</tr>
+<tr>
+	<td>MaximumWeight</td>
+	<td>Specifies a floating point value that will be interpreted as this AI Trigger's Maximum Weight. See the section on <a href="#weights">Trigger Weights</a> for more info.</td>
+</tr>
+<tr>
+	<td>IsForSkirmish</td>
+	<td>Enables or disables this AITrigger for game modes. 0 for single player. 1 or more for skirmish and multiplayer.</td>
+</tr>
+<tr>
+	<td>Unused</td>
+	<td>Unused value always set to 0.</td>
+</tr>
+<tr>
+	<td>Side</td>
+	<td>Indicates the Side that may use this AI Trigger. 0 means available for all sides. Positive value indicates the specific AI playable side. For RA2/YR, 1 for Allied, 2 for Soviet, 3 for Yuri and so on. For TS, 1 for GDI, 2 for Nod and so on.</td>
+</tr>
+<tr>
+	<td>IsBaseDefense</td>
+	<td>Unused, usually set to 0.</td>
+</tr>
+<tr>
+	<td>Team2</td>
+	<td>The second TeamType that will be created when this AI Trigger is triggered.</td>
+</tr>
+<tr>
+	<td>EnabledInEasy</td>
+	<td>0 means not available and 1 means available in easy difficulty.</td>
+</tr>
+<tr>
+	<td>EnabledInMedium</td>
+	<td>0 means not available and 1 means available in normal difficulty.</td>
+</tr>
+<tr>
+	<td>EnabledInHard</td>
+	<td>0 means not available and 1 means available in hard difficulty.</td>
+</tr>
+</table>
+
+<p id=conditioncheck><strong>Condition Check Segment Examples</strong><br><br>
+For simplicity only the segments of ConditionType, ComparisonObject and first octet (amount) and second octet (Comparator) are shown. An octet consists of 8 bytes, 2 bytes form a word here. Values are in hexadecimal and represented in little endian format. For a decimal value of 3, its hex value is 0x3, its octet representation becomes 03000000. For a decimal value of 500, its hex value is 0x1F4, its octet representation becomes F4010000. </p>
+
+<table border="1">
+<tr>
+	<td><strong>Segment</strong></td>
+	<td><strong>Meaning</strong></td>
+</tr>
+<tr>
+	<td>-1,&lt;none&gt;,0000000000000000</td>
+	<td>no condition check, always true. TechnoType and the two octets are irrelevant and can hold any valid values.</td>
+</tr>
+<tr>
+	<td>0,GAREFN,0400000003000000</td>
+	<td>when AI's enemy owns greater or equal to 4 allied ore refineries.</td>
+</tr>
+<tr>
+	<td>1,SHK,0300000001000000</td>
+	<td>when AI's own troops has less than or equal to 3 shock troopers.</td>
+</tr>
+<tr>
+	<td>4,&lt;none&gt;,8813000003000000</td>
+	<td>when AI's enemy has greater or equal to 5000 credits, hex value 0x1388, octet 88130000.</td>
+</tr>
+</table>
+
+<p id=weights><strong>AITrigger Weights</strong><br><br>
+AI Triggers are given weights to define how important they are. Larger current weight makes that AI Trigger more likely to get triggered. When the game starts, the starting weight is the current weight. Later when it is recomputed, the current weight changes within the given MinimumWeight and MaximumWeight.</p>
+
+<p>Each time an AI controlled TeamType is dissolved (when they complete their ScriptType or are destroyed), all AI Triggers using that TeamType as their primary (Team1) get their current weight modified:</p> 
+
+<p>If the Team has executed a Script Action 49, 0 in its lifetime, [General] AITriggerSuccessWeightDelta= is added to its current weight, otherwise, [General] AITriggerFailureWeightDelta= multiplied by [General] AITriggerTrackRecordCoefficient= (the former is usually negative) is added. Care is taken not to push the weight outside the limits set by MinimumWeight and MaximumWeight while doing so. </p>
+
+<p>A Weight equivalent to 5000.0, triggers this AITigger as soon as its conditions are met. In RA2, it is originally used for Teams utilising minor SuperWeapons, the Iron Curtain or the ChronoSphere.</p>
+
+<p>A constant weight given for StartingWeight, MinimumWeight and MaximumWeight like 50.0,50.0,50.0 is not altered by the weight computations.</p>
+
+
+<hr width="75%">
+<center>Version: 1.0.2 (2018.11.01)</center>
+
+</body>
+</html>
