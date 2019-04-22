@@ -925,13 +925,19 @@ namespace AIEdit
 		private void olvTTSettings_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			TeamTypeEntry entry = olvTTSettings.SelectedObject as TeamTypeEntry;
-			JumpToAIObject(entry.Value as IAIObject);
+			if( entry.Option.GetType() == typeof(TeamTypeOptionBool))
+				entry.Value = entry.Value == entry.Option.List[1] ? entry.Option.List[0] : entry.Option.List[1];
+			else
+				JumpToAIObject(entry.Value as IAIObject);
 		}
 
 		private void olvTrSettings_MouseDoubleClick(object sender, MouseEventArgs e)
 		{
 			TriggerTypeEntry entry = olvTrSettings.SelectedObject as TriggerTypeEntry;
-			JumpToAIObject(entry.Value as IAIObject);
+			if (entry.Option.GetType() == typeof(TriggerTypeOptionBool))
+				entry.Value = entry.Value == entry.Option.List[1] ? entry.Option.List[0] : entry.Option.List[1];
+			else
+				JumpToAIObject(entry.Value as IAIObject);
 		}
 
 		private void olvNameCol_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
