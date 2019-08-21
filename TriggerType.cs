@@ -216,6 +216,16 @@ namespace AIEdit
 		private string id, name;
 		private Dictionary<string, TriggerTypeEntry> entries;
 
+		public string Side { get { return entries["Side"].Value.ToString(); } }
+
+		public string Easy { get { return (entries["Easy"].Value as AITypeListEntry).Index == 0 ? "N" : "Y"; } }
+
+		public string Medium { get { return (entries["Medium"].Value as AITypeListEntry).Index == 0 ? "N" : "Y"; } }
+
+		public string Hard { get { return (entries["Hard"].Value as AITypeListEntry).Index == 0 ? "N" : "Y"; } }
+
+		public int TechLevel { get { return (int)entries["TechLevel"].Value; } }
+
 		public string ID { get { return id; } }
 		public string Name { get { return name; } set { name = value.Trim(); } }
 		public int Uses { get { return 0; } }
@@ -332,7 +342,7 @@ namespace AIEdit
 				// techlevel
 				tag = "TechLevel";
 				option = triggerTypeOptions[tag];
-				value = uint.Parse(split[3]);
+				value = int.Parse(split[3]);
 				entries.Add(tag, new TriggerTypeEntry(option, value));
 
 				// condition

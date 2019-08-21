@@ -8,11 +8,15 @@ The AI configuration file describes a set of rules that trigger the computer to 
 - Team: Combines Task Force and Script with some additional behavioral flags.
 - Trigger: Describes under which circumstances a Team will be created (triggered).
 
-To understand how these are used it is best to start by studying RA2's or TS's AI.
+To understand how these are used it is best to read the included AI Guide and to study RA2's or TS's AI.
 
 Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
+
+### v2.0.4.2 ###
+- Added columns showing House, Max and Priority to Team Types tab.
+- Added columns showing Side, Tech Level, Easy, Medium and Hard to Trigger Types tab.
 
 ### v2.0.4.1 ###
 - Script action's UI number field's max value raised to 6-digits. (by E1 Elite)

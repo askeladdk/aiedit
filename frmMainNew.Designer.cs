@@ -38,6 +38,7 @@
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aIGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageTF = new System.Windows.Forms.TabPage();
@@ -110,6 +111,11 @@
 			this.olvTr = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTrName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrSide = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrTechLevel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrEasy = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrMedium = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTrHard = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.mnuCtxTr = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuNewTr = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuCopyTr = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,7 +124,9 @@
 			this.txtLog = new System.Windows.Forms.TextBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.aIGuideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.olvColTTHouse = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTTMax = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+			this.olvColTTPriority = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
@@ -214,10 +222,17 @@
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
+			// aIGuideToolStripMenuItem
+			// 
+			this.aIGuideToolStripMenuItem.Name = "aIGuideToolStripMenuItem";
+			this.aIGuideToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+			this.aIGuideToolStripMenuItem.Text = "AI Guide";
+			this.aIGuideToolStripMenuItem.Click += new System.EventHandler(this.aIGuideToolStripMenuItem_Click);
+			// 
 			// mnuAbout
 			// 
 			this.mnuAbout.Name = "mnuAbout";
-			this.mnuAbout.Size = new System.Drawing.Size(107, 22);
+			this.mnuAbout.Size = new System.Drawing.Size(119, 22);
 			this.mnuAbout.Text = "About";
 			this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
 			// 
@@ -265,8 +280,6 @@
 			this.olvTF.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTF.FullRowSelect = true;
 			this.olvTF.HideSelection = false;
-			this.olvTF.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTF.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTF.Location = new System.Drawing.Point(6, 6);
 			this.olvTF.MultiSelect = false;
 			this.olvTF.Name = "olvTF";
@@ -378,8 +391,6 @@
 			this.olvTFUnits.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTFUnits.FullRowSelect = true;
 			this.olvTFUnits.HideSelection = false;
-			this.olvTFUnits.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTFUnits.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTFUnits.Location = new System.Drawing.Point(6, 19);
 			this.olvTFUnits.MultiSelect = false;
 			this.olvTFUnits.Name = "olvTFUnits";
@@ -498,8 +509,6 @@
 			this.olvST.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvST.FullRowSelect = true;
 			this.olvST.HideSelection = false;
-			this.olvST.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvST.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvST.Location = new System.Drawing.Point(6, 6);
 			this.olvST.MultiSelect = false;
 			this.olvST.Name = "olvST";
@@ -620,8 +629,6 @@
 			this.olvSTActions.FullRowSelect = true;
 			this.olvSTActions.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvSTActions.HideSelection = false;
-			this.olvSTActions.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvSTActions.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvSTActions.Location = new System.Drawing.Point(6, 19);
 			this.olvSTActions.MultiSelect = false;
 			this.olvSTActions.Name = "olvSTActions";
@@ -749,8 +756,6 @@
 			this.olvTTSettings.FullRowSelect = true;
 			this.olvTTSettings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvTTSettings.HideSelection = false;
-			this.olvTTSettings.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTTSettings.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTTSettings.Location = new System.Drawing.Point(6, 19);
 			this.olvTTSettings.MultiSelect = false;
 			this.olvTTSettings.Name = "olvTTSettings";
@@ -795,19 +800,23 @@
 			// 
 			this.olvTT.AllColumns.Add(this.olvColTTName);
 			this.olvTT.AllColumns.Add(this.olvColTTID);
+			this.olvTT.AllColumns.Add(this.olvColTTHouse);
+			this.olvTT.AllColumns.Add(this.olvColTTMax);
+			this.olvTT.AllColumns.Add(this.olvColTTPriority);
 			this.olvTT.AllColumns.Add(this.olvColTTUses);
 			this.olvTT.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
 			this.olvTT.CellEditUseWholeCell = false;
 			this.olvTT.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTTName,
             this.olvColTTID,
+            this.olvColTTHouse,
+            this.olvColTTMax,
+            this.olvColTTPriority,
             this.olvColTTUses});
 			this.olvTT.ContextMenuStrip = this.mnuCtxTT;
 			this.olvTT.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTT.FullRowSelect = true;
 			this.olvTT.HideSelection = false;
-			this.olvTT.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTT.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTT.Location = new System.Drawing.Point(6, 6);
 			this.olvTT.MultiSelect = false;
 			this.olvTT.Name = "olvTT";
@@ -828,7 +837,7 @@
 			this.olvColTTName.AspectName = "Name";
 			this.olvColTTName.Hideable = false;
 			this.olvColTTName.Text = "Name";
-			this.olvColTTName.Width = 250;
+			this.olvColTTName.Width = 160;
 			// 
 			// olvColTTID
 			// 
@@ -926,8 +935,6 @@
 			this.olvTrSettings.FullRowSelect = true;
 			this.olvTrSettings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.olvTrSettings.HideSelection = false;
-			this.olvTrSettings.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTrSettings.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTrSettings.Location = new System.Drawing.Point(6, 19);
 			this.olvTrSettings.MultiSelect = false;
 			this.olvTrSettings.Name = "olvTrSettings";
@@ -970,17 +977,25 @@
 			// 
 			this.olvTr.AllColumns.Add(this.olvColTrName);
 			this.olvTr.AllColumns.Add(this.olvColTrID);
+			this.olvTr.AllColumns.Add(this.olvColTrSide);
+			this.olvTr.AllColumns.Add(this.olvColTrTechLevel);
+			this.olvTr.AllColumns.Add(this.olvColTrEasy);
+			this.olvTr.AllColumns.Add(this.olvColTrMedium);
+			this.olvTr.AllColumns.Add(this.olvColTrHard);
 			this.olvTr.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
 			this.olvTr.CellEditUseWholeCell = false;
 			this.olvTr.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTrName,
-            this.olvColTrID});
+            this.olvColTrID,
+            this.olvColTrSide,
+            this.olvColTrTechLevel,
+            this.olvColTrEasy,
+            this.olvColTrMedium,
+            this.olvColTrHard});
 			this.olvTr.ContextMenuStrip = this.mnuCtxTr;
 			this.olvTr.Cursor = System.Windows.Forms.Cursors.Default;
 			this.olvTr.FullRowSelect = true;
 			this.olvTr.HideSelection = false;
-			this.olvTr.SelectedBackColor = System.Drawing.Color.Empty;
-			this.olvTr.SelectedForeColor = System.Drawing.Color.Empty;
 			this.olvTr.Location = new System.Drawing.Point(6, 6);
 			this.olvTr.MultiSelect = false;
 			this.olvTr.Name = "olvTr";
@@ -1001,7 +1016,7 @@
 			this.olvColTrName.AspectName = "Name";
 			this.olvColTrName.Hideable = false;
 			this.olvColTrName.Text = "Name";
-			this.olvColTrName.Width = 290;
+			this.olvColTrName.Width = 160;
 			// 
 			// olvColTrID
 			// 
@@ -1010,6 +1025,45 @@
 			this.olvColTrID.IsEditable = false;
 			this.olvColTrID.Text = "ID";
 			this.olvColTrID.Width = 0;
+			// 
+			// olvColTrSide
+			// 
+			this.olvColTrSide.AspectName = "Side";
+			this.olvColTrSide.IsEditable = false;
+			this.olvColTrSide.Text = "Side";
+			this.olvColTrSide.Width = 50;
+			// 
+			// olvColTrTechLevel
+			// 
+			this.olvColTrTechLevel.AspectName = "TechLevel";
+			this.olvColTrTechLevel.IsEditable = false;
+			this.olvColTrTechLevel.Text = "T";
+			this.olvColTrTechLevel.ToolTipText = "Tech Level";
+			this.olvColTrTechLevel.Width = 20;
+			// 
+			// olvColTrEasy
+			// 
+			this.olvColTrEasy.AspectName = "Easy";
+			this.olvColTrEasy.IsEditable = false;
+			this.olvColTrEasy.Text = "E";
+			this.olvColTrEasy.ToolTipText = "Available on Easy";
+			this.olvColTrEasy.Width = 20;
+			// 
+			// olvColTrMedium
+			// 
+			this.olvColTrMedium.AspectName = "Medium";
+			this.olvColTrMedium.IsEditable = false;
+			this.olvColTrMedium.Text = "M";
+			this.olvColTrMedium.ToolTipText = "Available on Medium";
+			this.olvColTrMedium.Width = 20;
+			// 
+			// olvColTrHard
+			// 
+			this.olvColTrHard.AspectName = "Hard";
+			this.olvColTrHard.IsEditable = false;
+			this.olvColTrHard.Text = "H";
+			this.olvColTrHard.ToolTipText = "Available on Hard";
+			this.olvColTrHard.Width = 20;
 			// 
 			// mnuCtxTr
 			// 
@@ -1071,12 +1125,29 @@
 			// 
 			this.saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
 			// 
-            // aIGuideToolStripMenuItem
-            // 
-            this.aIGuideToolStripMenuItem.Name = "aIGuideToolStripMenuItem";
-            this.aIGuideToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.aIGuideToolStripMenuItem.Text = "AI Guide";
-            this.aIGuideToolStripMenuItem.Click += new System.EventHandler(this.aIGuideToolStripMenuItem_Click);
+			// olvColTTHouse
+			// 
+			this.olvColTTHouse.AspectName = "House";
+			this.olvColTTHouse.IsEditable = false;
+			this.olvColTTHouse.Text = "House";
+			this.olvColTTHouse.Width = 50;
+			// 
+			// olvColTTMax
+			// 
+			this.olvColTTMax.AspectName = "Max";
+			this.olvColTTMax.IsEditable = false;
+			this.olvColTTMax.Text = "M";
+			this.olvColTTMax.ToolTipText = "Max";
+			this.olvColTTMax.Width = 20;
+			// 
+			// olvColTTPriority
+			// 
+			this.olvColTTPriority.AspectName = "Priority";
+			this.olvColTTPriority.IsEditable = false;
+			this.olvColTTPriority.Text = "P";
+			this.olvColTTPriority.ToolTipText = "Priority";
+			this.olvColTTPriority.Width = 20;
+			// 
 			// frmMainNew
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1090,7 +1161,7 @@
 			this.MaximizeBox = false;
 			this.Name = "frmMainNew";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "C&C AI Editor " + System.Windows.Forms.Application.ProductVersion;
+			this.Text = "C&C AI Editor";
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
@@ -1215,5 +1286,13 @@
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyTr;
 		private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.ToolStripMenuItem aIGuideToolStripMenuItem;
+		private BrightIdeasSoftware.OLVColumn olvColTrSide;
+		private BrightIdeasSoftware.OLVColumn olvColTrEasy;
+		private BrightIdeasSoftware.OLVColumn olvColTrMedium;
+		private BrightIdeasSoftware.OLVColumn olvColTrHard;
+		private BrightIdeasSoftware.OLVColumn olvColTrTechLevel;
+		private BrightIdeasSoftware.OLVColumn olvColTTHouse;
+		private BrightIdeasSoftware.OLVColumn olvColTTMax;
+		private BrightIdeasSoftware.OLVColumn olvColTTPriority;
 	}
 }
