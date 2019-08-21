@@ -398,7 +398,7 @@ namespace AIEdit
 						{
 							int a  = int.Parse(split[0]);
 							int p = int.Parse(split[1]);
-							IActionType actionType = types[a];
+							IActionType actionType = types.First(x => x.Code == (uint)a);
 
 							ScriptAction action = new ScriptAction(actionType, p);
 							actions.Add(action);

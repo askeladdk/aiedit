@@ -289,10 +289,12 @@ namespace AIEdit
 					if(action.Action.ParamType == ScriptParamType.Number)
 					{
 						nud.Minimum = 0;
+						nud.Maximum = 999999;
 					}
 					else
 					{
 						nud.Minimum = -999999;
+						nud.Maximum = 999999;
 					}
 					nud.Value = action.Param;
 					nud.Bounds = e.CellBounds;

@@ -14,6 +14,15 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.1 ###
+- Script action's UI number field's max value raised to 6-digits. (by E1 Elite)
+
+### v2.0.4.0 ###
+- Double click on boolean fields to toggle their values.
+- AITrigger UI fields re-ordered for better readability.
+- Script action types from config file is now parsed based on its ID instead of its array index. (by E1 Elite)
+- YR config file updated with Ares script action additions of IDs from 65 to 70 (by E1 Elite)
+
 ### v2.0.3.9 ###
 - TS config file fix of veteran level and removed unused AITrigger condition choices
 - Skipped across list duplicate ID check for AITrigger IDs as vanilla TS has such
