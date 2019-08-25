@@ -224,7 +224,9 @@ namespace AIEdit
 
 		public string Hard { get { return (entries["Hard"].Value as AITypeListEntry).Index == 0 ? "N" : "Y"; } }
 
-		public int TechLevel { get { return (int)entries["TechLevel"].Value; } }
+		public uint TechLevel { get { return (uint)entries["TechLevel"].Value; } }
+
+		public uint InitialWeight { get { return (uint)entries["Prob"].Value; } }
 
 		public string ID { get { return id; } }
 		public string Name { get { return name; } set { name = value.Trim(); } }
@@ -342,7 +344,7 @@ namespace AIEdit
 				// techlevel
 				tag = "TechLevel";
 				option = triggerTypeOptions[tag];
-				value = int.Parse(split[3]);
+				value = uint.Parse(split[3]);
 				entries.Add(tag, new TriggerTypeEntry(option, value));
 
 				// condition

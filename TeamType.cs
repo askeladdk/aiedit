@@ -13,6 +13,8 @@ namespace AIEdit
 	{
 		protected string tag, name;
 
+		public string Tag { get { return tag;  } }
+
 		public string Name { get { return name; } }
 
 		public TeamTypeOption(string tag, string name)
@@ -205,11 +207,11 @@ namespace AIEdit
 		private List<TeamTypeEntry> entries;
 		private int uses;
 
-		public string House { get { return entries.First(x => x.Name == "House").Value.ToString(); } }
+		public string IsBaseDefense { get { return (entries.First(x => x.Option.Tag == "IsBaseDefense").Value as AITypeListEntry).Index == 0 ? "N" : "Y"; } }
 
-		public int Max { get { return (int)entries.First(x => x.Name == "Max").Value; } }
+		public int Max { get { return (int)entries.First(x => x.Option.Tag == "Max").Value; } }
 
-		public int Priority { get { return (int)entries.First(x => x.Name == "Priority").Value; } }
+		public int Priority { get { return (int)entries.First(x => x.Option.Tag == "Priority").Value; } }
 
 		public uint ParamListIndex { get { return 0; } }
 

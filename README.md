@@ -14,6 +14,13 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.3 ###
+- Removed House column from TeamTypes tab as it is not all that useful.
+- Added IsBaseDefense column to TeamTypes tab.
+- Added Initial Weight column to TriggerTypes tab.
+- Columns except for the Name column have fixed width.
+- Increased screen real estate by broadening form width.
+
 ### v2.0.4.2 ###
 - Added columns showing House, Max and Priority to Team Types tab.
 - Added columns showing Side, Tech Level, Easy, Medium and Hard to Trigger Types tab.
