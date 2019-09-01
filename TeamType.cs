@@ -213,6 +213,8 @@ namespace AIEdit
 
 		public int Priority { get { return (int)entries.First(x => x.Option.Tag == "Priority").Value; } }
 
+		public string House { get { return entries.First(x => x.Option.Tag == "House").Value.ToString(); } }
+
 		public uint ParamListIndex { get { return 0; } }
 
 		public string Name { get { return name; } set { name = value.Trim(); } }

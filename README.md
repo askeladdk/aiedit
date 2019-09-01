@@ -14,6 +14,12 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.4 ###
+- Re-arranged and text aligned for the sort columns.
+- Added TeamType House column again as last column.
+- Fixed width for column's attributes removed.
+- Default width of left panel columns made compatible with both 100% and 125% DPI scaling.
+
 ### v2.0.4.3 ###
 - Removed House column from TeamTypes tab as it is not all that useful.
 - Added IsBaseDefense column to TeamTypes tab.
