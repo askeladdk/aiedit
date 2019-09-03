@@ -95,6 +95,7 @@
 			this.olvTT = new BrightIdeasSoftware.ObjectListView();
 			this.olvColTTName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColTTHouse = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTIsBaseDefense = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTMax = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTTPriority = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -116,6 +117,7 @@
 			this.olvColTrID = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrSide = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrTechLevel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColTrWeight = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrEasy = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrMedium = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.olvColTrHard = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -127,7 +129,6 @@
 			this.txtLog = new System.Windows.Forms.TextBox();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-			this.olvColTrWeight = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageTF.SuspendLayout();
@@ -301,7 +302,7 @@
 			this.olvTFName.AspectName = "Name";
 			this.olvTFName.Hideable = false;
 			this.olvTFName.Text = "Name";
-			this.olvTFName.Width = 360;
+            this.olvTFName.Width = 315;
 			// 
 			// olvTFID
 			// 
@@ -316,10 +317,9 @@
 			this.olvTFUses.AspectName = "Uses";
 			this.olvTFUses.Hideable = false;
 			this.olvTFUses.IsEditable = false;
-			this.olvTFUses.MaximumWidth = 40;
-			this.olvTFUses.MinimumWidth = 40;
-			this.olvTFUses.Text = "Uses";
-			this.olvTFUses.Width = 40;
+            this.olvTFUses.Text = "Uses";
+			this.olvTFUses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvTFUses.Width = 80;
 			// 
 			// mnuCtxTF
 			// 
@@ -531,7 +531,7 @@
 			// 
 			this.olvColSTName.AspectName = "Name";
 			this.olvColSTName.Text = "Name";
-			this.olvColSTName.Width = 360;
+            this.olvColSTName.Width = 315;
 			// 
 			// olvColSTID
 			// 
@@ -546,10 +546,9 @@
 			this.olvColSTUses.AspectName = "Uses";
 			this.olvColSTUses.Hideable = false;
 			this.olvColSTUses.IsEditable = false;
-			this.olvColSTUses.MaximumWidth = 40;
-			this.olvColSTUses.MinimumWidth = 40;
 			this.olvColSTUses.Text = "Uses";
-			this.olvColSTUses.Width = 40;
+			this.olvColSTUses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColSTUses.Width = 80;
 			// 
 			// mnuCtxST
 			// 
@@ -805,7 +804,8 @@
 			// 
 			this.olvTT.AllColumns.Add(this.olvColTTName);
 			this.olvTT.AllColumns.Add(this.olvColTTID);
-			this.olvTT.AllColumns.Add(this.olvColTTIsBaseDefense);
+            this.olvTT.AllColumns.Add(this.olvColTTHouse);
+            this.olvTT.AllColumns.Add(this.olvColTTIsBaseDefense);
 			this.olvTT.AllColumns.Add(this.olvColTTMax);
 			this.olvTT.AllColumns.Add(this.olvColTTPriority);
 			this.olvTT.AllColumns.Add(this.olvColTTUses);
@@ -814,6 +814,7 @@
 			this.olvTT.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColTTName,
             this.olvColTTID,
+            this.olvColTTHouse,
             this.olvColTTIsBaseDefense,
             this.olvColTTMax,
             this.olvColTTPriority,
@@ -842,7 +843,7 @@
 			this.olvColTTName.AspectName = "Name";
 			this.olvColTTName.Hideable = false;
 			this.olvColTTName.Text = "Name";
-			this.olvColTTName.Width = 300;
+            this.olvColTTName.Width = 196;
 			// 
 			// olvColTTID
 			// 
@@ -852,44 +853,49 @@
 			this.olvColTTID.Text = "ID";
 			this.olvColTTID.Width = 0;
 			// 
+            // olvColTTHouse
+            // 
+            this.olvColTTHouse.AspectName = "House";
+            this.olvColTTHouse.IsEditable = false;
+            this.olvColTTHouse.Text = "House";
+            this.olvColTTHouse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColTTHouse.Width = 55;
+            // 
 			// olvColTTIsBaseDefense
 			// 
 			this.olvColTTIsBaseDefense.AspectName = "IsBaseDefense";
 			this.olvColTTIsBaseDefense.IsEditable = false;
-			this.olvColTTIsBaseDefense.MaximumWidth = 20;
-			this.olvColTTIsBaseDefense.MinimumWidth = 20;
-			this.olvColTTIsBaseDefense.Text = "B";
+			this.olvColTTIsBaseDefense.Text = "BD";
+			this.olvColTTIsBaseDefense.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColTTIsBaseDefense.ToolTipText = "Is Base Defense";
-			this.olvColTTIsBaseDefense.Width = 20;
+            this.olvColTTIsBaseDefense.Width = 35;
 			// 
 			// olvColTTMax
 			// 
 			this.olvColTTMax.AspectName = "Max";
 			this.olvColTTMax.IsEditable = false;
-			this.olvColTTMax.MaximumWidth = 20;
-			this.olvColTTMax.MinimumWidth = 20;
-			this.olvColTTMax.Text = "M";
+			this.olvColTTMax.Text = "Mx";
+			this.olvColTTMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.olvColTTMax.ToolTipText = "Max";
-			this.olvColTTMax.Width = 20;
+            this.olvColTTMax.Width = 32;
 			// 
 			// olvColTTPriority
 			// 
 			this.olvColTTPriority.AspectName = "Priority";
 			this.olvColTTPriority.IsEditable = false;
-			this.olvColTTPriority.MaximumWidth = 20;
-			this.olvColTTPriority.MinimumWidth = 20;
-			this.olvColTTPriority.Text = "P";
+			this.olvColTTPriority.Text = "Pr";
+			this.olvColTTPriority.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.olvColTTPriority.ToolTipText = "Priority";
-			this.olvColTTPriority.Width = 20;
+            this.olvColTTPriority.Width = 37;
 			// 
 			// olvColTTUses
 			// 
 			this.olvColTTUses.AspectName = "Uses";
 			this.olvColTTUses.Hideable = false;
 			this.olvColTTUses.IsEditable = false;
-			this.olvColTTUses.MaximumWidth = 40;
-			this.olvColTTUses.MinimumWidth = 40;
 			this.olvColTTUses.Text = "Uses";
+			this.olvColTTUses.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.olvColTTUses.ToolTipText = "Number of uses";
 			this.olvColTTUses.Width = 40;
 			// 
 			// mnuCtxTT
@@ -1015,8 +1021,8 @@
 			this.olvTr.AllColumns.Add(this.olvColTrName);
 			this.olvTr.AllColumns.Add(this.olvColTrID);
 			this.olvTr.AllColumns.Add(this.olvColTrSide);
-			this.olvTr.AllColumns.Add(this.olvColTrWeight);
 			this.olvTr.AllColumns.Add(this.olvColTrTechLevel);
+			this.olvTr.AllColumns.Add(this.olvColTrWeight);
 			this.olvTr.AllColumns.Add(this.olvColTrEasy);
 			this.olvTr.AllColumns.Add(this.olvColTrMedium);
 			this.olvTr.AllColumns.Add(this.olvColTrHard);
@@ -1026,8 +1032,8 @@
             this.olvColTrName,
             this.olvColTrID,
             this.olvColTrSide,
-            this.olvColTrWeight,
             this.olvColTrTechLevel,
+            this.olvColTrWeight,
             this.olvColTrEasy,
             this.olvColTrMedium,
             this.olvColTrHard});
@@ -1055,7 +1061,7 @@
 			this.olvColTrName.AspectName = "Name";
 			this.olvColTrName.Hideable = false;
 			this.olvColTrName.Text = "Name";
-			this.olvColTrName.Width = 220;
+			this.olvColTrName.Width = 196;
 			// 
 			// olvColTrID
 			// 
@@ -1069,50 +1075,54 @@
 			// 
 			this.olvColTrSide.AspectName = "Side";
 			this.olvColTrSide.IsEditable = false;
-			this.olvColTrSide.MaximumWidth = 50;
-			this.olvColTrSide.MinimumWidth = 50;
 			this.olvColTrSide.Text = "Side";
-			this.olvColTrSide.Width = 50;
+            this.olvColTrSide.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.olvColTrSide.Width = 51;
 			// 
 			// olvColTrTechLevel
 			// 
 			this.olvColTrTechLevel.AspectName = "TechLevel";
 			this.olvColTrTechLevel.IsEditable = false;
-			this.olvColTrTechLevel.MaximumWidth = 20;
-			this.olvColTrTechLevel.MinimumWidth = 20;
-			this.olvColTrTechLevel.Text = "T";
+			this.olvColTrTechLevel.Text = "TL";
+			this.olvColTrTechLevel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.olvColTrTechLevel.ToolTipText = "Tech Level";
-			this.olvColTrTechLevel.Width = 20;
+			this.olvColTrTechLevel.Width = 30;
 			// 
+            // olvColTrWeight
+            // 
+            this.olvColTrWeight.AspectName = "InitialWeight";
+            this.olvColTrWeight.IsEditable = false;
+            this.olvColTrWeight.Text = "Wgt";
+            this.olvColTrWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.olvColTrWeight.ToolTipText = "Initial Weight";
+            this.olvColTrWeight.Width = 40;
+            // 
 			// olvColTrEasy
 			// 
 			this.olvColTrEasy.AspectName = "Easy";
 			this.olvColTrEasy.IsEditable = false;
-			this.olvColTrEasy.MaximumWidth = 20;
-			this.olvColTrEasy.MinimumWidth = 20;
 			this.olvColTrEasy.Text = "E";
+			this.olvColTrEasy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColTrEasy.ToolTipText = "Available on Easy";
-			this.olvColTrEasy.Width = 20;
+            this.olvColTrEasy.Width = 26;
 			// 
 			// olvColTrMedium
 			// 
 			this.olvColTrMedium.AspectName = "Medium";
 			this.olvColTrMedium.IsEditable = false;
-			this.olvColTrMedium.MaximumWidth = 20;
-			this.olvColTrMedium.MinimumWidth = 20;
 			this.olvColTrMedium.Text = "M";
+			this.olvColTrMedium.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColTrMedium.ToolTipText = "Available on Medium";
-			this.olvColTrMedium.Width = 20;
+            this.olvColTrMedium.Width = 26;
 			// 
 			// olvColTrHard
 			// 
 			this.olvColTrHard.AspectName = "Hard";
 			this.olvColTrHard.IsEditable = false;
-			this.olvColTrHard.MaximumWidth = 20;
-			this.olvColTrHard.MinimumWidth = 20;
 			this.olvColTrHard.Text = "H";
+			this.olvColTrHard.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.olvColTrHard.ToolTipText = "Available on Hard";
-			this.olvColTrHard.Width = 20;
+            this.olvColTrHard.Width = 26;
 			// 
 			// mnuCtxTr
 			// 
@@ -1173,16 +1183,6 @@
 			// saveFileDialog1
 			// 
 			this.saveFileDialog1.Filter = "Ini files (*.ini)|*.ini";
-			// 
-			// olvColTrWeight
-			// 
-			this.olvColTrWeight.AspectName = "InitialWeight";
-			this.olvColTrWeight.IsEditable = false;
-			this.olvColTrWeight.MaximumWidth = 50;
-			this.olvColTrWeight.MinimumWidth = 50;
-			this.olvColTrWeight.Text = "Weight";
-			this.olvColTrWeight.ToolTipText = "Initial Weight";
-			this.olvColTrWeight.Width = 50;
 			// 
 			// frmMainNew
 			// 
@@ -1328,6 +1328,7 @@
 		private BrightIdeasSoftware.OLVColumn olvColTrHard;
 		private BrightIdeasSoftware.OLVColumn olvColTrTechLevel;
 		private BrightIdeasSoftware.OLVColumn olvColTTIsBaseDefense;
+		private BrightIdeasSoftware.OLVColumn olvColTTHouse;
 		private BrightIdeasSoftware.OLVColumn olvColTTMax;
 		private BrightIdeasSoftware.OLVColumn olvColTTPriority;
 		private BrightIdeasSoftware.OLVColumn olvColTrWeight;
