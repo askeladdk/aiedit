@@ -16,7 +16,7 @@ Link: https://github.com/askeladdk/aiedit
 
 ### v2.0.4.4 ###
 - Re-arranged and text aligned for the sort columns.
-- Added TeamType House column again as last column.
+- Added TeamType House column again.
 - Fixed width for column's attributes removed.
 - Default width of left panel columns made compatible with both 100% and 125% DPI scaling.
 
