@@ -54,7 +54,7 @@ namespace AIEdit
 			}
 			else
 			{
-				TaskForceEntry tfe = tf.SingleOrDefault(s => s.Unit == tt);
+				TaskForceEntry tfe = tf.FirstOrDefault(s => s.Unit == tt);
 				olvTFUnits.RefreshObject(tfe);
 			}
 
@@ -170,9 +170,9 @@ namespace AIEdit
 				TaskForceEntry tfe = e.RowObject as TaskForceEntry;
 				TechnoType unit = cmb.SelectedItem as TechnoType;
 
-				TaskForceEntry exists = tf.SingleOrDefault(s => s.Unit == unit);
+				TaskForceEntry exists = tf.FirstOrDefault(s => s.Unit == unit);
 
-				if (exists != null && exists != tfe)
+				if (exists != null && exists != tfe && !sameUnitMultiEntry)
 				{
 					tf.Remove(tfe.Unit);
 					exists.Count = exists.Count + tfe.Count;

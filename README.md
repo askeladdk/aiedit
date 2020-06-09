@@ -14,6 +14,14 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.5 ###
+- Support for same unit on multiple lines of TaskForce through config key SameUnitMultiEntry.
+
+Note: Setting SameUnitMultiEntry to yes in [General] section of config file affects the TaskForce UI behaviour.
+- Removes the unit dropdown ability to add to an existing unit entry when the same unit is selected in a different line/entry for a taskforce.
+- Add/delete through +/- will operate on the first instance of the unit only even if it was selected from a different row.
+- Setting SameUnitMultiEntry to no (default), will remove additional entries of same unit on UI click of those unit dropdowns.
+
 ### v2.0.4.4 ###
 - Re-arranged and text aligned for the sort columns.
 - Added TeamType House column again.
