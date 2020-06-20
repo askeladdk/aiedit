@@ -20,6 +20,7 @@ namespace AIEdit
 		private string idPrefix = null;
 		private string idSuffix = null;
 		private HashSet<string> iniIDs;
+		private bool sameUnitMultiEntry = false;
 
 		// TECHNOTYPE TABLES
 		private List<TechnoType> unitTypes;     // sorted by name
@@ -379,6 +380,12 @@ namespace AIEdit
 					if (Regex.IsMatch(idSuffixTemp, @"^[a-zA-Z0-9_-]+$"))
 						idSuffix = idSuffixTemp.ToUpper();
 				}
+
+				string unitMultiEntry = "";
+				if (config["General"].Contains("SameUnitMultiEntry")) unitMultiEntry = config["General"].GetString("SameUnitMultiEntry");
+				if (!String.IsNullOrEmpty(unitMultiEntry) && (unitMultiEntry.Equals("yes", StringComparison.InvariantCultureIgnoreCase) || 
+					unitMultiEntry.Equals("true", StringComparison.InvariantCultureIgnoreCase)))
+					sameUnitMultiEntry = true;
 			}
 
 			if (ai.ContainsKey("Digest")) digestString = ai["Digest"].GetString("1");
