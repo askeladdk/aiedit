@@ -22,7 +22,7 @@
 		<a href="#sa16">16 - Patrol To Waypoint</a>, <a href="#sa17">17 - Change Script</a>, <a href="#sa18">18 - Change Team</a>, <a href="#sa19">19 - Panic</a>, <br>
 		<a href="#sa20">20 - Change House Ownership</a>, <a href="#sa21">21 - Scatter</a>, <a href="#sa22">22 - Afraid & Run To Shroud</a>, <a href="#sa23">23 - Force Player Loss</a>, <br>
 		<a href="#sa24">24 - Play Speech</a>, <a href="#sa25">25 - Play Sound</a>, <a href="#sa26">26 - Play Movie</a>, <a href="#sa27">27 - Play Theme/Music</a>, <br>
-		<a href="#sa28">28 - Reduce Ore</a>, <a href="#sa29">29 - Begin Production</a>, <a href="#sa30">30 - Force Sale</a>, <a href="#sa31">31 - Suicide</a>, <br>
+		<a href="#sa28">28 - Reduce Ore/Tiberium</a>, <a href="#sa29">29 - Begin Production</a>, <a href="#sa30">30 - Force Sale</a>, <a href="#sa31">31 - Suicide</a>, <br>
 		<a href="#sa32">32 - Start Weather/Ion Storm</a>, <a href="#sa33">33 - End Weather/Ion Storm</a>, <a href="#sa34">34 - Center Map On Team</a>,<br>
 		<a href="#sa35">35 - Shroud Map For Time</a>, 		<a href="#sa36">36 -  Reveal Map For Time</a>, <a href="#sa37">37 - Delete Team Members</a>, <br>
 		<a href="#sa38">38 - Clear Global</a>, <a href="#sa39">39 - Set Local</a>, 
@@ -54,6 +54,7 @@
 		<li><a href="#conditioncheck">Condition Check Segment Examples</a></li>
 		<li><a href="#weights">AITrigger Weights</a></li>
 	</ul>
+	<li><a href="#extlinks">External Links</a></li>
 </ul>
 
 <hr width="75%">
@@ -201,26 +202,26 @@ The following are the target types which can be used: </p>
 <p id=sa1>1,n = Attack Waypoint, n = waypoint number to attack<br>
 This instructs the TeamType to use the TaskForce to attack the waypoint number specified by the second parameter. If any members have Infiltrate=yes set they will enter the structure at the waypoint. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set. If there is no building at the specified waypoint, the TaskForce will attack the ground when reaching in range of the waypoint. Refer Waypoints for details on waypoint. </p>
 
-<p id=sa2>2,0 = Go Berzerk<br>
-Forces infantry units with Cyborg=yes set to go berserk (they consider all objects, including friendly units, equally in their threat scan).(Doesn't seem to work). </p>
+<p id=sa2>2,0 = Do nothing<br>
+Do nothing and go to next script action if present. </p>
 
 <p id=sa3>3,n = Move To Waypoint, n = waypoint number to move to<br>
-This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the second parameter. Refer Waypoints for details on waypoint. TIP: you could use this script action to get a TeamType to move to Waypoint= number 99 (just about every map has this defined as the center point) - that will mean it will always strive to get to the center of the map, providing a good vantage point from which to perform further script actions and giving the impression that the computer is scouting for enemies. </p>
+This instructs the TeamType to use the TaskForce to move to the waypoint number specified by the second parameter. Move mission is completed only when all team members reach the close enough distance (typically 1 cell around the waypoint). If the taskfose has too many members, the script action may not finish as all members are unable to reach CloseEnough distance. </p>
 
-<p id=sa4>4,n = Move Into Specific Celltag, n = celltag to move into <br>
-This instructs the TeamType to use the TaskForce to move into the CellTag specified by the second parameter. This is used when you want the TeamType to trigger a specific Action (when the game tests for the CellTag being entered). CellTags are attached to cells and are used to trigger Events and thus fire Actions when that cell is entered by a unit (or any unit from the TaskForce). The CellTag parameter should be the waypoint parameter for that CellTag from the [CellTags]listing in the map file, hence this script action is only of use on specific map files. Refer CellTags for details on celltag.</p> 
+<p id=sa4>4,n = Move Into Specific Cell, n = cell to move into <br>
+This instructs the TeamType to use the TaskForce to move to the Cell specified by the second parameter. This is used when you want the TeamType to trigger a specific Action (when the game tests for the CellTag being entered). CellTags are attached to cells and are used to trigger Events and thus fire Actions when that cell is entered by a unit (or any unit from the TaskForce). Parameter: value = (y * 128) + x. This old formula is replaced by hacks. Hacks use value = (y * 1000) + x.</p> 
 
 <p id=sa5>5,n = Guard Area, n = time to guard area in tenths of a minute (multiples of 6 seconds) <br>
 This instructs the TeamType to put the TaskForce into Guard Mode (same effect as selecting a group of units and pressing the Guard Mode key as defined in KEYBOARD.INI or clicking the relevant button on the Advanced Command Bar). Units will move to attack enemy units that fall within their Sight= range. </p>
 
 <p id=sa6>6,n = Jump To Script Action, n = line number of script action to jump to.<br>
- This is used to repeat actions within the ScriptType. The second parameter is the action line number of the ScriptType that you want to jump to. Script Action index starts at 0 whereas the line number starts at 1. So, to jump to the first Script Action whose index is 0, use n=6,1 for this script. Jump to line number could be specified to any of the preceding line numbers, not just to the first Script Action to create a loop of Script Actions.</p> 
+This is used to repeat actions within the ScriptType. The second parameter is the action line number of the ScriptType that you want to jump to. Script Action index starts at 0 whereas the line number starts at 1. So, to jump to the first Script Action whose index is 0, use n=6,1 for this script. Jump to line number could be specified to any of the preceding line numbers, not just to the first Script Action to create a loop of Script Actions.</p> 
 
 <p id=sa7>7,0 = Force Player Win<br>
- Forces a game win condition for the owner of the TeamType (they win the game).</p> 
+Forces a game win condition for the owner of the TeamType (they win the game).</p> 
 
 <p id=sa8>8,n = Unload, n = type of unloading<br>
- If the TaskForce contains a unit or units that have a valid Passengers= value set, and those units contain passengers, this command will make the units inside the transport(s) disembark. Note that once the passengers have disembarked, the transport itself is suspended until given a new mission and is therefore no longer considered a part of this TaskForce - this means that you cannot, for example, get units to disembark, do something, then get back into the transport in the same script. The second parameter can be used to control what happens to the transport after it 'deploys' its cargo:</p> 
+If the TaskForce contains a unit or units that have a valid Passengers= value set, and those units contain passengers, this command will make the units inside the transport(s) disembark. Note that once the passengers have disembarked, the transport itself is suspended until given a new mission and is therefore no longer considered a part of this TaskForce - this means that you cannot, for example, get units to disembark, do something, then get back into the transport in the same script. The second parameter can be used to control what happens to the transport after it 'deploys' its cargo:</p> 
 
 <table border="1">
 <tr>
@@ -252,7 +253,7 @@ If the TaskForce contains a unit or units that are able to deploy (for example a
 This command causes the TaskForce to follow the nearest friendly unit when it moves although it will not function as if it is 'guarding' the unit. The following is not permanent, when the TaskForce is assigned another mission it abandons the following. TIP: If the support TeamType has this as the first line in its ScriptType, then it will escort the first TeamType. </p>
 
 <p id=sa11>11,n = Assign New Mission, n = new mission type <br>
-The objects in the TaskForce are all assigned the new mission defined by the second parameter. The actions such as Sleep/Sticky/Guard/Area Guard/Hunt etc. changes the state/mission in which the units are and those remain in that state until those units are destroyed or recruited into another team and given a different command. Such actions are never completed so as to move on to execute the next script action, so these are given as the last script action in their scripts. The following are valid settings for the second parameter: </p>
+The objects in the TaskForce are all assigned the new mission defined by the second parameter. The actions such as Sleep/Sticky/Guard/Area Guard/Hunt etc. changes the state/mission in which the units are and those remain in that state until those units are destroyed or recruited into another team and given a different command. Such actions are never completed so as to move on to execute the next script action, so these are given as the last script action in their scripts. These missions are affected by the properties set in their respective sections in rules(md).ini file. For example, unit in sleep mission are not recruitable because [Sleep] has Recruitable=no in rules(md).ini. The following are valid settings for the second parameter: </p>
 
 <strong>For Red Alert 2/Yuri's Revenge</strong>
 <table border="1">
@@ -626,10 +627,10 @@ The objects in the TaskForce are all assigned the new mission defined by the sec
 The global number specified in the second parameter is defined as being 'set' (it is allocated a value of '1' or 'true'). This should be employed in specific map files only. This is part of the boolean logic employed by the global variables system in the game engine. </p>
 
 <p id=sa13>13,n = Play Idle Anim Sequence, n = sequence number <br>
-If the TaskForce contains a unit or units that are SHPs (i.e. infantry) then the relevant idle SHP sequence is displayed as defined by the frame numbering system in ART.INI. </p>
+If the TaskForce contains a unit or units that are SHPs (i.e. infantry) then the relevant idle SHP sequence is displayed as defined by the frame numbering system in ART.INI.  0 for Idle1 and 1 for Idle2.</p>
 
 <p id=sa14>14,0 = Load Onto Transport <br>
-If the TaskForce contains a unit or units that have a valid Passengers= value set, and units whose Size= and PhysicalSize= settings allow them to be carried by that transport, this command will make the units enter the transport. </p>
+If the TaskForce contains a unit or units that have a valid Passengers= value set, and units whose Size= and PhysicalSize= settings allow them to be carried by that transport, this command will make the units enter the transport. This action remans incomplete if the transport is not loaded to its full capacity.</p>
 
 <p id=sa15>15,n = Enter Structure At Waypoint, n = waypoint number <br>
 This instructs the TaskForce to enter the structure at the waypoint number specified by the second parameter. In RA2/YR, could be used for units with Infiltrate=yes and Agent=yes set and spy on the structure if it has Spyable=yes set. In TS, this is used for entering a building at waypoint, like engineer to enter a bridge repair hut at a given waypoint to repair that bridge.</p>
@@ -659,7 +660,7 @@ This instructs the TaskForce to behave in a scared manner and it will run to the
 Forces a game loss condition for the owner of the TeamType (they lose the game). </p>
 
 <p id=sa24>24,n = Play Speech, n = number of speech to play <br>
-This instructs the TaskForce to play one of the Sofia or EVA voices from EVA.INI (depending upon the ParentCountry= or the owner of this TaskForce). The second parameter is the number of the sound to be played from the [DialogList] in the EVA.INI file (note that you should consider this list as being numbered from 0 instead of 1 to get the correct numbering convention). In TS, it the voice clips from SPEECH.INI.</p>
+This instructs the TaskForce to play one of the Sofia or EVA voices from EVA.INI (depending upon the ParentCountry= or the owner of this TaskForce). The second parameter is the number of the sound to be played from the [DialogList] in the EVA.INI file (note that you should consider this list as being numbered from 0 instead of 1 to get the correct numbering convention). In TS, the speech list is hardcoded in the game.</p>
 
 <p id=sa25>25,n = Play Sound, n = number of sound to play <br>
 This instructs the TaskForce to play one of the generic in game sounds from the [SoundList] in the SOUND.INI file (note that for all in game Action and Trigger purposes this number is from an internal table. </p>
@@ -670,8 +671,8 @@ This instructs the TaskForce to play one of the movies from the [Movies] list in
 <p id=sa27>27,n = Play Theme, n = number of theme to play <br>
 This instructs the TaskForce to play one of the game soundtracks from the [Themes] list in the THEME.INI file (note that for all in game Action and Trigger purposes this number is from an internal table. </p>
 
-<p id=sa28>28,0 = Reduce Ore <br>
-Reduces the amount of Ore in the cell that the TeamType is occupying. Used by the special 'weapon' that is inherent with Ore Miners. </p>
+<p id=sa28>28,0 = Reduce Ore (RA2/YR) or Reduce Tiberium (TS) <br>
+Reduces the amount of Ore/Tiberium in the cell that the TeamType is occupying. </p>
 
 <p id=sa29>29,0 = Begin Production <br>
 Forces the owner of the TeamType to begin the auto-production process (the AI's behaviour in skirmish games). Should only be used on AI controlled houses. </p>
@@ -689,7 +690,7 @@ This initiates the Weather Storm intro effect (when the screen goes dark prior t
 This forces an end to the Weather Storm intro effect (when the screen goes dark prior to the clouds appearing). </p>
 
 <p id=sa34>34,n = Center Map On Team <br>
-This will center the screen on the TeamType. The same effect as hitting the Home key as defined in KEYBOARD.INI when the screen centers on your MCV (or the unit defined by the BaseUnit= statement in RULES.INI). The second parameter determines the speed at which the 'camera' switches view to the TaskForce with 0 being instant. </p>
+This will center the screen on the TeamType. The second parameter determines the speed at which the 'camera' switches view to the TaskForce. 0 slow to 4 fast. </p>
 
 <p id=sa35>35,n = Shroud Map For Time Interval, n = time to remain shrouded <br>
 This action will shroud the entire map except for the area around the players MCV's (if they have one). The second parameter determines the number of frames for which the map should remain shrouded (1 second = approximately 15 frames) after which the explored areas are revealed again. </p>
@@ -698,7 +699,7 @@ This action will shroud the entire map except for the area around the players MC
 This action will reveal the entire map. The second parameter determines the number of frames for which the map should remain revealed (1 second = approximately 15 frames) after which the map is shrouded again. </p>
 
 <p id=sa37>37,0 = Delete Team Members <br>
-This forces dissolved members of the TaskForce to leave the map after which they are deleted (for example aerial transports after their passengers have disembarked). </p>
+This forces members of the TaskForce to be deleted. </p>
 
 <p id=sa38>38,n = Clear Global, n = Global number to be cleared <br>
 The global number specified in the second parameter is defined as being 'clear' (it is allocated a value of '0' or 'false'). This should be employed in specific map files only in which the global variable has been defined. This is part of the boolean logic employed by the global variables system in the game engine. </p>
@@ -766,7 +767,7 @@ Used purely for a graphical effect and applicable uniquely to the [TRUCKA] unit,
 Members of this TaskForce attack the enemy structure specified by the second parameter. This action depends upon the type of units in the TaskForce and if certain members have Infiltrate=yes set. Members with Engineer=yes set will capture the structure provided it does not have Capturable=no set or if it has NeedsEngineer=yes set. Members with Agent=yes set will spy on the structure if it has Spyable=yes set. Members that do not have Assaulter=no set will garrison the structure if it has CanBeOccupied=yes set. Members with C4=yes set will blow up the structure if does not have CanC4=no set. </p>
 
 <p id=sa47>47,n = Move To Enemy Structure, n = structure number (<a href="#structnumber">see note below</a>) <br>
-Members of this TaskForce move and stay adjacent to the enemy structure specified by the second parameter. </p>
+Members of this TaskForce move and stay adjacent to the enemy structure specified by the second parameter. Completion of this action depends on all members reaching the close enough distance fron the foundation of the building. </p>
 
 <p id=sa48>48,0 = Scout <br>
 Causes members of this TaskForce to move to a pre-determined point on the map in an attempt to scout an area. The effect is that the TaskForce will move in one randomly chosen direction until it is no longer able to do so which can make it very useful or a waste of time depending on the direction chosen. If you want to continually scout the map, you should loop this script action. </p>
@@ -846,7 +847,7 @@ Any InfantryType members of this TaskForce with Occupier=yes set will enter the 
 
 <h3 id=structnumber>Note On Structure Number</h3>
 
-<p>Structure number allows the AI to target a specific instance of a building. For example, if there are 5 instances of a power plant in enemy base, AI can choose one of them as target depending on its distance or threat value. By itself several instances of the same building doesn't have different threat value, but threat is cumulative. For example, if there are some units nearby a specific building, its threat rating becomes higher with the additional threat values of the nearby units. </p>
+<p>Structure number (Building with Property BwP) allows the AI to target a specific instance of a building. For example, if there are 5 instances of a power plant in enemy base, AI can choose one of them as target depending on its distance or threat value. By itself several instances of the same building doesn't have different threat value, but threat is cumulative. For example, if there are some units nearby a specific building, its threat rating becomes higher with the additional threat values of the nearby units. </p>
 
 <p>Building index used in computation is the position of that building in the [BuildingTypes] list, counting from 0. </p>
 
@@ -1021,7 +1022,7 @@ A TeamType with Recruiter=yes disregards the unit's Group value when recruiting 
 <p id=group><strong>Group</strong><br>
 A unit always has a Group value whether it is in a team or not. Produced units are assigned to the group defined in its TeamType/TaskForce. Units get their Group value from its TeamType except when it has Group=-1 where they get their Group value from its task force's group. When the team members finish their script actions they still retain their group value. Group value of a unit only changes when it gets recruited into a TeamType with a different Group value. Pre-placed units on maps have their Group defined as part of their format.</p>
 
-<p>Group=-1 is No Group case. Pre-placed units with Group set to -1 and units in its TeamType/TaskForce's Group set to -1 get assigned to Group=-1. Starting units Freeunits that come with buildings droppod/paradrop units units from crates escaping units from destroyed buildings etc. have their Group set to -1. AI auto-produced units like harvesters which doesn't have a TeamType/TaskForce are also assigned with Group -1. </p>
+<p>Group=-1 is No Group case (Default group). Pre-placed units with Group set to -1 and units in its TeamType/TaskForce's Group set to -1 get assigned to Group=-1. Starting units Freeunits that come with buildings droppod/paradrop units units from crates escaping units from destroyed buildings etc. have their Group set to -1. AI auto-produced units like harvesters which doesn't have a TeamType/TaskForce are also assigned with Group -1. Only Group -1 is recommended for ai(md).ini. </p>
 
 <p>Group=-2 is Any Group case. TeamType having Group=-2 can recruit units of any Group value even with Recruiter=no set on the recruiting team. Units with Group=-2 are like any other group other than -1.</p>
 
@@ -1524,9 +1525,15 @@ AI Triggers are given weights to define how important they are. Larger current w
 
 <p>A constant weight given for StartingWeight, MinimumWeight and MaximumWeight like 50.0,50.0,50.0 is not altered by the weight computations.</p>
 
+<h3 id=extlinks>External Links</h3>
+<ul>
+	<li><a href="https://modenc.renegadeprojects.com/">ModEnc - CnC Modding Encyclopedia</a></li>
+	<li><a href="http://ares-developers.github.io/Ares-docs/">YR Ares (Engine extension) Documentation</a></li>
+	<li><a href="https://phobos.readthedocs.io/en/latest/">YR Phobos (Engine extension) Documentation</a></li>
+</ul>
 
 <hr width="75%">
-<center>Version: 1.0.2 (2018.11.01)</center>
+<center>Version: 1.0.3 (2022.12.06)</center>
 
 </body>
 </html>
