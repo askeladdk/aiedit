@@ -14,6 +14,12 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.7 (by E1 Elite) ###
+- Corrections to script actions 56 and 57 (Chronoshift team).
+- AITrigger Amount max limit raised.
+- Improved parsing of Cost in technotypes.
+- Updates to AI Guide.
+
 ### v2.0.4.6 (by E1 Elite) ###
 - Default start index used in ID generation is now 02000000.
 - Default start index for TS Firestorm is now 03000000. Available in config as StartIndexFS.

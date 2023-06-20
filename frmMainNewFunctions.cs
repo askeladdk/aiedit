@@ -79,7 +79,18 @@ namespace AIEdit
 				{
 					OrderedDictionary section = ini[id];
 					string name = id;
-					int cost = (section.Contains("Cost")) ? int.Parse(section["Cost"] as string) : 0;
+					int cost = 0;
+                    try
+                    {
+                        if(section.Contains("Cost"))
+                        {
+                            cost = int.Parse(section["Cost"] as string, NumberStyles.Any);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+						logger.Add("Error occured in parsing of Cost in [" + name + "] in rules!");
+                    }
 
 					if (section.Contains(editorName)) name = section[editorName] as string;
 					else if (section.Contains("Name")) name = section["Name"] as string;

@@ -624,7 +624,8 @@ namespace AIEdit
 		private void olvTrSettings_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
 		{
 			int idx = olvTrSettings.SelectedIndex;
-			TriggerTypeOption option = (e.RowObject as TriggerTypeEntry).Option;
+            TriggerTypeEntry trEntry = e.RowObject as TriggerTypeEntry;
+			TriggerTypeOption option = trEntry.Option;
 
 			if (option.List != null)
 			{
@@ -640,6 +641,18 @@ namespace AIEdit
 				cmb.Bounds = e.CellBounds;
 				e.Control = cmb;
 			}
+
+			if (option.Name.CompareTo("Amount") == 0 && e.SubItemIndex == 2)
+            {
+                TriggerTypeOptionNumber amount = option as TriggerTypeOptionNumber;
+                NumericUpDown nud = new NumericUpDown();
+                nud.Minimum = 0;
+                nud.Maximum = uint.MaxValue;
+                nud.DecimalPlaces = 0;
+                nud.Value = uint.Parse(trEntry.Value.ToString());
+                nud.Bounds = e.CellBounds;
+                e.Control = nud;
+            }
 		}
 
 		private void olvTrSettings_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)

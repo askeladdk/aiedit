@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>AI Guide</title>
  </head>
- <body bgcolor=#ffd9b3 text=#800000>
+ <body bgcolor=#004700 text=#ffff00 link=#ffff00 vlink=#ff8800 alink=#ffffff>
 <center><h1>AI Guide</h1></center>
 
 <h3>Index</h3>
@@ -31,8 +31,8 @@
 		<a href="#sa46">46 - Attack Enemy Structure</a>, <a href="#sa47">47 - Move To Enemy Structure</a>, 
 		<a href="#sa48">48 - Scout</a>, <a href="#sa49">49 - Register Success</a>, <br>
 		<a href="#sa50">50 - Flash</a>, <a href="#sa51">51 - Play Animation</a>, <a href="#sa52">52 - Display Talk Bubble</a>, <a href="#sa53">53 - Gather At Enemy Base</a>, <br>
-		<a href="#sa54">54 - Regroup At Friendly Base</a>, <a href="#sa55">55 - Activate Iron Curtain</a>, <a href="#sa56">56 - ChronoSphere TaskForce</a>, <br>
-		<a href="#sa57">57 - ChronoWarp TaskForce</a>, <a href="#sa58">58 - Move To Friendly Structure</a>, <a href="#sa59">59 - Attack Structure At Waypoint</a>, <br>
+		<a href="#sa54">54 - Regroup At Friendly Base</a>, <a href="#sa55">55 - Activate Iron Curtain</a>, <a href="#sa56">56 - Chronoshift Team To Building</a>, <br>
+		<a href="#sa57">57 - Chronoshift Team To Target Type</a>, <a href="#sa58">58 - Move To Friendly Structure</a>, <a href="#sa59">59 - Attack Structure At Waypoint</a>, <br>
 		<a href="#sa60">60 - Enter Grinder</a>, <a href="#sa61">61 - Occupy Tank Bunker</a>, <a href="#sa62">62 - Enter Bio Reactor</a>, <a href="#sa63">63 - Occupy Battle Bunker</a>, <br>
 		<a href="#sa64">64 - Garrison Structure</a><br>
 		</li>
@@ -123,9 +123,9 @@ Index can have values from 0 to 49 in ascending order. Game is coded with variou
 Individual script actions are programmed to do specific action in the game. Whichever script/option is not available in Tiberian Sun is marked as (not in TS), these are available in RA2 and YR. If it is mentioned as (YR only, not in TS/RA2), then it is not available in Tiberian Sun or Red Alert 2, but is available in Yuri's Revenge only.
 
 <p id=sa0>0,n = Attack Target Type, n = target type to attack<br>
-This instructs the TeamType to use the TaskForce to approach and attack the target specified by the second parameter. These attack script actions are inherently self repeating. For example, when executing script action attack structure (0,2), the task force will attack the next structure when the current structure being attacked is destroyed and will continue to destroy enemy buildings until there are no more left. When no more target is left to attack, the script action is complete and the task force moves on to execute its next script action. The completion of this script action could get cut-short in cases the task force gets destroyed or runs out of ammo.<br><br>
-
-These script actions use TargetDistanceCoefficientDefault (or overriden by TechnoType's TargetDistanceCoefficient) to determine the threat rating scan range for target selection. Vanilla value of -10 in this flag gives a range of approximately 39 cells whereas a value of -1 covers almost the entire map. When the enemy objects are within the scan range, nearest object is selected as target. When enemy objects are outside this scan range, the first object of that TargetType built by the enemy becomes the target. For Attack Anything (0,1), when the enemy objects are outside the scan range, the precedence for target selection of first built object by the enemy is given by units first, then aircrafts, then infantry and the last for buildings.<br><br>
+This instructs the team to approach and attack the target specified by the second parameter. These attack script actions are inherently self repeating. For example, when executing script action attack structure (0,2), the task force will attack the next structure when the current structure being attacked is destroyed and will continue to destroy enemy buildings until there are no more left. When no more target is left to attack, the script action is complete and the task force moves on to execute its next script action. The completion of this script action could get cut-short in cases the task force gets destroyed or runs out of ammo.<br><br>
+</p>
+<p id=targetdistcoeff>TargetDistanceCoefficientDefault: These script actions use TargetDistanceCoefficientDefault (or overriden by TechnoType's TargetDistanceCoefficient) to determine the scan range for target selection. Vanilla value of -10 (range of about 1/10th map size) gives a range of approximately 39 cells whereas a value of -1 covers almost the entire map. When the enemy objects are within the scan range, nearest object is selected as target. When enemy objects are outside this scan range, the first object of that TargetType built by the enemy becomes the target. For Attack Anything (0,1), when the enemy objects are outside the scan range, the precedence for target selection of first built object by the enemy is given by units first, then aircrafts, then infantry and the last for buildings.<br><br>
 
 The following are the target types which can be used: </p>
 
@@ -148,52 +148,52 @@ The following are the target types which can be used: </p>
 <tr>
 	<td><center>2</center></td>
 	<td>Structures</td>
-	<td>Any enemy [BuildingTypes]</td>
+	<td>Enemy [BuildingTypes]</td>
 </tr>
 <tr>
 	<td><center>3</center></td>
 	<td>Ore Miners / Harvesters</td>
-	<td>Any enemy [VehicleTypes] with Harvester=yes set</td>
+	<td>Enemy [VehicleTypes] with Harvester=yes set</td>
 </tr>
 <tr>
 	<td><center>4</center></td>
 	<td>Infantry</td>
-	<td>Any enemy [InfantryTypes]</td>
+	<td>Enemy [InfantryTypes]</td>
 </tr>
 <tr>
 	<td><center>5</center></td>
 	<td>Vehicles</td>
-	<td>Any enemy [VehicleTypes]</td>
+	<td>Enemy [VehicleTypes]</td>
 </tr>
 <tr>
 	<td><center>6</center></td>
 	<td>Factories</td>
-	<td>Any enemy [BuildingTypes] with a Factory= setting</td>
+	<td>Enemy [BuildingTypes] with a Factory= setting</td>
 </tr>
 <tr>
 	<td><center>7</center></td>
 	<td>Base Defenses</td>
-	<td>Any enemy [BuildingTypes] with IsBaseDefense=yes set. In YR, also buildings defined in AlliedBaseDefenses, SovietBaseDefenses and ThirdBaseDefenses</td>
+	<td>Enemy [BuildingTypes] with IsBaseDefense=yes set. In YR, also buildings defined in AlliedBaseDefenses, SovietBaseDefenses and ThirdBaseDefenses</td>
 </tr>
 <tr>
 	<td><center>8</center></td>
 	<td>Base Threats</td>
-	<td>Any enemy objects approaching (or already in) its base and which are in an attack mission</td>
+	<td>Enemy objects approaching (or already in) its base and which are in an attack mission</td>
 </tr>
 <tr>
 	<td><center>9</center></td>
 	<td>Power Plants</td>
-	<td>Any enemy [BuildingTypes] with positive Power= values set</td>
+	<td>Enemy [BuildingTypes] with positive Power= values set</td>
 </tr>
 <tr>
 	<td><center>10</center></td>
 	<td>Occupiable</td>
-	<td>Any [BuildingTypes] with CanBeOccupied=yes set (usually neutral structures) (not in TS)</td>
+	<td>[BuildingTypes] with CanBeOccupied=yes set (usually neutral structures) (not in TS)</td>
 </tr>
 <tr>
 	<td><center>11</center></td>
 	<td>Tech Buildings</td>
-	<td>Any [BuildingTypes] with NeedsEngineer=yes set (usually NeutralTechBuildings=) (not in TS)</td>
+	<td>[BuildingTypes] with NeedsEngineer=yes set (usually NeutralTechBuildings=) (not in TS)</td>
 </tr>
 </table>
 
@@ -817,11 +817,11 @@ This causes the TaskForce to regroup, if for example any of its members have bec
 <p id=sa55>55,0 = Activate Iron Curtain on TaskForce (not in TS)<br>
 If the owner of the TaskForce to which this ScriptType is attached also has the Iron Curtain fully charged then it will be fired at this TaskForce. Note that the use of the Iron Curtain in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
 
-<p id=sa56>56,n = ChronoSphere TaskForce (not in TS), n = structure number to be Chronoshifted to (<a href="#structnumber">see note below</a>) <br>
-If the owner of the TaskForce to which this ScriptType is attached also has the Chronosphere fully charged then it will be used on the TaskForce before moving on to the next action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
+<p id=sa56>56,n = Chronoshift Team To Building (not in TS), n = structure number to be Chronoshifted to (<a href="#structnumber">see note below</a>) <br>
+If the owner of the task force to which this script is attached also has the Chronosphere fully charged then it will be used on the task force to transport it to the enemy structure specified by the second parameter, before moving on to the next script action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent statement in RULES.INI.</p>
 
-<p id=sa57>57,n = ChronoWarp TaskForce (not in TS), n = target number to be Chronoshifted to (<a href="#structnumber">see note below</a>) <br>
-If the owner of the TaskForce to which this ScriptType is attached has been Chronosphered then it will be used on the same TaskForce to shift them to the enemy structure number specified in the second parameter before moving on to the next action. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent= statement in RULES.INI. </p>
+<p id=sa57>57,n = Chronoshift Team To Target Type (not in TS), n = target type number to be Chronoshifted to (<a href="#targetdistcoeff">see details on target type</a>) <br>
+If the owner of the task force to which this script is attached also has the Chronosphere fully charged then it will be used on the task force to transport it to a target that fits the quarry type (target category) specified by the second parameter, before moving on to the next script action. Target selection is based on nearest/first built depending on the scan range defined by <a href="#targetdistcoeff">TargetDistanceCoefficientDefault</a> or its technotype override of TargetDistanceCoefficient. Note that the use of the Chronosphere in this manner depends on the percentage chance of the AI incorporating them into its actions as defined by the AIMinorSuperReadyPercent statement in RULES.INI.</p>
 
 <p id=sa58>58,n = Move To Friendly Structure (not in TS), n = structure number (<a href="#structnumber">see note below</a>) <br>
 Members of this TaskForce move and stay adjacent to the friendly structure specified by the second parameter. The structure can be one owned by the owner of the TaskForce or any of its allies. </p>
@@ -1533,7 +1533,7 @@ AI Triggers are given weights to define how important they are. Larger current w
 </ul>
 
 <hr width="75%">
-<center>Version: 1.0.3 (2022.12.06)</center>
+<center>Version: 1.0.4 (2023.06.19)</center>
 
 </body>
 </html>

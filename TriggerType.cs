@@ -291,7 +291,7 @@ namespace AIEdit
 				entries["TechLevel"].Value,
 				(entries["Condition"].Value as AITypeListEntry).Index,
 				(entries["TechType"].Value as TechnoType).ID,
-				((uint)entries["Amount"].Value).SwapEndianness().ToString("x8"),
+				(uint.Parse(entries["Amount"].Value.ToString())).SwapEndianness().ToString("x8"),
 				(entries["Operator"].Value as AITypeListEntry).Index,
 				entries["Prob"].Value,
 				entries["ProbMin"].Value,
