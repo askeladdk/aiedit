@@ -54,7 +54,7 @@ namespace AIEdit
 			}
 			else
 			{
-				TaskForceEntry tfe = tf.SingleOrDefault(s => s.Unit == tt);
+				TaskForceEntry tfe = tf.FirstOrDefault(s => s.Unit == tt);
 				olvTFUnits.RefreshObject(tfe);
 			}
 
@@ -170,9 +170,9 @@ namespace AIEdit
 				TaskForceEntry tfe = e.RowObject as TaskForceEntry;
 				TechnoType unit = cmb.SelectedItem as TechnoType;
 
-				TaskForceEntry exists = tf.SingleOrDefault(s => s.Unit == unit);
+				TaskForceEntry exists = tf.FirstOrDefault(s => s.Unit == unit);
 
-				if (exists != null && exists != tfe)
+				if (exists != null && exists != tfe && !sameUnitMultiEntry)
 				{
 					tf.Remove(tfe.Unit);
 					exists.Count = exists.Count + tfe.Count;
@@ -624,7 +624,8 @@ namespace AIEdit
 		private void olvTrSettings_CellEditStarting(object sender, BrightIdeasSoftware.CellEditEventArgs e)
 		{
 			int idx = olvTrSettings.SelectedIndex;
-			TriggerTypeOption option = (e.RowObject as TriggerTypeEntry).Option;
+            TriggerTypeEntry trEntry = e.RowObject as TriggerTypeEntry;
+			TriggerTypeOption option = trEntry.Option;
 
 			if (option.List != null)
 			{
@@ -640,6 +641,18 @@ namespace AIEdit
 				cmb.Bounds = e.CellBounds;
 				e.Control = cmb;
 			}
+
+			if (option.Name.CompareTo("Amount") == 0 && e.SubItemIndex == 2)
+            {
+                TriggerTypeOptionNumber amount = option as TriggerTypeOptionNumber;
+                NumericUpDown nud = new NumericUpDown();
+                nud.Minimum = 0;
+                nud.Maximum = uint.MaxValue;
+                nud.DecimalPlaces = 0;
+                nud.Value = uint.Parse(trEntry.Value.ToString());
+                nud.Bounds = e.CellBounds;
+                e.Control = nud;
+            }
 		}
 
 		private void olvTrSettings_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)

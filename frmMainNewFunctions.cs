@@ -15,11 +15,13 @@ namespace AIEdit
 
 	public partial class frmMainNew : Form
 	{
-		private static uint ID_BASE = 0x01000000;
+		private static uint ID_BASE = 0x02000000;
+		private static uint ID_BASE_FS = 0x03000000;
 		private uint idCounter = ID_BASE;
 		private string idPrefix = null;
 		private string idSuffix = null;
 		private HashSet<string> iniIDs;
+		private bool sameUnitMultiEntry = false;
 
 		// TECHNOTYPE TABLES
 		private List<TechnoType> unitTypes;     // sorted by name
@@ -77,7 +79,18 @@ namespace AIEdit
 				{
 					OrderedDictionary section = ini[id];
 					string name = id;
-					int cost = (section.Contains("Cost")) ? int.Parse(section["Cost"] as string) : 0;
+					int cost = 0;
+                    try
+                    {
+                        if(section.Contains("Cost"))
+                        {
+                            cost = int.Parse(section["Cost"] as string, NumberStyles.Any);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+						logger.Add("Error occured in parsing of Cost in [" + name + "] in rules!");
+                    }
 
 					if (section.Contains(editorName)) name = section[editorName] as string;
 					else if (section.Contains("Name")) name = section["Name"] as string;
@@ -114,7 +127,7 @@ namespace AIEdit
 			return lst;
 		}
 
-		private List<IActionType> LoadActionTypes(IniDictionary config)
+		private List<IActionType> LoadActionTypes(IniDictionary config, IniDictionary rules)
 		{
 			List<IActionType> actionTypes = new List<IActionType>();
 
@@ -130,9 +143,33 @@ namespace AIEdit
 				{"MissionTypes", ToStringList(config["MissionTypes"])},
 				{"FacingTypes", ToStringList(config["FacingTypes"])},
 				{"TalkBubbleTypes", ToStringList(config["TalkBubbleTypes"])},
-				//{"ScriptTypes", OrderedDictToList<object>(config["ScriptTypes"])},
-				//{"TeamTypes", OrderedDictToList<object>(config["TeamTypes"])},
 			};
+            // Script and team index has to be fetched dynamically and any updates 
+            // to those list should address its uses. TS Firestorm expansion uses 
+            // merged index of ai.ini + aifs.ini.
+
+            // Custom script param dropdowns
+            if (config.ContainsKey("ScriptParamTypes"))
+            {
+                foreach(DictionaryEntry entry in config["ScriptParamTypes"])
+                {
+                    string[] split = (entry.Value as string).Split(',');
+                    string sectionName = split[0].Trim();
+                    uint sectionFrom = 0;
+                    uint.TryParse(split[1] as string, out sectionFrom);
+                    if (!string.IsNullOrEmpty(sectionName))
+                    {
+                        if (sectionFrom == 0 && config.ContainsKey(sectionName))
+                        {
+                            typeLists.Add(sectionName, ToStringList(config[sectionName]));
+                        }
+                        else if (sectionFrom == 1 && rules.ContainsKey(sectionName))
+                        {
+                            typeLists.Add(sectionName, ToStringList(rules[sectionName]));
+                        }
+                    }
+                }
+            }
 
 			foreach(DictionaryEntry entry in config["ActionTypes"])
 			{
@@ -153,24 +190,18 @@ namespace AIEdit
 				{
 					actionType = new ActionTypeNumPlusMinus(code, name, desc);
 				}
-					/*
-				else if (type.CompareTo("ScriptTypes") == 0)
-				{
-					actionType = new ActionTypeList(code, name, desc, scriptTypes.Items, ScriptParamType.AIObject);
-				}
-				else if (type.CompareTo("TeamTypes") == 0)
-				{
-					actionType = new ActionTypeList(code, name, desc, teamTypes.Items, ScriptParamType.AIObject);
-				}
-					 * */
 				else if (type.CompareTo("BuildingTypes") == 0)
 				{
 					actionType = new ActionTypeList(code, name, desc, typeLists[type], ScriptParamType.TechnoType);
 				}
-				else
+				else if (typeLists.ContainsKey(type))
 				{
 					actionType = new ActionTypeList(code, name, desc, typeLists[type], ScriptParamType.List);
 				}
+                else
+                {
+					actionType = new ActionTypeNumber(code, name, desc);
+                }
 
 				actionTypes.Add(actionType);
 			}
@@ -336,6 +367,8 @@ namespace AIEdit
 			IniDictionary config;
 			string appPath = "";
 			string configPath = "";
+			NumberFormatInfo culture = CultureInfo.InvariantCulture.NumberFormat;
+			string aiFilename = Path.GetFileName(aiPath);
 
 			appPath = System.AppDomain.CurrentDomain.BaseDirectory;
 			configPath = appPath + "config\\ts.ini";
@@ -352,16 +385,17 @@ namespace AIEdit
 			{
 				if (config["General"].Contains("StartIndex"))
 				{
-					try
-					{
-						idCounter = uint.Parse(config["General"].GetString("StartIndex"), NumberStyles.AllowHexSpecifier);
-					}
-					catch (Exception )
-					{
-						idCounter = ID_BASE;
-					}
+					uint.TryParse(config["General"].GetString("StartIndex"), NumberStyles.HexNumber, culture, out idCounter);
 				}
 				
+                if (!string.IsNullOrEmpty(aiFilename) && aiFilename.ToLower().Contains("aifs"))
+                {
+                    idCounter = ID_BASE_FS;
+                    if (config["General"].Contains("StartIndexFS"))
+                    {
+                        uint.TryParse(config["General"].GetString("StartIndexFS"), NumberStyles.HexNumber, culture, out idCounter);
+                    }
+                }
 				string idPrefixTemp = "";
 				string idSuffixTemp = "";
 				idPrefix = "";
@@ -379,6 +413,12 @@ namespace AIEdit
 					if (Regex.IsMatch(idSuffixTemp, @"^[a-zA-Z0-9_-]+$"))
 						idSuffix = idSuffixTemp.ToUpper();
 				}
+
+				string unitMultiEntry = "";
+				if (config["General"].Contains("SameUnitMultiEntry")) unitMultiEntry = config["General"].GetString("SameUnitMultiEntry");
+				if (!String.IsNullOrEmpty(unitMultiEntry) && (unitMultiEntry.Equals("yes", StringComparison.InvariantCultureIgnoreCase) || 
+					unitMultiEntry.Equals("true", StringComparison.InvariantCultureIgnoreCase)))
+					sameUnitMultiEntry = true;
 			}
 
 			if (ai.ContainsKey("Digest")) digestString = ai["Digest"].GetString("1");
@@ -400,7 +440,7 @@ namespace AIEdit
 			scriptTypes = new AITable<ScriptType>("ScriptTypes", new List<ScriptType>());
 			teamTypes = new AITable<TeamType>("TeamTypes", new List<TeamType>());
 
-			actionTypes = LoadActionTypes(config);
+			actionTypes = LoadActionTypes(config, rules);
 			groupTypes = LoadAITypeList(config, "Group");
 			veterancyTypes = LoadAITypeList(config, "VeteranLevels");
 			mindControlTypes = LoadAITypeList(config, "MCDecisions");

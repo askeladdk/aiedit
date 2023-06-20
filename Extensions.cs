@@ -53,11 +53,9 @@ namespace AIEdit
 
 		public static uint SwapEndianness(this uint x)
 		{
-			return ((x & 0x000000ff) << 24) |
-				   ((x & 0x0000ff00) <<  8) |
-				   ((x & 0x00ff0000) >>  8) |
-				   ((x & 0xff000000) >> 24);
-		}
+            x = (x >> 16) | (x << 16);
+            return ((x & 0xFF00FF00) >> 8) | ((x & 0x00FF00FF) << 8);
+        }
 
 		public static void EnsureVisible(this ObjectListView olv)
 		{

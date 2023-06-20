@@ -14,6 +14,27 @@ Link: https://github.com/askeladdk/aiedit
 
 ## Changelog ##
 
+### v2.0.4.7 (by E1 Elite) ###
+- Corrections to script actions 56 and 57 (Chronoshift team).
+- AITrigger Amount max limit raised.
+- Improved parsing of Cost in technotypes.
+- Updates to AI Guide.
+
+### v2.0.4.6 (by E1 Elite) ###
+- Default start index used in ID generation is now 02000000.
+- Default start index for TS Firestorm is now 03000000. Available in config as StartIndexFS.
+- Custom script action parameter dropdowns with ScriptParamTypes section.
+- Script action detail updates and adds YR Phobos script actions.
+- AI Guide updates.
+
+### v2.0.4.5 (by E1 Elite) ###
+- Support for same unit on multiple lines of TaskForce through config key SameUnitMultiEntry.
+
+Note: Setting SameUnitMultiEntry to yes in [General] section of config file affects the TaskForce UI behaviour.
+- Removes the unit dropdown ability to add to an existing unit entry when the same unit is selected in a different line/entry for a taskforce.
+- Add/delete through +/- will operate on the first instance of the unit only even if it was selected from a different row.
+- Setting SameUnitMultiEntry to no (default), will remove additional entries of same unit on UI click of those unit dropdowns.
+
 ### v2.0.4.4 ###
 - Re-arranged and text aligned for the sort columns.
 - Added TeamType House column again.
@@ -40,19 +61,19 @@ Link: https://github.com/askeladdk/aiedit
 - Script action types from config file is now parsed based on its ID instead of its array index. (by E1 Elite)
 - YR config file updated with Ares script action additions of IDs from 65 to 70 (by E1 Elite)
 
-### v2.0.3.9 ###
+### v2.0.3.9 (by E1 Elite) ###
 - TS config file fix of veteran level and removed unused AITrigger condition choices
 - Skipped across list duplicate ID check for AITrigger IDs as vanilla TS has such
 - Added version number to application title text
 - Updated the AIGuide for script action Attack TargetType (0,n)
 
-### v2.0.3.8 ###
+### v2.0.3.8 (by E1 Elite) ###
 - Reverted back non-essential changes in the form designer file.
 
-### v2.0.3.7 ###
+### v2.0.3.7 (by E1 Elite) ###
 - Fixed additional number of duplicate messages on reloading INI files.
 
-### v2.0.3.6 ###
+### v2.0.3.6 (by E1 Elite) ###
 - Added AI Guide for offline reference.
 - Removed the usage of [AIEdit] section for ID generation.
 - Provided StartIndex, IDPrefix and IDSuffix fields in config file for customizing IDs.
@@ -60,20 +81,20 @@ Link: https://github.com/askeladdk/aiedit
 - Added duplicate ID check across lists in AI ini.
 - Parsing exception message box will now close the application.
 
-### v2.0.3.5 ###
+### v2.0.3.5 (by E1 Elite) ###
 - Avoid creating duplicate IDs even if [AIEdit] section is deleted from AI ini.
 
-### v2.0.3.4 ###
+### v2.0.3.4 (by E1 Elite) ###
 - TeamType fields of Max/Priority/Techlevel now allows negative numbers.
 
-### v2.0.3.3 ###
+### v2.0.3.3 (by E1 Elite) ###
 - Script action's parameters now allow negative numbers wherever needed.
 - Script actions 53, 54 and 55 now has editable parameters for YR (config\yr.ini).
 
-### v2.0.3.2 ###
+### v2.0.3.2 (by E1 Elite) ###
 - Added an error message with faulty ID before throwing an exception while parsing AI ini.
 
-### v2.0.3.1 ###
+### v2.0.3.1 (by E1 Elite) ###
 - Application path is used to compute the full path of config files.
 
 ### v2.0.3 ###

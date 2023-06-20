@@ -662,7 +662,7 @@
 			this.olvColSTAction.Hideable = false;
 			this.olvColSTAction.Sortable = false;
 			this.olvColSTAction.Text = "Action";
-			this.olvColSTAction.Width = 180;
+			this.olvColSTAction.Width = 240;
 			// 
 			// olvColSTParam
 			// 
@@ -670,7 +670,7 @@
 			this.olvColSTParam.Hideable = false;
 			this.olvColSTParam.Sortable = false;
 			this.olvColSTParam.Text = "Parameter";
-			this.olvColSTParam.Width = 220;
+			this.olvColSTParam.Width = 180;
 			// 
 			// olvColSTOffset
 			// 
